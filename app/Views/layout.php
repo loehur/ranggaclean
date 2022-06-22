@@ -22,24 +22,31 @@ if (isset($data['data_operasi'])) {
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Acme&family=Roboto&display=swap" rel="stylesheet">
   <!-- FONT -->
+
+  <?php $fontStyle = "'Acme', sans-serif;" ?>
+  <?php $fontStyle = "'Roboto', sans-serif;" ?>
+
   <style>
     html .table {
-      font-family: 'Titillium Web', sans-serif;
+      font-family: <?= $fontStyle ?>;
+      font-family: <?= $fontStyle22 ?>;
     }
 
     html .content {
-      font-family: 'Titillium Web', sans-serif;
+      font-family: <?= $fontStyle ?>;
+      font-family: <?= $fontStyle2 ?>;
     }
 
     html body {
-      font-family: 'Titillium Web', sans-serif;
+      font-family: <?= $fontStyle ?>;
+      font-family: <?= $fontStyle2 ?>;
     }
 
     @media print {
       p div {
-        font-family: 'Titillium Web', sans-serif;
+        font-family: <?= $fontStyle ?>;
         font-size: 14px;
       }
     }
