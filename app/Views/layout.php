@@ -25,7 +25,7 @@ if (isset($data['data_operasi'])) {
   <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
   <!-- FONT -->
 
-  <?php $fontStyle = "'Acme', sans-serif;" ?>
+  <?php $fontStyle = "'Titillium Web', sans-serif;" ?>
 
   <style>
     html .table {
