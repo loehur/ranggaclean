@@ -2,6 +2,6 @@
 
 class URL
 {
-    public $BASE_URL = '/web/laundry/';
-    public $ASSETS_URL = '/web/assets/';
+    public $BASE_URL = '/';
+    public $ASSETS_URL = '/assets/';
 }
