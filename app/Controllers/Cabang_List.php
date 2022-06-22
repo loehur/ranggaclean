@@ -33,9 +33,8 @@ class Cabang_List extends Controller
    {
       $id_cabang = $_POST['id'];
       $table  = 'user';
-      $set = "id_cabang = " . $id_cabang;
-      $where = $this->wUser . " AND " . $this->wLaundry;
-      $this->model('M_DB_1')->update($table, $set, $where);
+      $data = ["id_cabang" => $id_cabang];
+      $this->model('M_NoSQL')->update($table, $this->id_user_fb, $data);
       $this->dataSynchrone();
    }
 

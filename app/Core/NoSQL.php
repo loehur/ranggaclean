@@ -1,5 +1,5 @@
 <?php
-require 'app/Config/DB_Config.php';
+require_once 'app/Config/DB_Config.php';
 
 class NoSQL extends DB_Config
 {
@@ -24,7 +24,7 @@ class NoSQL extends DB_Config
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 5);
         if (isset($par)) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $par);
         }

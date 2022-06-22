@@ -30,11 +30,7 @@ class Login extends Controller
          $where = "no_user = '" . $_POST["HP"] . "' AND password = '" . $pass . "' AND en = 1";
       }
 
-      //$this->data_user = $this->model('M_DB_1')->get_where_row('user', $where);
-
-      $this->data_user = $this->model('M_NoSQL')->get_where('user', 'id_user', 1);
-      print_r($this->data_user);
-      exit();
+      $this->data_user = $this->model('M_DB_1')->get_where_row('user', $where);
 
       if ($this->data_user) {
          if ($this->data_user['id_privilege'] == 100 && $this->data_user['email_verification'] == 0) {

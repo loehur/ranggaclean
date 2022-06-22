@@ -6,6 +6,7 @@ class Controller extends URL
 {
 
     public $data_user;
+
     public function data()
     {
         if (isset($_SESSION['login_laundry'])) {

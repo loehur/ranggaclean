@@ -1,5 +1,5 @@
 <?php
-require 'app/Config/DB_Config.php';
+require_once 'app/Config/DB_Config.php';
 
 class DB_1 extends DB_Config
 {
