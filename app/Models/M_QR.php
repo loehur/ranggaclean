@@ -1,5 +1,5 @@
 <?php
-require '../Library/QRGen/qrlib.php';
+require 'app/Library/QRGen/qrlib.php';
 
 class M_QR
 {

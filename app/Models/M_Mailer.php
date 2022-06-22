@@ -1,8 +1,8 @@
 <?php
 
-require '../Library/PHPMailer/src/PHPMailer.php';
-require '../Library/PHPMailer/src/SMTP.php';
-require '../Library/PHPMailer/src/Exception.php';
+require 'app/Library/PHPMailer/src/PHPMailer.php';
+require 'app/Library/PHPMailer/src/SMTP.php';
+require 'app/Library/PHPMailer/src/Exception.php';
 
 class M_Mailer
 {
