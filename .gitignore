@@ -1,1 +1,5 @@
 img-qrcode/
+.htaccess
+app/Config/
+assets
+error_log
