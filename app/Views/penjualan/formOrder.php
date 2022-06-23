@@ -195,8 +195,8 @@ if ($saldoNya_member > 0) {
 
   function selectMember(id_harga, saldoMember) {
     if (id_harga > 0) {
-      $("select[name=f1] option[value=" + id_harga + "]").attr('selected', 'selected');
-      $("select[name=f1] option[value=" + id_harga + "]").prop('selected', 'selected');
+      $("select.order[name=f1] option[value=" + id_harga + "]").attr('selected', 'selected');
+      $("select.order[name=f1] option[value=" + id_harga + "]").prop('selected', 'selected');
       $("select.order[name=f1]").attr('disabled', 'true');
       $("select.order[name=f1]").prop('disabled', 'true');
       $("input[name=f2]").attr("max", saldoMember);
