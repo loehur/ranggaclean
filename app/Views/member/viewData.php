@@ -412,14 +412,6 @@ foreach ($this->pelanggan as $dp) {
     $("input#searchInput").addClass("d-none");
 
     $("td#btnTambah").removeClass("d-none");
-    $('td#btnTambah').each(function() {
-      var elem = $(this);
-      elem.fadeOut(150)
-        .fadeIn(150)
-        .fadeOut(150)
-        .fadeIn(150)
-    });
-
     $('select.userChange').select2({
       dropdownParent: $("#exampleModal2"),
     });
