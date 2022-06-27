@@ -103,4 +103,9 @@
       $(".backShow").removeClass('d-none');
     }
   });
+
+  $("span.buttonTambah").on("click", function(e) {
+    var id_harga = $(this).attr("data-id_harga");
+    $('div.tambahPaket').load("<?= $this->BASE_URL ?>Member/orderPaket/<?= $pelanggan ?>/" + id_harga);
+  });
 </script>

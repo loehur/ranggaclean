@@ -11,9 +11,12 @@ class Gaji extends Controller
 
    public function index()
    {
+      $viewData = 'gaji/rekap_gaji_bulanan';
+
       $user['id'] = 0;
       $user['kasbon'] = 0;
       $dataTanggal = array();
+      $dataGajiLaundry = array();
       //KINERJA
       if (isset($_POST['m'])) {
          $user['id'] = $_POST['user'];
@@ -36,7 +39,6 @@ class Gaji extends Controller
       $cols = "id_user_ambil, id_cabang, COUNT(id_user_ambil) as kembali";
       $where = $this->wLaundry . " AND tgl_ambil LIKE '" . $date . "%' GROUP BY id_user_ambil, id_cabang";
       $data_kembali = $this->model('M_DB_1')->get_cols_where($this->table, $cols, $where, 1);
-      $viewData = 'rekap/rekap_gaji_bulanan';
 
       //KASBON
       $cols = "sum(jumlah) as total";
@@ -44,7 +46,15 @@ class Gaji extends Controller
       $user['kasbon'] = $this->model('M_DB_1')->get_cols_where("kas", $cols, $where, 0)['total'];
 
       $this->view('layout', ['data_operasi' => $data_operasi]);
-      $this->view($viewData, ['data_main' => $data_main, 'dataTanggal' => $dataTanggal, 'dTerima' => $data_terima, 'dKembali' => $data_kembali, 'user' => $user]);
+
+      $this->view($viewData, [
+         'data_main' => $data_main,
+         'dataTanggal' => $dataTanggal,
+         'dTerima' => $data_terima,
+         'dKembali' => $data_kembali,
+         'user' => $user,
+         'gajiLaundry' => $dataGajiLaundry
+      ]);
    }
 
    public function set_gaji_laundry()
@@ -54,15 +64,34 @@ class Gaji extends Controller
       $id_user = $_POST['id_user'];
       $fee = $_POST['fee'];
 
-      $cols = 'id_cabang, id_karyawan, jenis_penjualan, id_layanan, gaji_laundry';
-      $vals = $this->id_cabang . "," . $id_user . "," . $penjualan . "," . $id_layanan . "," . $fee;
+      $cols = 'id_laundry, id_karyawan, jenis_penjualan, id_layanan, gaji_laundry';
+      $vals = $this->id_laundry . "," . $id_user . "," . $penjualan . "," . $id_layanan . "," . $fee;
 
       $setOne = "id_karyawan = " . $id_user . " AND jenis_penjualan = " . $penjualan . " AND id_layanan = " . $id_layanan;
-      $where = $this->wCabang . " AND " . $setOne;
+      $where = $this->wLaundry . " AND " . $setOne;
       $data_main = $this->model('M_DB_1')->count_where('gaji_laundry', $where);
 
       if ($data_main < 1) {
          print_r($this->model('M_DB_1')->insertCols('gaji_laundry', $cols, $vals));
+         $this->dataSynchrone();
+      }
+   }
+
+   public function set_gaji_pengali()
+   {
+      $id_pengali = $_POST['pengali'];
+      $id_user = $_POST['id_user'];
+      $fee = $_POST['fee'];
+
+      $cols = 'id_laundry, id_karyawan, id_pengali, gaji_laundry';
+      $vals = $this->id_laundry . "," . $id_user . "," . $id_pengali . "," . $fee;
+
+      $setOne = "id_karyawan = " . $id_user . " AND id_pengali = " . $id_pengali;
+      $where = $this->wLaundry . " AND " . $setOne;
+      $data_main = $this->model('M_DB_1')->count_where('gaji_pengali', $where);
+
+      if ($data_main < 1) {
+         print_r($this->model('M_DB_1')->insertCols('gaji_pengali', $cols, $vals));
          $this->dataSynchrone();
       }
    }

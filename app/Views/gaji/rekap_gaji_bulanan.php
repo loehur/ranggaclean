@@ -8,6 +8,8 @@ if (count($data['dataTanggal']) > 0) {
 }
 
 $r = array();
+$r_gl = $data['gajiLaundry'];
+
 foreach ($data['data_main'] as $a) {
   $user = $a['id_user_operasi'];
   $cabang = $a['id_cabang'];
@@ -27,6 +29,11 @@ foreach ($this->user as $uc) {
   if ($uc['id_user'] == $data['user']['id']) {
     $user = "<small>[" . $uc['id_user'] . "]</small> - <b>" . $uc['nama_user'] . "<b>";
   }
+}
+
+$r_pengali = array();
+foreach ($this->dGajiPengali as $a) {
+  $r_pengali[$a['id_karyawan']][$a['id_pengali']] = $a['gaji_laundry'];
 }
 ?>
 
@@ -109,9 +116,8 @@ foreach ($this->user as $uc) {
                           Set Gaji
                         </button>
                         <div class="dropdown-menu">
-                          <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Laundry</a>
-                          <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal3">Pengali</a>
-                          <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal2">Khusus</a>
+                          <a class="dropdown-item" href="#exampleModal" data-bs-toggle="modal">Layanan Laundry</a>
+                          <a class="dropdown-item" href="#exampleModal1" data-bs-toggle="modal">Terima/Kembali & Harian</a>
                         </div>
                       </div>
                     </td>
@@ -139,9 +145,17 @@ foreach ($this->user as $uc) {
         echo '<tbody>';
 
         echo "<tr>";
-        echo "<td colspan='3'><span>" . strtoupper($user) . "</span></td>";
+        echo "<td colspan='4' class='pb-3'><span>" . strtoupper($user) . " [ " . $this->kode_cabang . " ]</span></td>";
         echo "</tr>";
+
+
+        echo "<tr class='table-success'>";
+        echo "<td colspan='4'><span>Pendapatan</span></td>";
+        echo "</tr>";
+
+
         foreach ($r as $userID => $arrJenisJual) {
+          $feeLaundry = 0;
           foreach ($this->user as $uc) {
             if ($uc['id_user'] == $userID) {
               $user = "<small>[" . $uc['id_user'] . "]</small> - <b>" . $uc['nama_user'] . "<b>";
@@ -160,10 +174,6 @@ foreach ($this->user as $uc) {
                   }
                 }
 
-                echo "<tr class='table-primary'>";
-                echo "<td colspan='3'>" . $penjualan . "</td>";
-                echo "</tr>";
-
                 foreach ($arrLayanan as $layananID => $arrCabang) {
                   $totalPerUser = 0;
                   foreach ($this->dLayanan as $dl) {
@@ -176,31 +186,40 @@ foreach ($this->user as $uc) {
                     }
                   }
 
-                  $pengali = 0;
+                  $gaji_laundry = 0;
                   foreach ($this->dGajiLaundry as $gp) {
                     if ($gp['id_karyawan'] == $id_user && $gp['id_layanan'] == $id_layanan && $gp['jenis_penjualan'] == $id_penjualan)
-                      $pengali = $gp['gaji_laundry'];
+                      $gaji_laundry = $gp['gaji_laundry'];
                   }
 
                   echo "<tr>";
-                  echo "<td nowrap>" . $layanan . "</td>";
-                  echo "<td class='text-right'><b>" . number_format($totalPerUser) . "</b></td>";
-                  echo "<td class='text-right'><b>Rp" . number_format($pengali * $totalPerUser) . "</b></td>";
+                  echo "<td nowrap><small>" . $penjualan . "</small><br>" . $layanan . "</td>";
+                  echo "<td class='text-right'><small>Qty</small><br>" . number_format($totalPerUser) . "</td>";
+                  echo "<td class='text-right'><small>Fee</small><br>Rp" . number_format($gaji_laundry) . "</td>";
+                  echo "<td class='text-right'><small>Total</small><br><b>Rp" . number_format($gaji_laundry * $totalPerUser) . "</b></td>";
                   echo "</tr>";
                 }
               }
-              echo "<tr class='table-primary'>";
-              echo "<td colspan='3'>Terima/Kembali</td>";
-
               $totalTerima = 0;
               foreach ($data['dTerima'] as $a) {
                 if ($uc['id_user'] == $a['id_user']) {
                   $totalTerima = $totalTerima + $a['terima'];
                 }
               }
+
+              if (isset($r_pengali[$id_user][1])) {
+                $feeTerima = $r_pengali[$id_user][1];
+              } else {
+                $feeTerima = 0;
+              }
+
+              $totalFeeTerima = $totalTerima * $feeTerima;
+
               echo "<tr>";
-              echo "<td nowrap>Terima Laundry</td>";
-              echo "<td class='text-right'><b>" . $totalTerima . "</b></td>";
+              echo "<td nowrap><small>Laundry</small><br>Terima</td>";
+              echo "<td class='text-right'><small>Qty</small><br>" . $totalTerima . "</td>";
+              echo "<td class='text-right'><small>Fee</small><br>Rp" . number_format($feeTerima) . "</td>";
+              echo "<td class='text-right'><small>Total</small><br><b>RpRp" . number_format($totalFeeTerima) . "</td>";
               echo "</tr>";
 
               $totalKembali = 0;
@@ -209,9 +228,19 @@ foreach ($this->user as $uc) {
                   $totalKembali = $totalKembali + $a['kembali'];
                 }
               }
+
+              if (isset($r_pengali[$id_user][2])) {
+                $feeKembali = $r_pengali[$id_user][2];
+              } else {
+                $feeKembali = 0;
+              }
+
+              $totalFeeKembali = $totalKembali * $feeKembali;
               echo "<tr>";
-              echo "<td nowrap>Kembali Laundry</td>";
-              echo "<td class='text-right'><b>" . $totalKembali . "</b></td>";
+              echo "<td nowrap class='pb-3'><small>Laundry</small><br>Kembali</td>";
+              echo "<td class='text-right'><small>Qty</small><br>" . $totalKembali . "</td>";
+              echo "<td class='text-right'><small>Fee</small><br>Rp" . number_format($feeKembali) . "</td>";
+              echo "<td class='text-right'><small>Total</small><br><b>RpRp" . number_format($totalFeeKembali) . "</td>";
               echo "</tr>";
             }
           }
@@ -219,11 +248,13 @@ foreach ($this->user as $uc) {
 
         if ($data['user']['kasbon'] > 0) {
           echo "<tr class='table-danger'>";
-          echo "<td colspan='3'>Potongan</td>";
+          echo "<td colspan='4' class='pt-2'>Potongan</td>";
           echo "</tr>";
           echo "<tr>";
           echo "<td nowrap>Kasbon</td>";
-          echo "<td class='text-right'><b>" . number_format($data['user']['kasbon']) . "</b></td>";
+          echo "<td nowrap></td>";
+          echo "<td nowrap></td>";
+          echo "<td class='text-right'><b>Rp" . number_format($data['user']['kasbon']) . "</b></td>";
           echo "</tr>";
         }
 
@@ -235,17 +266,14 @@ foreach ($this->user as $uc) {
     </div>
   </div>
 <?php } ?>
-
-
 <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Gaji Kinerja</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Fee Kinerja</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        <!-- ====================== FORM ========================= -->
         <form class="jq" action="<?= $this->BASE_URL; ?>Gaji/set_gaji_laundry" method="POST">
           <div class="card-body">
             <div class="form-group">
@@ -276,42 +304,30 @@ foreach ($this->user as $uc) {
             <div class="modal-footer">
               <button type="submit" class="btn btn-sm btn-primary">Set Fee</button>
             </div>
+          </div>
         </form>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal" id="exampleModal10" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Gaji Terima/Kembali Kain</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Terima/Kembali & Harian</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        <!-- ====================== FORM ========================= -->
-        <form class="jq" action="<?= $this->BASE_URL; ?>Gaji/set_pengali" method="POST">
+        <form class="jq" action="<?= $this->BASE_URL; ?>Gaji/set_gaji_pengali" method="POST">
           <div class="card-body">
             <div class="form-group">
-              <label for="exampleInputEmail1">Jenis Penjualan</label>
-              <select name="penjualan" class="form-control form-control-sm userChange" style="width: 100%;" required>
+              <label for="exampleInputEmail1">Jenis Pengali</label>
+              <select name="pengali" class="form-control form-control-sm userChange" style="width: 100%;" required>
                 <option value="" selected disabled></option>
-                <?php foreach ($this->dPenjualan as $a) { ?>
-                  <option id="<?= $a['id_penjualan_jenis'] ?>" value="<?= $a['id_penjualan_jenis'] ?>"><?= $a['penjualan_jenis'] ?></option>
+                <?php foreach ($this->dListPengali as $a) { ?>
+                  <option value="<?= $a['id_pengali'] ?>"><?= $a['pengali_jenis'] ?></option>
                 <?php } ?>
-                </optgroup>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Jenis Layanan</label>
-              <select name="layanan" class="form-control form-control-sm userChange" style="width: 100%;" required>
-                <option value="" selected disabled></option>
-                <option value="0">Harian</option>
-                <?php foreach ($this->dLayanan as $a) { ?>
-                  <option id="<?= $a['id_layanan'] ?>" value="<?= $a['id_layanan'] ?>"><?= $a['layanan'] ?></option>
-                <?php } ?>
-                </optgroup>
               </select>
             </div>
             <input name='id_user' type="hidden" value="<?= $data['user']['id'] ?>" />
@@ -322,12 +338,12 @@ foreach ($this->user as $uc) {
             <div class="modal-footer">
               <button type="submit" class="btn btn-sm btn-primary">Set Fee</button>
             </div>
+          </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-
 
 <!-- SCRIPT -->
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
@@ -343,7 +359,7 @@ foreach ($this->user as $uc) {
       data: $(this).serialize(),
       type: $(this).attr("method"),
       success: function(response) {
-        //alert(response)
+        //alert(response);
         location.reload(true);
       },
     });
