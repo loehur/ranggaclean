@@ -45,6 +45,12 @@ class Gaji extends Controller
       $where = $this->wCabang . " AND jenis_transaksi = 5 AND jenis_mutasi = 2 AND metode_mutasi = 1 AND status_transaksi = 0 AND id_client = " . $user['id'];
       $user['kasbon'] = $this->model('M_DB_1')->get_cols_where("kas", $cols, $where, 0)['total'];
 
+      $gaji = array();
+      $gaji['gaji_laundry'] = $this->model('M_DB_1')->get_where('gaji_laundry', 'id_laundry = ' . $this->id_laundry);
+      $gaji['pengali_list'] = $this->model('M_DB_1')->get('gaji_pengali_jenis');
+      $gaji['gaji_pengali'] = $this->model('M_DB_1')->get_where('gaji_pengali', 'id_laundry = ' . $this->id_laundry);
+      $gaji['gaji_pengali_data'] = $this->model('M_DB_1')->get_where('gaji_pengali_data', 'id_laundry = ' . $this->id_laundry . " AND tgl = '" . $date . "'");
+
       $this->view('layout', ['data_operasi' => $data_operasi]);
 
       $this->view($viewData, [
@@ -53,6 +59,7 @@ class Gaji extends Controller
          'dTerima' => $data_terima,
          'dKembali' => $data_kembali,
          'user' => $user,
+         'gaji' => $gaji,
          'gajiLaundry' => $dataGajiLaundry
       ]);
    }
@@ -75,7 +82,6 @@ class Gaji extends Controller
 
       if ($data_main < 1) {
          print_r($this->model('M_DB_1')->insertCols('gaji_laundry', $cols, $vals));
-         $this->dataSynchrone();
       }
    }
 
@@ -94,7 +100,26 @@ class Gaji extends Controller
 
       if ($data_main < 1) {
          print_r($this->model('M_DB_1')->insertCols('gaji_pengali', $cols, $vals));
-         $this->dataSynchrone();
+      }
+   }
+
+   public function set_harian_tunjangan()
+   {
+      $table = "gaji_pengali_data";
+      $id_pengali = $_POST['pengali'];
+      $id_user = $_POST['id_user'];
+      $tgl = $_POST['tgl'];
+      $qty = $_POST['qty'];
+
+      $cols = 'id_laundry, id_karyawan, id_pengali, qty, tgl';
+      $vals = $this->id_laundry . "," . $id_user . "," . $id_pengali . "," . $qty . ",'" . $tgl . "'";
+
+      $setOne = "id_karyawan = " . $id_user . " AND id_pengali = " . $id_pengali . " AND tgl = '" . $tgl . "'";
+      $where = $this->wLaundry . " AND " . $setOne;
+      $data_main = $this->model('M_DB_1')->count_where($table, $where);
+
+      if ($data_main < 1) {
+         print_r($this->model('M_DB_1')->insertCols($table, $cols, $vals));
       }
    }
 
@@ -117,6 +142,5 @@ class Gaji extends Controller
 
       $set = $col . " = '" . $value . "'";
       $this->model('M_DB_1')->update($table, $set, $where);
-      $this->dataSynchrone();
    }
 }

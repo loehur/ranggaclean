@@ -36,10 +36,6 @@ class Controller extends URL
                 $this->dStatusMutasi = $_SESSION['data']['mutasi_status'];
                 $this->dStatusTransaksi = $_SESSION['data']['status_transaksi'];
 
-                $this->dGajiLaundry = $_SESSION['gaji']['gaji_laundry'];
-                $this->dGajiPengali = $_SESSION['gaji']['gaji_pengali'];
-                $this->dListPengali = $_SESSION['gaji']['pengali_list'];
-
                 $this->user = $_SESSION['order']['user'];
                 $this->userCabang = $_SESSION['order']['userCabang'];
                 $this->userMerge = array_merge($this->user, $this->userCabang);
@@ -132,12 +128,6 @@ class Controller extends URL
             'item' => $this->model('M_DB_1')->get_where("item", "id_laundry = " . $_SESSION['user']['id_laundry']),
             'item_pengeluaran' => $this->model('M_DB_1')->get_where("item_pengeluaran", "id_laundry = " . $_SESSION['user']['id_laundry']),
             'status_transaksi' => $this->model('M_DB_1')->get('transaksi_status'),
-        );
-
-        $_SESSION['gaji'] = array(
-            'gaji_laundry' => $this->model('M_DB_1')->get_where('gaji_laundry', 'id_laundry = ' . $_SESSION['user']['id_laundry']),
-            'pengali_list' => $this->model('M_DB_1')->get('gaji_pengali_jenis'),
-            'gaji_pengali' => $this->model('M_DB_1')->get_where('gaji_pengali', 'id_laundry = ' . $_SESSION['user']['id_laundry']),
         );
 
         $_SESSION['order'] = array(

@@ -33,10 +33,16 @@ foreach ($this->user as $uc) {
 
 $r_pengali = array();
 $r_pengali_id = array();
-foreach ($this->dGajiPengali as $a) {
+foreach ($data['gaji']['gaji_pengali'] as $a) {
   $r_pengali[$a['id_karyawan']][$a['id_pengali']] = $a['gaji_pengali'];
   $r_pengali_id[$a['id_karyawan']][$a['id_pengali']] = $a['id_gaji_pengali'];
 }
+
+$pengali_list = $data['gaji']['pengali_list'];
+
+$totalDapat = 0;
+$totalPotong = 0;
+$totalTerima = 0;
 ?>
 
 <div class="content">
@@ -119,7 +125,7 @@ foreach ($this->dGajiPengali as $a) {
                         </button>
                         <div class="dropdown-menu">
                           <a class="dropdown-item" href="#exampleModal" data-bs-toggle="modal">Layanan Laundry</a>
-                          <a class="dropdown-item" href="#exampleModal1" data-bs-toggle="modal">Terima/Kembali & Harian</a>
+                          <a class="dropdown-item" href="#exampleModal1" data-bs-toggle="modal">Terima/Kembali & Pengali</a>
                         </div>
                       </div>
                     </td>
@@ -143,11 +149,12 @@ foreach ($this->dGajiPengali as $a) {
         echo '<div class="col-auto">';
         echo '<div class="card">';
 
-        echo '<table class="table table-sm m-0">';
+        echo '<table class="table table-sm m-0 w-100">';
         echo '<tbody>';
 
         echo "<tr>";
-        echo "<td colspan='4' class='pb-3'><span>" . strtoupper($user) . " [ " . $this->kode_cabang . " ]</span></td>";
+        echo "<td colspan='2' class='pb-3'><span>" . strtoupper($user) . " [ " . $this->kode_cabang . " ]</span></td>";
+        echo "<td colspan='2' class='pb-3 text-right'><a href='#exampleModal2' data-bs-toggle='modal' class='btn badge badge-success'>Set Harian/Tunjangan</a></td>";
         echo "</tr>";
 
 
@@ -157,6 +164,7 @@ foreach ($this->dGajiPengali as $a) {
 
 
         foreach ($r as $userID => $arrJenisJual) {
+          $totalGajiLaundry = 0;
           $feeLaundry = 0;
           foreach ($this->user as $uc) {
             if ($uc['id_user'] == $userID) {
@@ -190,7 +198,7 @@ foreach ($this->dGajiPengali as $a) {
 
                   $gaji_laundry = 0;
                   $bonus_target = 0;
-                  foreach ($this->dGajiLaundry as $gp) {
+                  foreach ($data['gaji']['gaji_laundry'] as $gp) {
                     if ($gp['id_karyawan'] == $id_user && $gp['id_layanan'] == $id_layanan && $gp['jenis_penjualan'] == $id_penjualan) {
                       $gaji_laundry = $gp['gaji_laundry'];
                       $target = $gp['target'];
@@ -208,6 +216,8 @@ foreach ($this->dGajiPengali as $a) {
                     }
                   }
 
+                  $totalGajiLaundry = $gaji_laundry * $totalPerUser;
+
                   echo "<tr>";
                   echo "<td nowrap><small>" . $penjualan . "</small><br>" . $layanan . "</td>";
                   echo "<td class='text-right'><small>Qty</small><br>" . number_format($totalPerUser) . "<br><small>Target</small><br>
@@ -224,8 +234,10 @@ foreach ($this->dGajiPengali as $a) {
                   <span class='edit' data-table='gaji_laundry' data-col='bonus_target' data-id_edit='" . $id_gl . "'>" . $bonus_target . "</span>
 
                   </td>";
-                  echo "<td class='text-right'><small>Total</small><br><b>Rp" . number_format($gaji_laundry * $totalPerUser) . "</b><br><small>Bonus diterima</small><br>Rp" . number_format($bonus) . "</td>";
+                  echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalGajiLaundry) . "<br><small>Bonus diterima</small><br>Rp" . number_format($bonus) . "</td>";
                   echo "</tr>";
+                  $totalDapat += $totalGajiLaundry;
+                  $totalDapat += $bonus;
                 }
               }
               $totalTerima = 0;
@@ -253,8 +265,10 @@ foreach ($this->dGajiPengali as $a) {
               <span class='edit' data-table='gaji_pengali' data-col='gaji_pengali' data-id_edit='" . $id_gp . "'>" . $feeTerima . "</span>
 
               </td>";
-              echo "<td class='text-right'><small>Total</small><br><b>Rp" . $totalFeeTerima . "</td>";
+              echo "<td class='text-right'><small>Total</small><br>Rp" . $totalFeeTerima . "</td>";
               echo "</tr>";
+
+              $totalDapat += $totalFeeTerima;
 
               $totalKembali = 0;
               foreach ($data['dKembali'] as $a) {
@@ -273,20 +287,68 @@ foreach ($this->dGajiPengali as $a) {
 
               $totalFeeKembali = $totalKembali * $feeKembali;
               echo "<tr>";
-              echo "<td nowrap class='pb-3'><small>Laundry</small><br>Kembali</td>";
+              echo "<td nowrap class=''><small>Laundry</small><br>Kembali</td>";
               echo "<td class='text-right'><small>Qty</small><br>" . $totalKembali . "</td>";
               echo "<td class='text-right'><small>Fee</small><br>Rp
               
               <span class='edit' data-table='gaji_pengali' data-col='gaji_pengali' data-id_edit='" . $id_gp . "'>" . $feeKembali . "</span>
 
               </td>";
-              echo "<td class='text-right'><small>Total</small><br><b>RpRp" . number_format($totalFeeKembali) . "</td>";
+              echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalFeeKembali) . "</td>";
               echo "</tr>";
+
+              $totalDapat += $totalFeeKembali;
             }
           }
         }
+        $dataPengali = $data['gaji']['gaji_pengali_data'];
+        if (count($dataPengali) > 0) {
+          foreach ($dataPengali as $b) {
+            if ($b['id_karyawan'] == $id_user) {
+
+              $idPengali = $b['id_pengali'];
+
+              if (isset($r_pengali[$id_user][$idPengali])) {
+                $feeP = $r_pengali[$id_user][$idPengali];
+                $id_gp = $r_pengali_id[$id_user][$idPengali];
+              } else {
+                $feeP = 0;
+                $id_gp = 0;
+              }
+
+              $pengaliJenis = "";
+              foreach ($pengali_list as $pl) {
+                if ($pl['id_pengali'] == $idPengali) {
+                  $pengaliJenis = $pl['pengali_jenis'];
+                }
+              }
+
+              $qty = $b['qty'];
+              $feePTotal = $qty * $feeP;
+
+              echo "<tr>";
+              echo "<td nowrap class=''><small>Laundry</small><br>" . $pengaliJenis . "</td>";
+              echo "<td class='text-right'><small>Qty</small><br>" . $qty . "</td>";
+              echo "<td class='text-right'><small>Fee</small><br>Rp
+              
+              <span class='edit' data-table='gaji_pengali' data-col='gaji_pengali' data-id_edit='" . $id_gp . "'>" . $feeP . "</span>
+    
+              </td>";
+              echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($feePTotal) . "</td>";
+              echo "</tr>";
+            }
+
+            $totalDapat += $feePTotal;
+          }
+        }
+
+        echo "<tr>";
+        echo "<td colspan='3' class='pb-3'><b>Total Pendapatan</b></td>";
+        echo "<td class='text-right'><b>Rp" . number_format($totalDapat) . "</b></td>";
+        echo "</tr>";
 
         if ($data['user']['kasbon'] > 0) {
+          $potKasbon = $data['user']['kasbon'];
           echo "<tr class='table-danger'>";
           echo "<td colspan='4' class='pt-2'>Potongan</td>";
           echo "</tr>";
@@ -294,9 +356,22 @@ foreach ($this->dGajiPengali as $a) {
           echo "<td nowrap>Kasbon</td>";
           echo "<td nowrap></td>";
           echo "<td nowrap></td>";
-          echo "<td class='text-right'><b>Rp" . number_format($data['user']['kasbon']) . "</b></td>";
+          echo "<td class='text-right'>Rp" . number_format($potKasbon) . "</td>";
           echo "</tr>";
+
+          $totalPotong += $potKasbon;
         }
+
+        echo "<tr>";
+        echo "<td colspan='3' class='pb-3'><b>Total Potongan</b></td>";
+        echo "<td class='text-right'><b>Rp" . number_format($totalPotong) . "</b></td>";
+        echo "</tr>";
+
+        $totalTerima = $totalDapat - $totalPotong;
+        echo "<tr class='table-primary'>";
+        echo "<td colspan='3'><b>TOTAL DITERIMA</b></td>";
+        echo "<td class='text-right'><b>Rp" . number_format($totalTerima) . "</b></td>";
+        echo "</tr>";
 
         echo '</tbody>';
         echo '</table>';
@@ -363,7 +438,7 @@ foreach ($this->dGajiPengali as $a) {
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Terima/Kembali & Harian</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Terima/Kembali & Pengali</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
@@ -373,7 +448,7 @@ foreach ($this->dGajiPengali as $a) {
               <label for="exampleInputEmail1">Jenis Pengali</label>
               <select name="pengali" class="form-control form-control-sm userChange" style="width: 100%;" required>
                 <option value="" selected disabled></option>
-                <?php foreach ($this->dListPengali as $a) { ?>
+                <?php foreach ($pengali_list as $a) { ?>
                   <option value="<?= $a['id_pengali'] ?>"><?= $a['pengali_jenis'] ?></option>
                 <?php } ?>
               </select>
@@ -382,6 +457,43 @@ foreach ($this->dGajiPengali as $a) {
             <div class="form-group">
               <label for="exampleInputEmail1">Fee Rp</label>
               <input type="number" name="fee" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-sm btn-primary">Set Fee</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Harian & Tunjangan</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form class="jq" action="<?= $this->BASE_URL; ?>Gaji/set_harian_tunjangan" method="POST">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Harian/Tunjangan</label>
+              <select name="pengali" class="form-control form-control-sm userChange" style="width: 100%;" required>
+                <option value="" selected disabled></option>
+                <?php foreach ($pengali_list as $a) {
+                  if ($a['id_pengali'] > 2) { ?>
+                    <option value="<?= $a['id_pengali'] ?>"><?= $a['pengali_jenis'] ?></option>
+                <?php }
+                } ?>
+              </select>
+            </div>
+            <input name='id_user' type="hidden" value="<?= $data['user']['id'] ?>" />
+            <input name='tgl' type="hidden" value="<?= $currentYear . "-" . $currentMonth ?>" />
+            <div class="form-group">
+              <label for="exampleInputEmail1">Qty</label>
+              <input type="number" name="qty" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-sm btn-primary">Set Fee</button>
