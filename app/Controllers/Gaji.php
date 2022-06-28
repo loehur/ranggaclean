@@ -63,9 +63,11 @@ class Gaji extends Controller
       $id_layanan = $_POST['layanan'];
       $id_user = $_POST['id_user'];
       $fee = $_POST['fee'];
+      $target = $_POST['target'];
+      $bonus_target = $_POST['bonus_target'];
 
-      $cols = 'id_laundry, id_karyawan, jenis_penjualan, id_layanan, gaji_laundry';
-      $vals = $this->id_laundry . "," . $id_user . "," . $penjualan . "," . $id_layanan . "," . $fee;
+      $cols = 'id_laundry, id_karyawan, jenis_penjualan, id_layanan, gaji_laundry, target, bonus_target';
+      $vals = $this->id_laundry . "," . $id_user . "," . $penjualan . "," . $id_layanan . "," . $fee . "," . $target . "," . $bonus_target;
 
       $setOne = "id_karyawan = " . $id_user . " AND jenis_penjualan = " . $penjualan . " AND id_layanan = " . $id_layanan;
       $where = $this->wLaundry . " AND " . $setOne;
@@ -83,7 +85,7 @@ class Gaji extends Controller
       $id_user = $_POST['id_user'];
       $fee = $_POST['fee'];
 
-      $cols = 'id_laundry, id_karyawan, id_pengali, gaji_laundry';
+      $cols = 'id_laundry, id_karyawan, id_pengali, gaji_pengali';
       $vals = $this->id_laundry . "," . $id_user . "," . $id_pengali . "," . $fee;
 
       $setOne = "id_karyawan = " . $id_user . " AND id_pengali = " . $id_pengali;
@@ -94,5 +96,27 @@ class Gaji extends Controller
          print_r($this->model('M_DB_1')->insertCols('gaji_pengali', $cols, $vals));
          $this->dataSynchrone();
       }
+   }
+
+   public function updateCell()
+   {
+      $table  = $_POST['table'];
+      $id = $_POST['id'];
+      $value = $_POST['value'];
+      $col = $_POST['col'];
+
+      $where = "";
+      switch ($table) {
+         case 'gaji_laundry':
+            $where = $this->wLaundry . " AND id_gaji_laundry = " . $id;
+            break;
+         case 'gaji_pengali':
+            $where = $this->wLaundry . " AND id_gaji_pengali = " . $id;
+            break;
+      }
+
+      $set = $col . " = '" . $value . "'";
+      $this->model('M_DB_1')->update($table, $set, $where);
+      $this->dataSynchrone();
    }
 }

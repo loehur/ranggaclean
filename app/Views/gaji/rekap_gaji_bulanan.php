@@ -32,8 +32,10 @@ foreach ($this->user as $uc) {
 }
 
 $r_pengali = array();
+$r_pengali_id = array();
 foreach ($this->dGajiPengali as $a) {
-  $r_pengali[$a['id_karyawan']][$a['id_pengali']] = $a['gaji_laundry'];
+  $r_pengali[$a['id_karyawan']][$a['id_pengali']] = $a['gaji_pengali'];
+  $r_pengali_id[$a['id_karyawan']][$a['id_pengali']] = $a['id_gaji_pengali'];
 }
 ?>
 
@@ -187,16 +189,42 @@ foreach ($this->dGajiPengali as $a) {
                   }
 
                   $gaji_laundry = 0;
+                  $bonus_target = 0;
                   foreach ($this->dGajiLaundry as $gp) {
-                    if ($gp['id_karyawan'] == $id_user && $gp['id_layanan'] == $id_layanan && $gp['jenis_penjualan'] == $id_penjualan)
+                    if ($gp['id_karyawan'] == $id_user && $gp['id_layanan'] == $id_layanan && $gp['jenis_penjualan'] == $id_penjualan) {
                       $gaji_laundry = $gp['gaji_laundry'];
+                      $target = $gp['target'];
+                      $bonus_target = $gp['bonus_target'];
+                      $id_gl = $gp['id_gaji_laundry'];
+                    }
+                  }
+
+                  $bonus = 0;
+                  $xBonus = 0;
+                  if ($target > 0) {
+                    if ($totalPerUser > 0) {
+                      $xBonus = floor($totalPerUser / $target);
+                      $bonus = $xBonus * $bonus_target;
+                    }
                   }
 
                   echo "<tr>";
                   echo "<td nowrap><small>" . $penjualan . "</small><br>" . $layanan . "</td>";
-                  echo "<td class='text-right'><small>Qty</small><br>" . number_format($totalPerUser) . "</td>";
-                  echo "<td class='text-right'><small>Fee</small><br>Rp" . number_format($gaji_laundry) . "</td>";
-                  echo "<td class='text-right'><small>Total</small><br><b>Rp" . number_format($gaji_laundry * $totalPerUser) . "</b></td>";
+                  echo "<td class='text-right'><small>Qty</small><br>" . number_format($totalPerUser) . "<br><small>Target</small><br>
+                  
+                  <span class='edit' data-table='gaji_laundry' data-col='target' data-id_edit='" . $id_gl . "'>" . $target . "</span>
+                  
+                  </td>";
+                  echo "<td class='text-right'><small>Fee</small><br>Rp
+                  
+                  <span class='edit' data-table='gaji_laundry' data-col='gaji_laundry' data-id_edit='" . $id_gl . "'>" . $gaji_laundry . "</span>
+                  
+                  <br><small>Bonus/Target</small><br>
+                  
+                  <span class='edit' data-table='gaji_laundry' data-col='bonus_target' data-id_edit='" . $id_gl . "'>" . $bonus_target . "</span>
+
+                  </td>";
+                  echo "<td class='text-right'><small>Total</small><br><b>Rp" . number_format($gaji_laundry * $totalPerUser) . "</b><br><small>Bonus diterima</small><br>Rp" . number_format($bonus) . "</td>";
                   echo "</tr>";
                 }
               }
@@ -209,8 +237,10 @@ foreach ($this->dGajiPengali as $a) {
 
               if (isset($r_pengali[$id_user][1])) {
                 $feeTerima = $r_pengali[$id_user][1];
+                $id_gp = $r_pengali_id[$id_user][1];
               } else {
                 $feeTerima = 0;
+                $id_gp = 0;
               }
 
               $totalFeeTerima = $totalTerima * $feeTerima;
@@ -218,8 +248,12 @@ foreach ($this->dGajiPengali as $a) {
               echo "<tr>";
               echo "<td nowrap><small>Laundry</small><br>Terima</td>";
               echo "<td class='text-right'><small>Qty</small><br>" . $totalTerima . "</td>";
-              echo "<td class='text-right'><small>Fee</small><br>Rp" . number_format($feeTerima) . "</td>";
-              echo "<td class='text-right'><small>Total</small><br><b>RpRp" . number_format($totalFeeTerima) . "</td>";
+              echo "<td class='text-right'><small>Fee</small><br>Rp
+              
+              <span class='edit' data-table='gaji_pengali' data-col='gaji_pengali' data-id_edit='" . $id_gp . "'>" . $feeTerima . "</span>
+
+              </td>";
+              echo "<td class='text-right'><small>Total</small><br><b>Rp" . $totalFeeTerima . "</td>";
               echo "</tr>";
 
               $totalKembali = 0;
@@ -231,15 +265,21 @@ foreach ($this->dGajiPengali as $a) {
 
               if (isset($r_pengali[$id_user][2])) {
                 $feeKembali = $r_pengali[$id_user][2];
+                $id_gp = $r_pengali_id[$id_user][2];
               } else {
                 $feeKembali = 0;
+                $id_gp = 0;
               }
 
               $totalFeeKembali = $totalKembali * $feeKembali;
               echo "<tr>";
               echo "<td nowrap class='pb-3'><small>Laundry</small><br>Kembali</td>";
               echo "<td class='text-right'><small>Qty</small><br>" . $totalKembali . "</td>";
-              echo "<td class='text-right'><small>Fee</small><br>Rp" . number_format($feeKembali) . "</td>";
+              echo "<td class='text-right'><small>Fee</small><br>Rp
+              
+              <span class='edit' data-table='gaji_pengali' data-col='gaji_pengali' data-id_edit='" . $id_gp . "'>" . $feeKembali . "</span>
+
+              </td>";
               echo "<td class='text-right'><small>Total</small><br><b>RpRp" . number_format($totalFeeKembali) . "</td>";
               echo "</tr>";
             }
@@ -301,8 +341,16 @@ foreach ($this->dGajiPengali as $a) {
               <label for="exampleInputEmail1">Fee Rp</label>
               <input type="number" name="fee" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
             </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Target <small>Berlaku Kelipatan</small></label>
+              <input type="number" name="target" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Bonus Target</label>
+              <input type="number" name="bonus_target" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
+            </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-sm btn-primary">Set Fee</button>
+              <button type="submit" class="btn btn-sm btn-primary">Set</button>
             </div>
           </div>
         </form>
@@ -362,6 +410,49 @@ foreach ($this->dGajiPengali as $a) {
         //alert(response);
         location.reload(true);
       },
+    });
+  });
+
+  var click = 0;
+  $("span.edit").on('dblclick', function() {
+    click = click + 1;
+    if (click != 1) {
+      return;
+    }
+
+    var id_edit = $(this).attr('data-id_edit');
+    var value = $(this).html();
+    var col = $(this).attr('data-col');
+    var table = $(this).attr('data-table');
+    var value_before = value;
+    var span = $(this);
+
+    var valHtml = $(this).html();
+
+    span.html("<input type='number' style='width:70px' id='value" + id_edit + "' value='" + value + "'>");
+
+    $("#value" + id_edit).focus();
+    $("#value" + id_edit).focusout(function() {
+      var value_after = $(this).val();
+      if (value_after === value_before) {
+        span.html(value);
+        click = 0;
+      } else {
+        $.ajax({
+          url: '<?= $this->BASE_URL ?>Gaji/updateCell',
+          data: {
+            'id': id_edit,
+            'value': value_after,
+            'col': col,
+            'table': table
+          },
+          type: 'POST',
+          dataType: 'html',
+          success: function(response) {
+            location.reload(true);
+          },
+        });
+      }
     });
   });
 </script>
