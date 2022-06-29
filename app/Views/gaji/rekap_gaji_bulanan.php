@@ -164,8 +164,8 @@ $noInject = 0;
             echo '<tbody>';
 
             echo "<tr>";
-            echo "<td colspan='2' class='pb-3'><span>" . strtoupper($nama_user) . " [ " . $this->dCabang['kode_cabang'] . " ]</span></td>";
-            echo "<td text-right'><a href='#' id='tetapkan' class='btn badge badge-primary'>Tetapkan</a></td>";
+            echo "<td colspan='3' class='pb-3'><span>" . strtoupper($nama_user) . " [ " . $this->dCabang['kode_cabang'] . " ]</span></td>";
+            echo "<td class='text-right'><a href='#' id='tetapkan' class='btn badge badge-primary'>Tetapkan</a></td>";
             echo "</tr>";
 
 
