@@ -249,7 +249,7 @@ $noInject = 0;
                   <span class='edit' data-table='gaji_laundry' data-col='bonus_target' data-id_edit='" . $id_gl . "'>" . $bonus_target . "</span>
 
                   </td>";
-                      echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalGajiLaundry) . "<br><small>Bonus diterima</small><br>Rp" . number_format($bonus) . "</td>";
+                      echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalGajiLaundry) . "<br><small>Bonus</small><br>Rp" . number_format($bonus) . "</td>";
                       echo "</tr>";
                       $totalDapat += $totalGajiLaundry;
                       $totalDapat += $bonus;
@@ -497,7 +497,7 @@ $noInject = 0;
   $totalTer = $totalGaji - $totalPot;
   ?>
 
-  <?php if ($user <> 0) { ?>
+  <?php if ($id_user <> 0) { ?>
     <div class="col p-1 bg-white mr-4 mt-1">
       <span id="print" style="width:50mm;background-color:white; padding-bottom:10px">
         <style>
