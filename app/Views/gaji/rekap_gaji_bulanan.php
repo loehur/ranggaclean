@@ -464,7 +464,7 @@ $noInject = 0;
             $totalTerima = $totalDapat - $totalPotong;
             echo "<tr class='table-primary'>";
             echo "<td colspan='3'><b>TOTAL DITERIMA</b></td>";
-            echo "<td class='text-right'><b>Rp" . number_format($totalTerima) . "</b></td>";
+            echo "<td nowrap class='text-right'><b>Rp" . number_format($totalTerima) . "</b></td>";
             echo "</tr>";
 
             echo '</tbody>';
