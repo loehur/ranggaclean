@@ -13,6 +13,7 @@ $dateOn =  $currentYear . "-" . $currentMonth;
 $r = array();
 $r_gl = $data['gajiLaundry'];
 
+$user = 0;
 foreach ($data['data_main'] as $a) {
   $user = $a['id_user_operasi'];
   $cabang = $a['id_cabang'];
@@ -123,7 +124,7 @@ $noInject = 0;
                     </select>
                   </td>
                   <td><button class="form-control form-control-sm m-1 p-1 bg-light">Cek</td>
-                  <?php if ($user <> "") { ?>
+                  <?php if ($user <> 0) { ?>
                     <td>
                       <div class="btn-group ml-2">
                         <button type="button" class="btn btn-sm btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -132,6 +133,7 @@ $noInject = 0;
                         <div class="dropdown-menu">
                           <a class="dropdown-item" href="#exampleModal" data-bs-toggle="modal">Layanan Laundry</a>
                           <a class="dropdown-item" href="#exampleModal1" data-bs-toggle="modal">Terima/Kembali & Pengali</a>
+                          <a class="dropdown-item" href="#exampleModal2" data-bs-toggle="modal">Harian/Tunjangan</a>
                         </div>
                       </div>
                     </td>
@@ -150,7 +152,7 @@ $noInject = 0;
 <div class="row ml-1">
   <div class="col p-1">
 
-    <?php if ($user <> "") { ?>
+    <?php if ($user <> 0) { ?>
       <div class="content">
         <div class="container-fluid">
           <div class="row">
@@ -163,7 +165,6 @@ $noInject = 0;
 
             echo "<tr>";
             echo "<td colspan='2' class='pb-3'><span>" . strtoupper($nama_user) . " [ " . $this->dCabang['kode_cabang'] . " ]</span></td>";
-            echo "<td text-right'><a href='#exampleModal2' data-bs-toggle='modal' class='btn badge badge-success'>Harian/Tunjangan</a></td>";
             echo "<td text-right'><a href='#' id='tetapkan' class='btn badge badge-primary'>Tetapkan</a></td>";
             echo "</tr>";
 
@@ -496,74 +497,76 @@ $noInject = 0;
   $totalTer = $totalGaji - $totalPot;
   ?>
 
-  <div class="col p-1 bg-white mr-4 mt-1">
-    <span id="print" style="width:50mm;background-color:white; padding-bottom:10px">
-      <style>
-        html .table {
-          font-family: 'Titillium Web', sans-serif;
-        }
+  <?php if ($user <> 0) { ?>
+    <div class="col p-1 bg-white mr-4 mt-1">
+      <span id="print" style="width:50mm;background-color:white; padding-bottom:10px">
+        <style>
+          html .table {
+            font-family: 'Titillium Web', sans-serif;
+          }
 
-        html .content {
-          font-family: 'Titillium Web', sans-serif;
-        }
+          html .content {
+            font-family: 'Titillium Web', sans-serif;
+          }
 
-        html body {
-          font-family: 'Titillium Web', sans-serif;
-        }
+          html body {
+            font-family: 'Titillium Web', sans-serif;
+          }
 
-        hr {
-          border-top: 1px dashed black;
-        }
-      </style>
-      <table style="width:42mm; font-size:x-small; margin-top:10px; margin-bottom:10px">
-        <tr>
-          <td colspan="2" style="text-align: center;border-bottom:1px dashed black; padding:6px;">
-            <b> <?= $this->dLaundry['nama_laundry'] ?> [ <?= $this->dCabang['kode_cabang'] ?> ]</b><br>-- SALARY SLIP --
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="border-bottom:1px dashed black; padding-top:6px;padding-bottom:6px;">
-            <font size='2'><b><?= strtoupper($nama_user) ?></font>
-            </b><br>Tahun/Bulan: <?= $dateOn ?>
-          </td>
+          hr {
+            border-top: 1px dashed black;
+          }
+        </style>
+        <table style="width:42mm; font-size:x-small; margin-top:10px; margin-bottom:10px">
+          <tr>
+            <td colspan="2" style="text-align: center;border-bottom:1px dashed black; padding:6px;">
+              <b> <?= $this->dLaundry['nama_laundry'] ?> [ <?= $this->dCabang['kode_cabang'] ?> ]</b><br>-- SALARY SLIP --
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="border-bottom:1px dashed black; padding-top:6px;padding-bottom:6px;">
+              <font size='2'><b><?= strtoupper($nama_user) ?></font>
+              </b><br>Tahun/Bulan: <?= $dateOn ?>
+            </td>
 
-          <?= $tr_gaji ?>
+            <?= $tr_gaji ?>
 
-        <tr>
-          <td colspan="2" style="border-bottom:1px dashed black;"></td>
-        </tr>
-        <tr>
-          <td>
-            <b>Total Gaji</b>
-          </td>
-          <td style="text-align: right;">
-            <b><?= "Rp" . number_format($totalGaji) ?></b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Total Potongan
-          </td>
-          <td style="text-align: right;">
-            -Rp<?= number_format($totalPot) ?>
-          </td>
-        </tr>
-        <tr>
-          <td>
+          <tr>
+            <td colspan="2" style="border-bottom:1px dashed black;"></td>
+          </tr>
+          <tr>
+            <td>
+              <b>Total Gaji</b>
+            </td>
+            <td style="text-align: right;">
+              <b><?= "Rp" . number_format($totalGaji) ?></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Total Potongan
+            </td>
+            <td style="text-align: right;">
+              -Rp<?= number_format($totalPot) ?>
+            </td>
+          </tr>
+          <tr>
+            <td>
 
-            Gaji Diterima
-          </td>
-          <td style="text-align: right;">
-            Rp<?= number_format($totalTer) ?>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="border-bottom:1px dashed black;"></td>
-        </tr>
-      </table>
-    </span>
-    <button onclick="Print()">Print</button>
-  </div>
+              Gaji Diterima
+            </td>
+            <td style="text-align: right;">
+              Rp<?= number_format($totalTer) ?>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="border-bottom:1px dashed black;"></td>
+          </tr>
+        </table>
+      </span>
+      <button onclick="Print()">Print</button>
+    </div>
+  <?php } ?>
 </div>
 
 <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
