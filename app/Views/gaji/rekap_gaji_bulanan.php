@@ -448,7 +448,7 @@ $noInject = 0;
                   $arrInject[$noInject] = array(
                     "tipe" => 2,
                     "ref" => $ref,
-                    "deskripsi" => "Kasbon [" . $tgl . "]",
+                    "deskripsi" => "KB [" . $tgl . "]",
                     "qty" => 1,
                     "jumlah" => $potKasbon
                   );
