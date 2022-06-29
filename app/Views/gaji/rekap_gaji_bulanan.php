@@ -43,6 +43,9 @@ $pengali_list = $data['gaji']['pengali_list'];
 $totalDapat = 0;
 $totalPotong = 0;
 $totalTerima = 0;
+
+$arrInject = array();
+$noInject = 0;
 ?>
 
 <div class="content">
@@ -170,6 +173,7 @@ $totalTerima = 0;
             if ($uc['id_user'] == $userID) {
               $user = "<small>[" . $uc['id_user'] . "]</small> - <b>" . $uc['nama_user'] . "<b>";
               foreach ($arrJenisJual as $jenisJualID => $arrLayanan) {
+                $id_penjualan = 0;
                 $penjualan = "";
                 $satuan = "";
                 foreach ($this->dPenjualan as $jp) {
@@ -184,6 +188,7 @@ $totalTerima = 0;
                   }
                 }
 
+                $id_layanan = 0;
                 foreach ($arrLayanan as $layananID => $arrCabang) {
                   $totalPerUser = 0;
                   foreach ($this->dLayanan as $dl) {
@@ -198,6 +203,8 @@ $totalTerima = 0;
 
                   $gaji_laundry = 0;
                   $bonus_target = 0;
+                  $target = 0;
+                  $id_gl = 0;
                   foreach ($data['gaji']['gaji_laundry'] as $gp) {
                     if ($gp['id_karyawan'] == $id_user && $gp['id_layanan'] == $id_layanan && $gp['jenis_penjualan'] == $id_penjualan) {
                       $gaji_laundry = $gp['gaji_laundry'];
@@ -238,6 +245,28 @@ $totalTerima = 0;
                   echo "</tr>";
                   $totalDapat += $totalGajiLaundry;
                   $totalDapat += $bonus;
+
+                  $noInject += 1;
+                  $ref = "P" . $id_penjualan . "L" . $id_layanan;
+                  $arrInject[$noInject] = array(
+                    "tipe" => 1,
+                    "ref" => $ref,
+                    "deskripsi" => $penjualan . " " . $layanan,
+                    "qty" => $totalPerUser,
+                    "jumlah" => $totalGajiLaundry
+                  );
+
+                  if ($bonus > 0) {
+                    $noInject += 1;
+                    $ref = "P" . $id_penjualan . "L" . $id_layanan . "-B";
+                    $arrInject[$noInject] = array(
+                      "tipe" => 1,
+                      "ref" => $ref,
+                      "deskripsi" => "Bonus " . $ref,
+                      "qty" => $xBonus,
+                      "jumlah" => $bonus
+                    );
+                  }
                 }
               }
               $totalTerima = 0;
@@ -270,6 +299,18 @@ $totalTerima = 0;
 
               $totalDapat += $totalFeeTerima;
 
+              if ($totalTerima > 0) {
+                $noInject += 1;
+                $ref = "AL1";
+                $arrInject[$noInject] = array(
+                  "tipe" => 1,
+                  "ref" => $ref,
+                  "deskripsi" => "Laundry Terima",
+                  "qty" => $totalTerima,
+                  "jumlah" => $totalFeeTerima
+                );
+              }
+
               $totalKembali = 0;
               foreach ($data['dKembali'] as $a) {
                 if ($uc['id_user'] == $a['id_user_ambil']) {
@@ -298,11 +339,24 @@ $totalTerima = 0;
               echo "</tr>";
 
               $totalDapat += $totalFeeKembali;
+
+              if ($totalKembali > 0) {
+                $noInject += 1;
+                $ref = "AL2";
+                $arrInject[$noInject] = array(
+                  "tipe" => 1,
+                  "ref" => $ref,
+                  "deskripsi" => "Laundry Kembali",
+                  "qty" => $totalKembali,
+                  "jumlah" => $totalFeeKembali
+                );
+              }
             }
           }
         }
         $dataPengali = $data['gaji']['gaji_pengali_data'];
         if (count($dataPengali) > 0) {
+          $feePTotal = 0;
           foreach ($dataPengali as $b) {
             if ($b['id_karyawan'] == $id_user) {
 
@@ -336,6 +390,18 @@ $totalTerima = 0;
               </td>";
               echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($feePTotal) . "</td>";
               echo "</tr>";
+
+              if ($feePTotal > 0) {
+                $noInject += 1;
+                $ref = "HT" . $idPengali;
+                $arrInject[$noInject] = array(
+                  "tipe" => 1,
+                  "ref" => $ref,
+                  "deskripsi" => $pengaliJenis,
+                  "qty" => $qty,
+                  "jumlah" => $feePTotal
+                );
+              }
             }
 
             $totalDapat += $feePTotal;
@@ -347,19 +413,33 @@ $totalTerima = 0;
         echo "<td class='text-right'><b>Rp" . number_format($totalDapat) . "</b></td>";
         echo "</tr>";
 
-        if ($data['user']['kasbon'] > 0) {
-          $potKasbon = $data['user']['kasbon'];
+        //POTONGAN
+        if (count($data['user']['kasbon']) > 0) {
           echo "<tr class='table-danger'>";
           echo "<td colspan='4' class='pt-2'>Potongan</td>";
           echo "</tr>";
-          echo "<tr>";
-          echo "<td nowrap>Kasbon</td>";
-          echo "<td nowrap></td>";
-          echo "<td nowrap></td>";
-          echo "<td class='text-right'>Rp" . number_format($potKasbon) . "</td>";
-          echo "</tr>";
+          foreach ($data['user']['kasbon'] as $uk) {
+            $potKasbon = $uk['jumlah'];
+            $id_kas = $uk['id_kas'];
+            $tgl = substr($uk['insertTime'], 0, 10);
+            echo "<tr>";
+            echo "<td colspan='3'>Kasbon [" . $tgl . "]</td>";
+            echo "<td class='text-right'>Rp" . number_format($potKasbon) . "</td>";
+            echo "</tr>";
 
-          $totalPotong += $potKasbon;
+            $totalPotong += $potKasbon;
+            if ($potKasbon > 0) {
+              $noInject += 1;
+              $ref = $id_kas;
+              $arrInject[$noInject] = array(
+                "tipe" => 2,
+                "ref" => $ref,
+                "deskripsi" => "Kasbon [" . $tgl . "]",
+                "qty" => 1,
+                "jumlah" => $potKasbon
+              );
+            }
+          }
         }
 
         echo "<tr>";
@@ -380,7 +460,11 @@ $totalTerima = 0;
       </div>
     </div>
   </div>
-<?php } ?>
+<?php }
+echo "<pre>";
+print_r($arrInject);
+echo "<pre>";
+?>
 <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">

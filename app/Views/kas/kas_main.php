@@ -39,8 +39,6 @@
                 foreach ($data['kasbon'] as $a) {
                   $id = $a['id_kas'];
                   $st_trx = $a['status_mutasi'];
-                  $stt = $a['status_transaksi'];
-
                   $karyawan = '';
                   $karyawan_tarik = '';
 

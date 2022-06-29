@@ -41,9 +41,9 @@ class Gaji extends Controller
       $data_kembali = $this->model('M_DB_1')->get_cols_where($this->table, $cols, $where, 1);
 
       //KASBON
-      $cols = "sum(jumlah) as total";
-      $where = $this->wCabang . " AND jenis_transaksi = 5 AND jenis_mutasi = 2 AND metode_mutasi = 1 AND status_transaksi = 0 AND id_client = " . $user['id'];
-      $user['kasbon'] = $this->model('M_DB_1')->get_cols_where("kas", $cols, $where, 0)['total'];
+      $cols = "id_kas, jumlah, insertTime";
+      $where = $this->wCabang . " AND jenis_transaksi = 5 AND jenis_mutasi = 2 AND metode_mutasi = 1 AND id_client = " . $user['id'];
+      $user['kasbon'] = $this->model('M_DB_1')->get_cols_where("kas", $cols, $where, 1);
 
       $gaji = array();
       $gaji['gaji_laundry'] = $this->model('M_DB_1')->get_where('gaji_laundry', 'id_laundry = ' . $this->id_laundry);
