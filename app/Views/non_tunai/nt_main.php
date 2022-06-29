@@ -20,6 +20,8 @@
           $f3 = $a['id_user'];
           $f4 = $a['jumlah'];
           $f17 = $a['id_client'];
+          $jenisT = $a['jenis_transaksi'];
+
           $karyawan = '';
           foreach ($this->userMerge as $c) {
             if ($c['id_user'] == $f3) {
@@ -28,10 +30,28 @@
           }
 
           $pelanggan = '';
-          foreach ($this->pelanggan as $c) {
-            if ($c['id_pelanggan'] == $f17) {
-              $pelanggan = $c['nama_pelanggan'];
-            }
+          switch ($jenisT) {
+            case 1:
+              foreach ($this->pelanggan as $c) {
+                if ($c['id_pelanggan'] == $f17) {
+                  $pelanggan = "[ LAUNDRY ] " . $c['nama_pelanggan'];
+                }
+              }
+              break;
+            case 3:
+              foreach ($this->pelanggan as $c) {
+                if ($c['id_pelanggan'] == $f17) {
+                  $pelanggan = "[ MEMBER ] " . $c['nama_pelanggan'];
+                }
+              }
+              break;
+            case 5:
+              foreach ($this->user as $c) {
+                if ($c['id_user'] == $f17) {
+                  $pelanggan = "[ KASBON ] " . $c['nama_user'];
+                }
+              }
+              break;
           }
       ?>
           <div class="col-auto p-0 ml-1 mb-0 rounded w-100" style='max-width:180px;'>
@@ -39,7 +59,7 @@
               <table class="table m-0 mb-1 p-0 table-sm w-100">
                 <?php
                 echo "<tr class='table-info'>";
-                echo "<td colspan=2><b>" . $pelanggan . "</b></td>";
+                echo "<td colspan=2><b>" . strtoupper($pelanggan) . "</b></td>";
                 echo "</tr>";
                 echo "<tr>";
                 echo "<td colspan=2>#" . $id . ", " . $karyawan . "<br><small>" . $f1 . "</small></span><br>
@@ -95,6 +115,7 @@
           $f3 = $a['id_user'];
           $f4 = $a['jumlah'];
           $f17 = $a['id_client'];
+          $jenisT = $a['jenis_transaksi'];
 
           $karyawan = '';
           foreach ($this->userMerge as $c) {
@@ -104,18 +125,37 @@
           }
 
           $pelanggan = '';
-          foreach ($this->pelanggan as $c) {
-            if ($c['id_pelanggan'] == $f17) {
-              $pelanggan = $c['nama_pelanggan'];
-            }
+          switch ($jenisT) {
+            case 1:
+              foreach ($this->pelanggan as $c) {
+                if ($c['id_pelanggan'] == $f17) {
+                  $pelanggan = "[ LAUNDRY ] " . $c['nama_pelanggan'];
+                }
+              }
+              break;
+            case 3:
+              foreach ($this->pelanggan as $c) {
+                if ($c['id_pelanggan'] == $f17) {
+                  $pelanggan = "[ MEMBER ] " . $c['nama_pelanggan'];
+                }
+              }
+              break;
+            case 5:
+              foreach ($this->user as $c) {
+                if ($c['id_user'] == $f17) {
+                  $pelanggan = "[ KASBON ] " . $c['nama_user'];
+                }
+              }
+              break;
           }
+
       ?>
           <div class="col-auto p-0 ml-1 mb-0 rounded w-100" style='max-width:180px;'>
             <div class='bg-white rounded'>
               <table class="table m-0 p-0 table-sm w-100 mb-1">
                 <?php
                 echo "<tr class='table-secondary'>";
-                echo "<td colspan=2><b>" . $pelanggan . "</b></td>";
+                echo "<td colspan=2><b>" . strtoupper($pelanggan) . "</b></td>";
                 echo "</tr>";
                 echo "<tr>";
                 echo "<td colspan=2>#" . $id . ", " . $karyawan . "<br><small>" . $f1 . "</small></span><br>

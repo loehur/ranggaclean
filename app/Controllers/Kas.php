@@ -27,10 +27,11 @@ class Kas extends Controller
       if ($this->id_privilege >= 100) {
          $limit = 25;
       }
-      $where = $this->wCabang . " AND jenis_mutasi = 2 AND metode_mutasi = 1 ORDER BY id_kas DESC LIMIT $limit";
+      $where = $this->wCabang . " AND jenis_mutasi = 2 ORDER BY id_kas DESC LIMIT $limit";
       $debit_list = $this->model('M_DB_1')->get_where($this->table, $where);
 
-      $where = $this->wCabang . " AND jenis_transaksi = 5 AND jenis_mutasi = 2 AND metode_mutasi = 1 ORDER BY id_kas DESC";
+      //KASBON
+      $where = $this->wCabang . " AND jenis_transaksi = 5 AND jenis_mutasi = 2 AND status_mutasi = 3 ORDER BY id_kas DESC";
       $kasbon = $this->model('M_DB_1')->get_where("kas", $where);
 
       $this->view('layout', ['data_operasi' => $data_operasi]);

@@ -15,7 +15,6 @@ class Controller extends URL
                 $this->nama_user = $_SESSION['user']['nama'];
                 $this->id_laundry = $_SESSION['user']['id_laundry'];
                 $this->id_cabang = $_SESSION['user']['id_cabang'];
-                $this->kode_cabang = $_SESSION['data']['cabang']['kode_cabang'];
                 $this->id_privilege = $_SESSION['user']['id_privilege'];
 
                 $this->wUser = 'id_user = ' . $this->id_user;
@@ -34,7 +33,6 @@ class Controller extends URL
                 $this->dItemPengeluaran = $_SESSION['data']['item_pengeluaran'];
                 $this->dMetodeMutasi = $_SESSION['data']['mutasi_metode'];
                 $this->dStatusMutasi = $_SESSION['data']['mutasi_status'];
-                $this->dStatusTransaksi = $_SESSION['data']['status_transaksi'];
 
                 $this->user = $_SESSION['order']['user'];
                 $this->userCabang = $_SESSION['order']['userCabang'];
@@ -111,9 +109,21 @@ class Controller extends URL
             'id_cabang' => $this->data_user['id_cabang'],
             'id_privilege' => $this->data_user['id_privilege'],
         );
+
+        $_SESSION['order'] = array(
+            'user' => $this->model('M_DB_1')->get_where("user", "en = 1 AND id_cabang = " . $_SESSION['user']['id_cabang']),
+            'userCabang' => $this->model('M_DB_1')->get_where("user", "en = 1 AND id_laundry = " . $_SESSION['user']['id_laundry'] . " AND id_cabang <> " . $_SESSION['user']['id_cabang']),
+            'pelanggan' => $this->model('M_DB_1')->get_where("pelanggan", "id_cabang = " . $_SESSION['user']['id_cabang']),
+            'pelangganLaundry' => $this->model('M_DB_1')->get_where("pelanggan", "id_laundry = " . $_SESSION['user']['id_laundry']),
+            'harga' => $this->model('M_DB_1')->get_where("harga", "id_laundry = " . $_SESSION['user']['id_laundry'] . " ORDER BY sort ASC"),
+            'itemGroup' => $this->model('M_DB_1')->get_where("item_group", "id_laundry = " . $_SESSION['user']['id_laundry']),
+            'diskon' => $this->model('M_DB_1')->get_where("diskon_set", "id_laundry = " . $_SESSION['user']['id_laundry']),
+            'setPoin' => $this->model('M_DB_1')->get_where("poin_set", "id_laundry = " . $_SESSION['user']['id_laundry']),
+        );
+
         $_SESSION['data'] = array(
             'laundry' => $this->model('M_DB_1')->get_where_row('laundry', 'id_laundry = ' . $_SESSION['user']['id_laundry']),
-            'cabang' => $this->model('M_DB_1')->get_cols_where('cabang', 'id_cabang, kode_cabang', 'id_cabang = ' . $_SESSION['user']['id_cabang'], 0),
+            'cabang' => $this->model('M_DB_1')->get_where_row('cabang', 'id_cabang = ' . $_SESSION['user']['id_cabang']),
             'listCabang' => $this->model('M_DB_1')->get_where('cabang', 'id_laundry = ' . $_SESSION['user']['id_laundry']),
             'kota' => $this->model('M_DB_1')->get('kota'),
             'layanan' => $this->model('M_DB_1')->get('layanan'),
@@ -127,18 +137,6 @@ class Controller extends URL
             'mutasi_status' => $this->model('M_DB_1')->get('mutasi_status'),
             'item' => $this->model('M_DB_1')->get_where("item", "id_laundry = " . $_SESSION['user']['id_laundry']),
             'item_pengeluaran' => $this->model('M_DB_1')->get_where("item_pengeluaran", "id_laundry = " . $_SESSION['user']['id_laundry']),
-            'status_transaksi' => $this->model('M_DB_1')->get('transaksi_status'),
-        );
-
-        $_SESSION['order'] = array(
-            'user' => $this->model('M_DB_1')->get_where("user", "en = 1 AND id_cabang = " . $_SESSION['user']['id_cabang']),
-            'userCabang' => $this->model('M_DB_1')->get_where("user", "en = 1 AND id_laundry = " . $_SESSION['user']['id_laundry'] . " AND id_cabang <> " . $_SESSION['user']['id_cabang']),
-            'pelanggan' => $this->model('M_DB_1')->get_where("pelanggan", "id_cabang = " . $_SESSION['user']['id_cabang']),
-            'pelangganLaundry' => $this->model('M_DB_1')->get_where("pelanggan", "id_laundry = " . $_SESSION['user']['id_laundry']),
-            'harga' => $this->model('M_DB_1')->get_where("harga", "id_laundry = " . $_SESSION['user']['id_laundry'] . " ORDER BY sort ASC"),
-            'itemGroup' => $this->model('M_DB_1')->get_where("item_group", "id_laundry = " . $_SESSION['user']['id_laundry']),
-            'diskon' => $this->model('M_DB_1')->get_where("diskon_set", "id_laundry = " . $_SESSION['user']['id_laundry']),
-            'setPoin' => $this->model('M_DB_1')->get_where("poin_set", "id_laundry = " . $_SESSION['user']['id_laundry']),
         );
 
         $_SESSION['masa'] = 0;

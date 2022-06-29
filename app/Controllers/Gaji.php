@@ -50,6 +50,7 @@ class Gaji extends Controller
       $gaji['pengali_list'] = $this->model('M_DB_1')->get('gaji_pengali_jenis');
       $gaji['gaji_pengali'] = $this->model('M_DB_1')->get_where('gaji_pengali', 'id_laundry = ' . $this->id_laundry);
       $gaji['gaji_pengali_data'] = $this->model('M_DB_1')->get_where('gaji_pengali_data', 'id_laundry = ' . $this->id_laundry . " AND tgl = '" . $date . "'");
+      $gaji['fix'] = $this->model('M_DB_1')->get_where('gaji_result', 'id_laundry = ' . $this->id_laundry . " AND tgl = '" . $date . "' AND id_karyawan = " . $user['id'] . " ORDER BY tipe ASC ");
 
       $this->view('layout', ['data_operasi' => $data_operasi]);
 
@@ -138,17 +139,41 @@ class Gaji extends Controller
          case 'gaji_pengali':
             $where = $this->wLaundry . " AND id_gaji_pengali = " . $id;
             break;
+         case 'gaji_pengali_data':
+            $where = $this->wLaundry . " AND id_pengali_data = " . $id;
+            break;
       }
 
       $set = $col . " = '" . $value . "'";
       $this->model('M_DB_1')->update($table, $set, $where);
    }
 
-   public function tetapkan()
+   public function tetapkan($id_user, $dateOn)
    {
+      $table = "gaji_result";
       $data = unserialize($_POST['data_inject']);
-      echo "<pre>";
-      print_r($data);
-      echo "</pre>";
+      $return = 1;
+      if (count($data) > 0) {
+         foreach ($data as $a) {
+            $tipe = $a['tipe'];
+            $ref = $a['ref'];
+            $jumlah = $a['jumlah'];
+            $qty = $a['qty'];
+
+            $setOne = "id_karyawan = " . $id_user . " AND tgl = '" . $dateOn . "' AND ref = '" . $ref . "' AND tipe = " . $tipe;
+            $where = $this->wLaundry . " AND " . $setOne;
+            $data_main = $this->model('M_DB_1')->count_where('gaji_result', $where);
+
+            if ($data_main < 1) {
+               $cols = "id_laundry, id_karyawan, tgl, tipe, deskripsi, ref, jumlah, qty";
+               $vals = $this->id_laundry . "," . $id_user . ",'" . $dateOn . "'," . $tipe . ",'" . $a['deskripsi'] . "','" . $ref . "'," . $jumlah . "," . $qty;
+               $return = $this->model('M_DB_1')->insertCols($table, $cols, $vals);
+            } else {
+               $set = "jumlah = " . $jumlah . ", qty = " . $qty;
+               $return = $this->model('M_DB_1')->update($table, $set, $where);
+            }
+         }
+      }
+      echo $return;
    }
 }

@@ -15,9 +15,17 @@ class Kasbon extends Controller
       $jumlah = $_POST['f2'];
       $pembuat = $_POST['f3'];
       $today = date('Y-m-d');
+      $metode = $_POST['metode'];
+      $note = $_POST['note'];
 
-      $cols = 'id_cabang, jenis_mutasi, jenis_transaksi, metode_mutasi, status_mutasi, status_transaksi, jumlah, id_user, id_client, note_primary';
-      $vals = $this->id_cabang . ",2,5,1,3,0," . $jumlah . "," . $pembuat . "," . $karyawan . ", 'Kasbon'";
+      if ($metode == 1) {
+         $sm = 3;
+      } else {
+         $sm = 2;
+      }
+
+      $cols = 'id_cabang, jenis_mutasi, jenis_transaksi, metode_mutasi, status_mutasi, status_transaksi, jumlah, id_user, id_client, note_primary, note';
+      $vals = $this->id_cabang . ",2,5," . $metode . "," . $sm . ",0," . $jumlah . "," . $pembuat . "," . $karyawan . ", 'Kasbon', '" . $note . "'";
 
       $setOne = "id_client = " . $karyawan . " AND insertTime LIKE '" . $today . "%'";
       $where = $this->wCabang . " AND " . $setOne;

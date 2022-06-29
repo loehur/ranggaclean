@@ -7,6 +7,9 @@ if (count($data['dataTanggal']) > 0) {
   $currentYear = date('Y');
 }
 
+$dateOn =  $currentYear . "-" . $currentMonth;
+
+
 $r = array();
 $r_gl = $data['gajiLaundry'];
 
@@ -24,10 +27,10 @@ foreach ($data['data_main'] as $a) {
 }
 
 $id_user = $data['user']['id'];
-$user = "";
+$nama_user = "";
 foreach ($this->user as $uc) {
   if ($uc['id_user'] == $data['user']['id']) {
-    $user = "<small>[" . $uc['id_user'] . "]</small> - <b>" . $uc['nama_user'] . "<b>";
+    $nama_user = "<small>[" . $uc['id_user'] . "]</small> - <b>" . $uc['nama_user'] . "</b>";
   }
 }
 
@@ -144,96 +147,99 @@ $noInject = 0;
 </div>
 </div>
 
-<?php if ($user <> "") { ?>
-  <div class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <?php
-        echo '<div class="col-auto">';
-        echo '<div class="card">';
+<div class="row ml-1">
+  <div class="col p-1">
 
-        echo '<table class="table table-sm m-0 w-100">';
-        echo '<tbody>';
+    <?php if ($user <> "") { ?>
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <?php
+            echo '<div class="col-auto">';
+            echo '<div class="card">';
 
-        echo "<tr>";
-        echo "<td colspan='2' class='pb-3'><span>" . strtoupper($user) . " [ " . $this->kode_cabang . " ]</span></td>";
-        echo "<td text-right'><a href='#exampleModal2' data-bs-toggle='modal' class='btn badge badge-success'>Harian/Tunjangan</a></td>";
-        echo "<td text-right'><a href='#' id='tetapkan' class='btn badge badge-primary'>Tetapkan</a></td>";
-        echo "</tr>";
+            echo '<table class="table table-sm m-0 w-100">';
+            echo '<tbody>';
 
-
-        echo "<tr class='table-success'>";
-        echo "<td colspan='4'><span>Pendapatan</span></td>";
-        echo "</tr>";
+            echo "<tr>";
+            echo "<td colspan='2' class='pb-3'><span>" . strtoupper($nama_user) . " [ " . $this->dCabang['kode_cabang'] . " ]</span></td>";
+            echo "<td text-right'><a href='#exampleModal2' data-bs-toggle='modal' class='btn badge badge-success'>Harian/Tunjangan</a></td>";
+            echo "<td text-right'><a href='#' id='tetapkan' class='btn badge badge-primary'>Tetapkan</a></td>";
+            echo "</tr>";
 
 
-        foreach ($r as $userID => $arrJenisJual) {
-          $totalGajiLaundry = 0;
-          $feeLaundry = 0;
-          foreach ($this->user as $uc) {
-            if ($uc['id_user'] == $userID) {
-              $user = "<small>[" . $uc['id_user'] . "]</small> - <b>" . $uc['nama_user'] . "<b>";
-              foreach ($arrJenisJual as $jenisJualID => $arrLayanan) {
-                $id_penjualan = 0;
-                $penjualan = "";
-                $satuan = "";
-                foreach ($this->dPenjualan as $jp) {
-                  if ($jp['id_penjualan_jenis'] == $jenisJualID) {
-                    $id_penjualan = $jp['id_penjualan_jenis'];
-                    $penjualan = $jp['penjualan_jenis'];
-                    foreach ($this->dSatuan as $js) {
-                      if ($js['id_satuan'] == $jp['id_satuan']) {
-                        $satuan = $js['nama_satuan'];
+            echo "<tr class='table-success'>";
+            echo "<td colspan='4'><span>Pendapatan</span></td>";
+            echo "</tr>";
+
+
+            foreach ($r as $userID => $arrJenisJual) {
+              $totalGajiLaundry = 0;
+              $feeLaundry = 0;
+              foreach ($this->user as $uc) {
+                if ($uc['id_user'] == $userID) {
+                  $user = "<small>[" . $uc['id_user'] . "]</small> - <b>" . $uc['nama_user'] . "<b>";
+                  foreach ($arrJenisJual as $jenisJualID => $arrLayanan) {
+                    $id_penjualan = 0;
+                    $penjualan = "";
+                    $satuan = "";
+                    foreach ($this->dPenjualan as $jp) {
+                      if ($jp['id_penjualan_jenis'] == $jenisJualID) {
+                        $id_penjualan = $jp['id_penjualan_jenis'];
+                        $penjualan = $jp['penjualan_jenis'];
+                        foreach ($this->dSatuan as $js) {
+                          if ($js['id_satuan'] == $jp['id_satuan']) {
+                            $satuan = $js['nama_satuan'];
+                          }
+                        }
                       }
                     }
-                  }
-                }
 
-                $id_layanan = 0;
-                foreach ($arrLayanan as $layananID => $arrCabang) {
-                  $totalPerUser = 0;
-                  foreach ($this->dLayanan as $dl) {
-                    if ($dl['id_layanan'] == $layananID) {
-                      $layanan = $dl['layanan'];
-                      $id_layanan = $dl['id_layanan'];
-                      foreach ($arrCabang as $cabangID => $c) {
-                        $totalPerUser = $totalPerUser + $c;
+                    $id_layanan = 0;
+                    foreach ($arrLayanan as $layananID => $arrCabang) {
+                      $totalPerUser = 0;
+                      foreach ($this->dLayanan as $dl) {
+                        if ($dl['id_layanan'] == $layananID) {
+                          $layanan = $dl['layanan'];
+                          $id_layanan = $dl['id_layanan'];
+                          foreach ($arrCabang as $cabangID => $c) {
+                            $totalPerUser = $totalPerUser + $c;
+                          }
+                        }
                       }
-                    }
-                  }
 
-                  $gaji_laundry = 0;
-                  $bonus_target = 0;
-                  $target = 0;
-                  $id_gl = 0;
-                  foreach ($data['gaji']['gaji_laundry'] as $gp) {
-                    if ($gp['id_karyawan'] == $id_user && $gp['id_layanan'] == $id_layanan && $gp['jenis_penjualan'] == $id_penjualan) {
-                      $gaji_laundry = $gp['gaji_laundry'];
-                      $target = $gp['target'];
-                      $bonus_target = $gp['bonus_target'];
-                      $id_gl = $gp['id_gaji_laundry'];
-                    }
-                  }
+                      $gaji_laundry = 0;
+                      $bonus_target = 0;
+                      $target = 0;
+                      $id_gl = 0;
+                      foreach ($data['gaji']['gaji_laundry'] as $gp) {
+                        if ($gp['id_karyawan'] == $id_user && $gp['id_layanan'] == $id_layanan && $gp['jenis_penjualan'] == $id_penjualan) {
+                          $gaji_laundry = $gp['gaji_laundry'];
+                          $target = $gp['target'];
+                          $bonus_target = $gp['bonus_target'];
+                          $id_gl = $gp['id_gaji_laundry'];
+                        }
+                      }
 
-                  $bonus = 0;
-                  $xBonus = 0;
-                  if ($target > 0) {
-                    if ($totalPerUser > 0) {
-                      $xBonus = floor($totalPerUser / $target);
-                      $bonus = $xBonus * $bonus_target;
-                    }
-                  }
+                      $bonus = 0;
+                      $xBonus = 0;
+                      if ($target > 0) {
+                        if ($totalPerUser > 0) {
+                          $xBonus = floor($totalPerUser / $target);
+                          $bonus = $xBonus * $bonus_target;
+                        }
+                      }
 
-                  $totalGajiLaundry = $gaji_laundry * $totalPerUser;
+                      $totalGajiLaundry = $gaji_laundry * $totalPerUser;
 
-                  echo "<tr>";
-                  echo "<td nowrap><small>" . $penjualan . "</small><br>" . $layanan . "</td>";
-                  echo "<td class='text-right'><small>Qty</small><br>" . number_format($totalPerUser) . "<br><small>Target</small><br>
+                      echo "<tr>";
+                      echo "<td nowrap><small>" . $penjualan . "</small><br>" . $layanan . "</td>";
+                      echo "<td class='text-right'><small>Qty</small><br>" . number_format($totalPerUser) . "<br><small>Target</small><br>
                   
                   <span class='edit' data-table='gaji_laundry' data-col='target' data-id_edit='" . $id_gl . "'>" . $target . "</span>
                   
                   </td>";
-                  echo "<td class='text-right'><small>Fee</small><br>Rp
+                      echo "<td class='text-right'><small>Fee</small><br>Rp
                   
                   <span class='edit' data-table='gaji_laundry' data-col='gaji_laundry' data-id_edit='" . $id_gl . "'>" . $gaji_laundry . "</span>
                   
@@ -242,230 +248,324 @@ $noInject = 0;
                   <span class='edit' data-table='gaji_laundry' data-col='bonus_target' data-id_edit='" . $id_gl . "'>" . $bonus_target . "</span>
 
                   </td>";
-                  echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalGajiLaundry) . "<br><small>Bonus diterima</small><br>Rp" . number_format($bonus) . "</td>";
-                  echo "</tr>";
-                  $totalDapat += $totalGajiLaundry;
-                  $totalDapat += $bonus;
+                      echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalGajiLaundry) . "<br><small>Bonus diterima</small><br>Rp" . number_format($bonus) . "</td>";
+                      echo "</tr>";
+                      $totalDapat += $totalGajiLaundry;
+                      $totalDapat += $bonus;
 
-                  $noInject += 1;
-                  $ref = "P" . $id_penjualan . "L" . $id_layanan;
-                  $arrInject[$noInject] = array(
-                    "tipe" => 1,
-                    "ref" => $ref,
-                    "deskripsi" => $penjualan . " " . $layanan,
-                    "qty" => $totalPerUser,
-                    "jumlah" => $totalGajiLaundry
-                  );
-
-                  if ($bonus > 0) {
-                    $noInject += 1;
-                    $ref = "P" . $id_penjualan . "L" . $id_layanan . "-B";
-                    $arrInject[$noInject] = array(
-                      "tipe" => 1,
-                      "ref" => $ref,
-                      "deskripsi" => "Bonus " . $ref,
-                      "qty" => $xBonus,
-                      "jumlah" => $bonus
-                    );
+                      if ($totalGajiLaundry > 0) {
+                        $noInject += 1;
+                        $ref = "P" . $id_penjualan . "L" . $id_layanan;
+                        $arrInject[$noInject] = array(
+                          "tipe" => 1,
+                          "ref" => $ref,
+                          "deskripsi" => $penjualan . " " . $layanan,
+                          "qty" => $totalPerUser,
+                          "jumlah" => $totalGajiLaundry
+                        );
+                      }
+                      if ($bonus > 0) {
+                        $noInject += 1;
+                        $ref = "P" . $id_penjualan . "L" . $id_layanan . "-B";
+                        $arrInject[$noInject] = array(
+                          "tipe" => 1,
+                          "ref" => $ref,
+                          "deskripsi" => "Bonus " . $ref,
+                          "qty" => $xBonus,
+                          "jumlah" => $bonus
+                        );
+                      }
+                    }
                   }
-                }
-              }
-              $totalTerima = 0;
-              foreach ($data['dTerima'] as $a) {
-                if ($uc['id_user'] == $a['id_user']) {
-                  $totalTerima = $totalTerima + $a['terima'];
-                }
-              }
+                  $totalTerima = 0;
+                  foreach ($data['dTerima'] as $a) {
+                    if ($uc['id_user'] == $a['id_user']) {
+                      $totalTerima = $totalTerima + $a['terima'];
+                    }
+                  }
 
-              if (isset($r_pengali[$id_user][1])) {
-                $feeTerima = $r_pengali[$id_user][1];
-                $id_gp = $r_pengali_id[$id_user][1];
-              } else {
-                $feeTerima = 0;
-                $id_gp = 0;
-              }
+                  if (isset($r_pengali[$id_user][1])) {
+                    $feeTerima = $r_pengali[$id_user][1];
+                    $id_gp = $r_pengali_id[$id_user][1];
+                  } else {
+                    $feeTerima = 0;
+                    $id_gp = 0;
+                  }
 
-              $totalFeeTerima = $totalTerima * $feeTerima;
+                  $totalFeeTerima = $totalTerima * $feeTerima;
 
-              echo "<tr>";
-              echo "<td nowrap><small>Laundry</small><br>Terima</td>";
-              echo "<td class='text-right'><small>Qty</small><br>" . $totalTerima . "</td>";
-              echo "<td class='text-right'><small>Fee</small><br>Rp
+                  echo "<tr>";
+                  echo "<td nowrap><small>Laundry</small><br>Terima</td>";
+                  echo "<td class='text-right'><small>Qty</small><br>" . $totalTerima . "</td>";
+                  echo "<td class='text-right'><small>Fee</small><br>Rp
               
               <span class='edit' data-table='gaji_pengali' data-col='gaji_pengali' data-id_edit='" . $id_gp . "'>" . $feeTerima . "</span>
 
               </td>";
-              echo "<td class='text-right'><small>Total</small><br>Rp" . $totalFeeTerima . "</td>";
-              echo "</tr>";
+                  echo "<td class='text-right'><small>Total</small><br>Rp" . $totalFeeTerima . "</td>";
+                  echo "</tr>";
 
-              $totalDapat += $totalFeeTerima;
+                  $totalDapat += $totalFeeTerima;
 
-              if ($totalTerima > 0) {
-                $noInject += 1;
-                $ref = "AL1";
-                $arrInject[$noInject] = array(
-                  "tipe" => 1,
-                  "ref" => $ref,
-                  "deskripsi" => "Laundry Terima",
-                  "qty" => $totalTerima,
-                  "jumlah" => $totalFeeTerima
-                );
-              }
+                  if ($totalTerima > 0) {
+                    $noInject += 1;
+                    $ref = "AL1";
+                    $arrInject[$noInject] = array(
+                      "tipe" => 1,
+                      "ref" => $ref,
+                      "deskripsi" => "Laundry Terima",
+                      "qty" => $totalTerima,
+                      "jumlah" => $totalFeeTerima
+                    );
+                  }
 
-              $totalKembali = 0;
-              foreach ($data['dKembali'] as $a) {
-                if ($uc['id_user'] == $a['id_user_ambil']) {
-                  $totalKembali = $totalKembali + $a['kembali'];
-                }
-              }
+                  $totalKembali = 0;
+                  foreach ($data['dKembali'] as $a) {
+                    if ($uc['id_user'] == $a['id_user_ambil']) {
+                      $totalKembali = $totalKembali + $a['kembali'];
+                    }
+                  }
 
-              if (isset($r_pengali[$id_user][2])) {
-                $feeKembali = $r_pengali[$id_user][2];
-                $id_gp = $r_pengali_id[$id_user][2];
-              } else {
-                $feeKembali = 0;
-                $id_gp = 0;
-              }
+                  if (isset($r_pengali[$id_user][2])) {
+                    $feeKembali = $r_pengali[$id_user][2];
+                    $id_gp = $r_pengali_id[$id_user][2];
+                  } else {
+                    $feeKembali = 0;
+                    $id_gp = 0;
+                  }
 
-              $totalFeeKembali = $totalKembali * $feeKembali;
-              echo "<tr>";
-              echo "<td nowrap class=''><small>Laundry</small><br>Kembali</td>";
-              echo "<td class='text-right'><small>Qty</small><br>" . $totalKembali . "</td>";
-              echo "<td class='text-right'><small>Fee</small><br>Rp
+                  $totalFeeKembali = $totalKembali * $feeKembali;
+                  echo "<tr>";
+                  echo "<td nowrap class=''><small>Laundry</small><br>Kembali</td>";
+                  echo "<td class='text-right'><small>Qty</small><br>" . $totalKembali . "</td>";
+                  echo "<td class='text-right'><small>Fee</small><br>Rp
               
               <span class='edit' data-table='gaji_pengali' data-col='gaji_pengali' data-id_edit='" . $id_gp . "'>" . $feeKembali . "</span>
 
               </td>";
-              echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalFeeKembali) . "</td>";
-              echo "</tr>";
+                  echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalFeeKembali) . "</td>";
+                  echo "</tr>";
 
-              $totalDapat += $totalFeeKembali;
+                  $totalDapat += $totalFeeKembali;
 
-              if ($totalKembali > 0) {
-                $noInject += 1;
-                $ref = "AL2";
-                $arrInject[$noInject] = array(
-                  "tipe" => 1,
-                  "ref" => $ref,
-                  "deskripsi" => "Laundry Kembali",
-                  "qty" => $totalKembali,
-                  "jumlah" => $totalFeeKembali
-                );
-              }
-            }
-          }
-        }
-        $dataPengali = $data['gaji']['gaji_pengali_data'];
-        if (count($dataPengali) > 0) {
-          $feePTotal = 0;
-          foreach ($dataPengali as $b) {
-            if ($b['id_karyawan'] == $id_user) {
-
-              $idPengali = $b['id_pengali'];
-
-              if (isset($r_pengali[$id_user][$idPengali])) {
-                $feeP = $r_pengali[$id_user][$idPengali];
-                $id_gp = $r_pengali_id[$id_user][$idPengali];
-              } else {
-                $feeP = 0;
-                $id_gp = 0;
-              }
-
-              $pengaliJenis = "";
-              foreach ($pengali_list as $pl) {
-                if ($pl['id_pengali'] == $idPengali) {
-                  $pengaliJenis = $pl['pengali_jenis'];
+                  if ($totalKembali > 0) {
+                    $noInject += 1;
+                    $ref = "AL2";
+                    $arrInject[$noInject] = array(
+                      "tipe" => 1,
+                      "ref" => $ref,
+                      "deskripsi" => "Laundry Kembali",
+                      "qty" => $totalKembali,
+                      "jumlah" => $totalFeeKembali
+                    );
+                  }
                 }
               }
+            }
+            $dataPengali = $data['gaji']['gaji_pengali_data'];
+            if (count($dataPengali) > 0) {
+              $feePTotal = 0;
+              foreach ($dataPengali as $b) {
+                if ($b['id_karyawan'] == $id_user) {
 
-              $qty = $b['qty'];
-              $feePTotal = $qty * $feeP;
+                  $idPengali = $b['id_pengali'];
+                  $idPengaliData = $b['id_pengali_data'];
 
-              echo "<tr>";
-              echo "<td nowrap class=''><small>Laundry</small><br>" . $pengaliJenis . "</td>";
-              echo "<td class='text-right'><small>Qty</small><br>" . $qty . "</td>";
-              echo "<td class='text-right'><small>Fee</small><br>Rp
+                  if (isset($r_pengali[$id_user][$idPengali])) {
+                    $feeP = $r_pengali[$id_user][$idPengali];
+                    $id_gp = $r_pengali_id[$id_user][$idPengali];
+                  } else {
+                    $feeP = 0;
+                    $id_gp = 0;
+                  }
+
+                  $pengaliJenis = "";
+                  foreach ($pengali_list as $pl) {
+                    if ($pl['id_pengali'] == $idPengali) {
+                      $pengaliJenis = $pl['pengali_jenis'];
+                    }
+                  }
+
+                  $qty = $b['qty'];
+                  $feePTotal = $qty * $feeP;
+
+                  echo "<tr>";
+                  echo "<td nowrap class=''><small>Laundry</small><br>" . $pengaliJenis . "</td>";
+                  echo "<td class='text-right'><small>Qty</small><br>
+                  
+                  <span class='edit' data-table='gaji_pengali_data' data-col='qty' data-id_edit='" . $idPengaliData . "'>" . $qty . "</span>
+
+                  </td>";
+                  echo "<td class='text-right'><small>Fee</small><br>Rp
               
               <span class='edit' data-table='gaji_pengali' data-col='gaji_pengali' data-id_edit='" . $id_gp . "'>" . $feeP . "</span>
     
               </td>";
-              echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($feePTotal) . "</td>";
-              echo "</tr>";
+                  echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($feePTotal) . "</td>";
+                  echo "</tr>";
 
-              if ($feePTotal > 0) {
-                $noInject += 1;
-                $ref = "HT" . $idPengali;
-                $arrInject[$noInject] = array(
-                  "tipe" => 1,
-                  "ref" => $ref,
-                  "deskripsi" => $pengaliJenis,
-                  "qty" => $qty,
-                  "jumlah" => $feePTotal
-                );
+                  if ($feePTotal > 0) {
+                    $noInject += 1;
+                    $ref = "HT" . $idPengali;
+                    $arrInject[$noInject] = array(
+                      "tipe" => 1,
+                      "ref" => $ref,
+                      "deskripsi" => $pengaliJenis,
+                      "qty" => $qty,
+                      "jumlah" => $feePTotal
+                    );
+                  }
+                }
+
+                $totalDapat += $feePTotal;
               }
             }
 
-            $totalDapat += $feePTotal;
-          }
-        }
-
-        echo "<tr>";
-        echo "<td colspan='3' class='pb-3'><b>Total Pendapatan</b></td>";
-        echo "<td class='text-right'><b>Rp" . number_format($totalDapat) . "</b></td>";
-        echo "</tr>";
-
-        //POTONGAN
-        if (count($data['user']['kasbon']) > 0) {
-          echo "<tr class='table-danger'>";
-          echo "<td colspan='4' class='pt-2'>Potongan</td>";
-          echo "</tr>";
-          foreach ($data['user']['kasbon'] as $uk) {
-            $potKasbon = $uk['jumlah'];
-            $id_kas = $uk['id_kas'];
-            $tgl = substr($uk['insertTime'], 0, 10);
             echo "<tr>";
-            echo "<td colspan='3'>Kasbon [" . $tgl . "]</td>";
-            echo "<td class='text-right'>Rp" . number_format($potKasbon) . "</td>";
+            echo "<td colspan='3' class='pb-3'><b>Total Pendapatan</b></td>";
+            echo "<td class='text-right'><b>Rp" . number_format($totalDapat) . "</b></td>";
             echo "</tr>";
 
-            $totalPotong += $potKasbon;
-            if ($potKasbon > 0) {
-              $noInject += 1;
-              $ref = $id_kas;
-              $arrInject[$noInject] = array(
-                "tipe" => 2,
-                "ref" => $ref,
-                "deskripsi" => "Kasbon [" . $tgl . "]",
-                "qty" => 1,
-                "jumlah" => $potKasbon
-              );
+            //POTONGAN
+            if (count($data['user']['kasbon']) > 0) {
+              echo "<tr class='table-danger'>";
+              echo "<td colspan='4' class='pt-2'>Potongan</td>";
+              echo "</tr>";
+              foreach ($data['user']['kasbon'] as $uk) {
+                $potKasbon = $uk['jumlah'];
+                $id_kas = $uk['id_kas'];
+                $tgl = substr($uk['insertTime'], 0, 10);
+                echo "<tr>";
+                echo "<td colspan='3'>Kasbon [" . $tgl . "]</td>";
+                echo "<td class='text-right'>Rp" . number_format($potKasbon) . "</td>";
+                echo "</tr>";
+
+                $totalPotong += $potKasbon;
+                if ($potKasbon > 0) {
+                  $noInject += 1;
+                  $ref = $id_kas;
+                  $arrInject[$noInject] = array(
+                    "tipe" => 2,
+                    "ref" => $ref,
+                    "deskripsi" => "Kasbon [" . $tgl . "]",
+                    "qty" => 1,
+                    "jumlah" => $potKasbon
+                  );
+                }
+              }
             }
-          }
+
+            echo "<tr>";
+            echo "<td colspan='3' class='pb-3'><b>Total Potongan</b></td>";
+            echo "<td class='text-right'><b>Rp" . number_format($totalPotong) . "</b></td>";
+            echo "</tr>";
+
+            $totalTerima = $totalDapat - $totalPotong;
+            echo "<tr class='table-primary'>";
+            echo "<td colspan='3'><b>TOTAL DITERIMA</b></td>";
+            echo "<td class='text-right'><b>Rp" . number_format($totalTerima) . "</b></td>";
+            echo "</tr>";
+
+            echo '</tbody>';
+            echo '</table>';
+            echo '</div></div>';
+            ?>
+          </div>
+        </div>
+      </div>
+    <?php } ?>
+  </div>
+
+  <?php
+  $tr_gaji = "";
+  $totalGaji = 0;
+  $totalPot = 0;
+  $totalTer = 0;
+  foreach ($data['gaji']['fix'] as $gf) {
+    $jGaji = $gf['jumlah'];
+    if ($gf['tipe'] == 1) {
+      $totalGaji += $jGaji;
+      $vGaji = "Rp" . number_format($gf['jumlah']);
+    } else {
+      $totalPot += $jGaji;
+      $vGaji = "-Rp" . number_format($gf['jumlah']);
+    }
+
+    $tr_gaji = $tr_gaji . "<tr><td colspan=''>[ " . $gf['ref'] . " ]<br>" . $gf['deskripsi'] . "</td><td align='right'>[ " . $gf['qty'] . " ]<br>" . $vGaji . "</td></tr>";
+  }
+  $totalTer = $totalGaji - $totalPot;
+  ?>
+
+  <div class="col p-1 bg-white mr-4 mt-1">
+    <span id="print" style="width:50mm;background-color:white; padding-bottom:10px">
+      <style>
+        html .table {
+          font-family: 'Titillium Web', sans-serif;
         }
 
-        echo "<tr>";
-        echo "<td colspan='3' class='pb-3'><b>Total Potongan</b></td>";
-        echo "<td class='text-right'><b>Rp" . number_format($totalPotong) . "</b></td>";
-        echo "</tr>";
+        html .content {
+          font-family: 'Titillium Web', sans-serif;
+        }
 
-        $totalTerima = $totalDapat - $totalPotong;
-        echo "<tr class='table-primary'>";
-        echo "<td colspan='3'><b>TOTAL DITERIMA</b></td>";
-        echo "<td class='text-right'><b>Rp" . number_format($totalTerima) . "</b></td>";
-        echo "</tr>";
+        html body {
+          font-family: 'Titillium Web', sans-serif;
+        }
 
-        echo '</tbody>';
-        echo '</table>';
-        echo '</div></div>';
-        ?>
-      </div>
-    </div>
+        hr {
+          border-top: 1px dashed black;
+        }
+      </style>
+      <table style="width:42mm; font-size:x-small; margin-top:10px; margin-bottom:10px">
+        <tr>
+          <td colspan="2" style="text-align: center;border-bottom:1px dashed black; padding:6px;">
+            <b> <?= $this->dLaundry['nama_laundry'] ?> [ <?= $this->dCabang['kode_cabang'] ?> ]</b><br>-- SALARY SLIP --
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="border-bottom:1px dashed black; padding-top:6px;padding-bottom:6px;">
+            <font size='2'><b><?= strtoupper($nama_user) ?></font>
+            </b><br>Tahun/Bulan: <?= $dateOn ?>
+          </td>
+
+          <?= $tr_gaji ?>
+
+        <tr>
+          <td colspan="2" style="border-bottom:1px dashed black;"></td>
+        </tr>
+        <tr>
+          <td>
+            <b>Total Gaji</b>
+          </td>
+          <td style="text-align: right;">
+            <b><?= "Rp" . number_format($totalGaji) ?></b>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Total Potongan
+          </td>
+          <td style="text-align: right;">
+            -Rp<?= number_format($totalPot) ?>
+          </td>
+        </tr>
+        <tr>
+          <td>
+
+            Gaji Diterima
+          </td>
+          <td style="text-align: right;">
+            Rp<?= number_format($totalTer) ?>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="border-bottom:1px dashed black;"></td>
+        </tr>
+      </table>
+    </span>
+    <button onclick="Print()">Print</button>
   </div>
-<?php }
-// echo "<pre>";
-// print_r($arrInject);
-// echo "<pre>";
-?>
+</div>
+
 <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -615,16 +715,31 @@ $noInject = 0;
   $("a#tetapkan").click(function() {
     var inject = '<?= $dataInject ?>';
     $.ajax({
-      url: '<?= $this->BASE_URL ?>Gaji/tetapkan',
+      url: '<?= $this->BASE_URL ?>Gaji/tetapkan/<?= $id_user ?>/<?= $dateOn ?>',
       data: {
         data_inject: inject
       },
       type: "POST",
       success: function(response) {
-        alert(response);
+        if (response == 1) {
+          location.reload(true);
+        } else {
+          alert(response);
+        }
       },
     });
   });
+
+  var WindowObject;
+
+  function Print() {
+    var DocumentContainer = document.getElementById('print');
+    WindowObject = window.open('', 'windowName', '', true);
+    WindowObject.document.body.innerHTML = '';
+    WindowObject.document.write('<title>Cetak | MDL</title><body style="margin:0">');
+    WindowObject.document.writeln(DocumentContainer.innerHTML);
+    WindowObject.print();
+  }
 
   var click = 0;
   $("span.edit").on('dblclick', function() {
@@ -641,7 +756,6 @@ $noInject = 0;
     var span = $(this);
 
     var valHtml = $(this).html();
-
     span.html("<input type='number' style='width:70px' id='value" + id_edit + "' value='" + value + "'>");
 
     $("#value" + id_edit).focus();

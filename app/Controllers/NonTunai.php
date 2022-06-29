@@ -13,7 +13,7 @@ class NonTunai extends Controller
    {
       $view = 'non_tunai/nt_main';
       $data_operasi = ['title' => 'Approval Non Tunai'];
-      $where = $this->wCabang . " AND jenis_mutasi = 1 AND metode_mutasi <> 1  ORDER BY id_kas DESC LIMIT 20";
+      $where = $this->wCabang . " AND metode_mutasi <> 1  ORDER BY id_kas DESC LIMIT 20";
       $list = $this->model('M_DB_1')->get_where($this->table, $where);
       $this->view('layout', ['data_operasi' => $data_operasi]);
       $this->view($view, ['list' => $list]);

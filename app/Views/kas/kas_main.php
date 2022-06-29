@@ -55,9 +55,9 @@
                   }
 
                   $st_trx_name = "";
-                  foreach ($this->dStatusTransaksi as $st) {
-                    if ($st['id_status_transaksi'] == $st_trx) {
-                      $st_trx_name = $st['status_transaksi'];
+                  foreach ($this->dStatusMutasi as $st) {
+                    if ($st['id_status_mutasi'] == $st_trx) {
+                      $st_trx_name = $st['status_mutasi'];
                     }
                   }
                 ?>
@@ -280,6 +280,14 @@
               <label for="exampleInputEmail1">Jumlah</label>
               <input type="number" name="f2" min="1000" class="form-control" id="exampleInputEmail1" placeholder="" required>
             </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Metode</label>
+              <select name="metode" class="form-control form-control-sm metodeBayar" style="width: 100%;" required>
+                <?php foreach ($this->dMetodeMutasi as $a) { ?>
+                  <option value="<?= $a['id_metode_mutasi'] ?>"><?= $a['metode_mutasi'] ?></option>
+                <?php } ?>
+              </select>
+            </div>
             <label for="exampleInputEmail1">Penarik Kas</label>
             <select name="f3" class="kasbon form-control form-control-sm userChange" style="width: 100%;" required>
               <option value="" selected disabled></option>
@@ -296,6 +304,16 @@
                 </optgroup>
               <?php } ?>
             </select>
+            <div class="row mt-4" id="nTunai">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1" class="text-danger">Catatan Non Tunai <small>(Contoh: BRI)</small></label>
+                    <input type="text" name="note" maxlength="10" class="form-control border-danger" id="exampleInputEmail1" placeholder="" style="text-transform:uppercase">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-sm btn-warning">Buat Kasbon</button>
@@ -314,6 +332,8 @@
 
 <script>
   $(document).ready(function() {
+    $("div#nTunai").hide();
+
     $("form").on("submit", function(e) {
       e.preventDefault();
       $.ajax({
@@ -326,6 +346,14 @@
       });
     });
     selectList();
+  });
+
+  $("select.metodeBayar").on("keyup change", function() {
+    if ($(this).val() == 2) {
+      $("div#nTunai").show();
+    } else {
+      $("div#nTunai").hide();
+    }
   });
 
   $('.modal').on('hidden.bs.modal', function() {
