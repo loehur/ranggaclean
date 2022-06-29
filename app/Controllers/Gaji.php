@@ -143,4 +143,12 @@ class Gaji extends Controller
       $set = $col . " = '" . $value . "'";
       $this->model('M_DB_1')->update($table, $set, $where);
    }
+
+   public function tetapkan()
+   {
+      $data = unserialize($_POST['data_inject']);
+      echo "<pre>";
+      print_r($data);
+      echo "</pre>";
+   }
 }

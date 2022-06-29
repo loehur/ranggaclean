@@ -157,7 +157,8 @@ $noInject = 0;
 
         echo "<tr>";
         echo "<td colspan='2' class='pb-3'><span>" . strtoupper($user) . " [ " . $this->kode_cabang . " ]</span></td>";
-        echo "<td colspan='2' class='pb-3 text-right'><a href='#exampleModal2' data-bs-toggle='modal' class='btn badge badge-success'>Set Harian/Tunjangan</a></td>";
+        echo "<td text-right'><a href='#exampleModal2' data-bs-toggle='modal' class='btn badge badge-success'>Harian/Tunjangan</a></td>";
+        echo "<td text-right'><a href='#' id='tetapkan' class='btn badge badge-primary'>Tetapkan</a></td>";
         echo "</tr>";
 
 
@@ -461,9 +462,9 @@ $noInject = 0;
     </div>
   </div>
 <?php }
-echo "<pre>";
-print_r($arrInject);
-echo "<pre>";
+// echo "<pre>";
+// print_r($arrInject);
+// echo "<pre>";
 ?>
 <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
@@ -589,6 +590,8 @@ echo "<pre>";
   </div>
 </div>
 
+<?php $dataInject = serialize($arrInject); ?>
+
 <!-- SCRIPT -->
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/popper.min.js"></script>
@@ -605,6 +608,20 @@ echo "<pre>";
       success: function(response) {
         //alert(response);
         location.reload(true);
+      },
+    });
+  });
+
+  $("a#tetapkan").click(function() {
+    var inject = '<?= $dataInject ?>';
+    $.ajax({
+      url: '<?= $this->BASE_URL ?>Gaji/tetapkan',
+      data: {
+        data_inject: inject
+      },
+      type: "POST",
+      success: function(response) {
+        alert(response);
       },
     });
   });
