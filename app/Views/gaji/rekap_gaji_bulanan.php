@@ -308,7 +308,7 @@ $noInject = 0;
 
                   $totalDapat += $totalFeeTerima;
 
-                  if ($totalTerima > 0) {
+                  if ($totalFeeTerima > 0) {
                     $noInject += 1;
                     $ref = "AL1";
                     $arrInject[$noInject] = array(
@@ -349,7 +349,7 @@ $noInject = 0;
 
                   $totalDapat += $totalFeeKembali;
 
-                  if ($totalKembali > 0) {
+                  if ($totalFeeKembali > 0) {
                     $noInject += 1;
                     $ref = "AL2";
                     $arrInject[$noInject] = array(
