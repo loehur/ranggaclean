@@ -610,11 +610,11 @@ $noInject = 0;
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Target <small>Berlaku Kelipatan</small></label>
-              <input type="number" name="target" min="1" class="form-control" id="exampleInputEmail1" placeholder="">
+              <input type="number" name="target" min="0" class="form-control" value="0" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Bonus Target</label>
-              <input type="number" name="bonus_target" min="1" class="form-control" id="exampleInputEmail1" placeholder="">
+              <input type="number" name="bonus_target" min="0" class="form-control" value="0" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-sm btn-primary">Set</button>
@@ -713,8 +713,11 @@ $noInject = 0;
       data: $(this).serialize(),
       type: $(this).attr("method"),
       success: function(response) {
-        //alert(response);
-        location.reload(true);
+        if (response == 1) {
+          location.reload(true);
+        } else {
+          alert(response);
+        }
       },
     });
   });
