@@ -255,10 +255,12 @@ $noInject = 0;
                   </td>";
                       echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalGajiLaundry) . "<br><small>Bonus</small><br>Rp" . number_format($bonus) . "</td>";
                       echo "</tr>";
-                      $totalDapat += $totalGajiLaundry;
-                      $totalDapat += $bonus;
 
                       if ($totalGajiLaundry > 0) {
+
+                        $totalDapat += $totalGajiLaundry;
+                        $totalDapat += $bonus;
+
                         $noInject += 1;
                         $ref = "P" . $id_penjualan . "L" . $id_layanan;
                         $arrInject[$noInject] = array(
@@ -310,9 +312,9 @@ $noInject = 0;
                   echo "<td class='text-right'><small>Total</small><br>Rp" . $totalFeeTerima . "</td>";
                   echo "</tr>";
 
-                  $totalDapat += $totalFeeTerima;
-
                   if ($totalFeeTerima > 0) {
+                    $totalDapat += $totalFeeTerima;
+
                     $noInject += 1;
                     $ref = "AL1";
                     $arrInject[$noInject] = array(
@@ -351,9 +353,8 @@ $noInject = 0;
                   echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalFeeKembali) . "</td>";
                   echo "</tr>";
 
-                  $totalDapat += $totalFeeKembali;
-
                   if ($totalFeeKembali > 0) {
+                    $totalDapat += $totalFeeKembali;
                     $noInject += 1;
                     $ref = "AL2";
                     $arrInject[$noInject] = array(
@@ -410,6 +411,7 @@ $noInject = 0;
                   echo "</tr>";
 
                   if ($feePTotal > 0) {
+                    $totalDapat += $feePTotal;
                     $noInject += 1;
                     $ref = "HT" . $idPengali;
                     $arrInject[$noInject] = array(
@@ -421,8 +423,6 @@ $noInject = 0;
                     );
                   }
                 }
-
-                $totalDapat += $feePTotal;
               }
             }
 
