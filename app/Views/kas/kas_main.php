@@ -105,8 +105,8 @@
               </table>
             </div>
           </div>
-          <div class="col">
-            <?php if (count($data['kasbon']) > 0) { ?>
+          <?php if (count($data['kasbon']) > 0) { ?>
+            <div class="col">
               <div class="card">
                 <table class="table table-sm w-100 p-0 m-0">
                   <th class="pt-2 text-center" colspan="4">
@@ -180,8 +180,8 @@
                   </tbody>
                 </table>
               </div>
-            <?php } ?>
-          </div>
+            </div>
+          <?php } ?>
         </div>
       </div>
     </div>

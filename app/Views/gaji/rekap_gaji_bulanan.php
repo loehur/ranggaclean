@@ -9,6 +9,10 @@ if (count($data['dataTanggal']) > 0) {
 
 $dateOn =  $currentYear . "-" . $currentMonth;
 
+$aDate = strtotime($dateOn);
+$bDate = strtotime(date("Y-m"));
+$intervalDate = ($bDate - $aDate) / 60 / 60 / 24;
+
 
 $r = array();
 $r_gl = $data['gajiLaundry'];
@@ -50,6 +54,7 @@ $totalTerima = 0;
 
 $arrInject = array();
 $noInject = 0;
+
 ?>
 
 <div class="content">
@@ -150,9 +155,8 @@ $noInject = 0;
 </div>
 
 <div class="row ml-1">
-  <div class="col p-1">
-
-    <?php if ($user <> 0) { ?>
+  <?php if ($user <> 0 && $intervalDate < 60) { ?>
+    <div class="col p-1">
       <div class="content">
         <div class="container-fluid">
           <div class="row">
@@ -474,8 +478,8 @@ $noInject = 0;
           </div>
         </div>
       </div>
-    <?php } ?>
-  </div>
+    </div>
+  <?php } ?>
 
   <?php
   $tr_gaji = "";
