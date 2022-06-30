@@ -617,7 +617,7 @@ $noInject = 0;
               <input type="number" name="bonus_target" min="0" class="form-control" value="0" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-sm btn-primary">Set</button>
+              <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
             </div>
           </div>
         </form>
@@ -651,7 +651,7 @@ $noInject = 0;
               <input type="number" name="fee" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-sm btn-primary">Set Fee</button>
+              <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
             </div>
           </div>
         </form>
@@ -688,7 +688,7 @@ $noInject = 0;
               <input type="number" name="qty" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-sm btn-primary">Set Fee</button>
+              <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
             </div>
           </div>
         </form>
