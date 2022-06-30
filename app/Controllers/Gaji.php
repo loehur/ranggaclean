@@ -73,9 +73,10 @@ class Gaji extends Controller
       $fee = $_POST['fee'];
       $target = $_POST['target'];
       $bonus_target = $_POST['bonus_target'];
+      $max_target = $_POST['max_target'];
 
-      $cols = 'id_laundry, id_karyawan, jenis_penjualan, id_layanan, gaji_laundry, target, bonus_target';
-      $vals = $this->id_laundry . "," . $id_user . "," . $penjualan . "," . $id_layanan . "," . $fee . "," . $target . "," . $bonus_target;
+      $cols = 'id_laundry, id_karyawan, jenis_penjualan, id_layanan, gaji_laundry, target, bonus_target, max_target';
+      $vals = $this->id_laundry . "," . $id_user . "," . $penjualan . "," . $id_layanan . "," . $fee . "," . $target . "," . $bonus_target . "," . $max_target;
 
       $setOne = "id_karyawan = " . $id_user . " AND jenis_penjualan = " . $penjualan . " AND id_layanan = " . $id_layanan;
       $where = $this->wLaundry . " AND " . $setOne;

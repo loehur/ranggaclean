@@ -218,6 +218,7 @@ $noInject = 0;
                       $target = 0;
                       $id_gl = 0;
                       $max_target = 0;
+                      $max_target_fill = 0;
                       foreach ($data['gaji']['gaji_laundry'] as $gp) {
                         if ($gp['id_karyawan'] == $id_user && $gp['id_layanan'] == $id_layanan && $gp['jenis_penjualan'] == $id_penjualan) {
                           $gaji_laundry = $gp['gaji_laundry'];
@@ -225,6 +226,7 @@ $noInject = 0;
                           $bonus_target = $gp['bonus_target'];
                           $id_gl = $gp['id_gaji_laundry'];
                           $max_target = $gp['max_target'];
+                          $max_target_fill = $max_target;
                         }
                       }
 
@@ -248,10 +250,13 @@ $noInject = 0;
                       $totalGajiLaundry = $gaji_laundry * $totalPerUser;
 
                       echo "<tr>";
-                      echo "<td nowrap><small>" . $penjualan . "</small><br>" . $layanan . "</td>";
-                      echo "<td class='text-right'><small>Qty</small><br>" . number_format($totalPerUser) . "<br><small>Target</small><br>
+                      echo "<td nowrap><small>" . $penjualan . "</small><br>" . $layanan . "<br><small>Target</small><br>
                   
-                  <span class='edit' data-table='gaji_laundry' data-col='target' data-id_edit='" . $id_gl . "'>" . $target . "</span>
+                      <span class='edit' data-table='gaji_laundry' data-col='target' data-id_edit='" . $id_gl . "'>" . $target . "</span></td>";
+                      echo "<td class='text-right'><small>Qty</small><br>" . number_format($totalPerUser) . "
+                      
+                      <br><small>Max Target</small><br>
+                      <span class='edit' data-table='gaji_laundry' data-col='max_target' data-id_edit='" . $id_gl . "'>" . $max_target_fill . "</span>                  
                   
                   </td>";
                       echo "<td class='text-right'><small>Fee</small><br>Rp
@@ -259,10 +264,10 @@ $noInject = 0;
                   <span class='edit' data-table='gaji_laundry' data-col='gaji_laundry' data-id_edit='" . $id_gl . "'>" . $gaji_laundry . "</span>
                   
                   <br><small>Bonus/Target</small><br>
+                      <span class='edit' data-table='gaji_laundry' data-col='bonus_target' data-id_edit='" . $id_gl . "'>" . $bonus_target . "</span>
                   
-                  <span class='edit' data-table='gaji_laundry' data-col='bonus_target' data-id_edit='" . $id_gl . "'>" . $bonus_target . "</span>
-
                   </td>";
+
                       echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalGajiLaundry) . "<br><small>Bonus</small><br>Rp" . number_format($bonus) . "</td>";
                       echo "</tr>";
 
@@ -624,6 +629,10 @@ $noInject = 0;
             <div class="form-group">
               <label for="exampleInputEmail1">Target <small>Berlaku Kelipatan</small></label>
               <input type="number" name="target" min="0" class="form-control" value="0" id="exampleInputEmail1" placeholder="" required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Max Target <small>(0 Jika Tanpa Max Target)</small></label>
+              <input type="number" name="max_target" min="0" class="form-control" value="0" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Bonus Target</label>
