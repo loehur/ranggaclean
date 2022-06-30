@@ -31,11 +31,28 @@ class Kas extends Controller
       $debit_list = $this->model('M_DB_1')->get_where($this->table, $where);
 
       //KASBON
-      $where = $this->wCabang . " AND jenis_transaksi = 5 AND jenis_mutasi = 2 AND status_mutasi = 3 ORDER BY id_kas DESC";
+      $where = $this->wCabang . " AND jenis_transaksi = 5 AND jenis_mutasi = 2 AND status_mutasi = 3 ORDER BY id_kas DESC LIMIT 20";
       $kasbon = $this->model('M_DB_1')->get_where("kas", $where);
 
+      $dataPotong = array();
+      foreach ($kasbon as $k) {
+         $ref = $k['id_kas'];
+         $where = "ref = '" . $ref . "'";
+         $countPotong = $this->model('M_DB_1')->count_where('gaji_result', $where);
+         if ($countPotong == 1) {
+            $dataPotong[$ref] = 1;
+         } else {
+            $dataPotong[$ref] = 0;
+         }
+      }
+
       $this->view('layout', ['data_operasi' => $data_operasi]);
-      $this->view($view, ['saldo' => $saldo, 'debit_list' => $debit_list, 'kasbon' => $kasbon]);
+      $this->view($view, [
+         'saldo' => $saldo,
+         'debit_list' => $debit_list,
+         'kasbon' => $kasbon,
+         'dataPotong' => $dataPotong
+      ]);
    }
 
    public function insert()

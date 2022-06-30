@@ -148,6 +148,15 @@
                         }
                       }
 
+                      $stKasbon = $data['dataPotong'][$id];
+                      $statusKasbon = "";
+                      $trKasbon = "";
+                      if ($stKasbon == 1) {
+                        $statusKasbon = "<span class='text-success'>[Lunas]</span>";
+                        $trKasbon = "table-secondary";
+                      } else {
+                      }
+
                       $karyawan = '';
                       $karyawan_tarik = '';
 
@@ -170,10 +179,10 @@
                         }
                       }
 
-                      echo "<tr>";
+                      echo "<tr class='" . $trKasbon . "'>";
                       echo "<td class='text-right'><small>#" . $id . "<br>" . substr($a['insertTime'], 5, 11) . "</small></td>";
                       echo "<td><span><small>Penarik: " . $karyawan_tarik . "<br></small><b>" . $f2b . "</b> <small>" . $f2 . " " . $karyawan . "</></small></span></td>";
-                      echo "<td class='text-right'><small>[" . $metode . "]</small> <b><span>" . number_format($a['jumlah']) . "</span><br>" . $statusNya . "</b></td>";
+                      echo "<td class='text-right'><small>[" . $metode . "]</small> <b><span>" . number_format($a['jumlah']) . "</span><br>" . $statusNya . " " . $statusKasbon . "</b></td>";
                       echo "</tr>";
                     }
                     ?>

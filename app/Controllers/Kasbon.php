@@ -33,6 +33,8 @@ class Kasbon extends Controller
 
       if ($data_main < 1) {
          print_r($this->model('M_DB_1')->insertCols('kas', $cols, $vals));
+      } else {
+         echo "Tidak dapat Cashbon 2x/Hari";
       }
    }
 
