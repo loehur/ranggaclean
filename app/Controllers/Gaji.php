@@ -42,7 +42,7 @@ class Gaji extends Controller
 
       //KASBON
       $cols = "id_kas, jumlah, insertTime";
-      $where = $this->wCabang . " AND jenis_transaksi = 5 AND jenis_mutasi = 2 AND metode_mutasi = 1 AND id_client = " . $user['id'];
+      $where = $this->wCabang . " AND jenis_transaksi = 5 AND jenis_mutasi = 2 AND status_mutasi = 3 AND id_client = " . $user['id'];
       $user['kasbon'] = $this->model('M_DB_1')->get_cols_where("kas", $cols, $where, 1);
 
       $gaji = array();
