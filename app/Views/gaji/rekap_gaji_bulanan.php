@@ -217,20 +217,30 @@ $noInject = 0;
                       $bonus_target = 0;
                       $target = 0;
                       $id_gl = 0;
+                      $max_target = 0;
                       foreach ($data['gaji']['gaji_laundry'] as $gp) {
                         if ($gp['id_karyawan'] == $id_user && $gp['id_layanan'] == $id_layanan && $gp['jenis_penjualan'] == $id_penjualan) {
                           $gaji_laundry = $gp['gaji_laundry'];
                           $target = $gp['target'];
                           $bonus_target = $gp['bonus_target'];
                           $id_gl = $gp['id_gaji_laundry'];
+                          $maxTarget = $gp['max_target'];
                         }
                       }
 
                       $bonus = 0;
                       $xBonus = 0;
+                      if ($max_target <> 0) {
+                        if ($totalPerUser <= $max_target) {
+                          $max_target = $totalPerUser;
+                        }
+                      } else {
+                        $max_target = $totalPerUser;
+                      }
+
                       if ($target > 0) {
                         if ($totalPerUser > 0) {
-                          $xBonus = floor($totalPerUser / $target);
+                          $xBonus = floor($max_target / $target);
                           $bonus = $xBonus * $bonus_target;
                         }
                       }
