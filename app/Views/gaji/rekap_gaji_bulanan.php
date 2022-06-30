@@ -164,7 +164,7 @@ $noInject = 0;
             echo '<div class="col-auto">';
             echo '<div class="card">';
 
-            echo '<table class="table table-sm m-0 w-100">';
+            echo '<table class="table table-sm m-0 w-100" style="min-width: 300px;">';
             echo '<tbody>';
 
             echo "<tr>";
