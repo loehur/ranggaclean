@@ -1,0 +1,14 @@
+{
+ "wa_el_invalid_number_val":"@class='nne8e'",
+ "wa_el_chatHistory_val":"@class='_3m_Xw'",
+ "wa_el_textarea_chat_val":"@class='_13NKt copyable-text selectable-text' and @data-tab='9'",
+ "wa_el_button_send_val":"@class='_4sWnG'",
+ "wa_el_clear_search_val":"@class='_3GYfN'",
+ "sms_el_new_button_val":"@class='fab-label ng-star-inserted'",
+ "sms_el_input_chat_val":"@rows='1'",
+ "wa_el_button_fail_val":"@class='_20C5O _2Zdgs'",
+ "wa_el_button_send_atr":"class",
+ "wa_el_invalidText":"tidak valid",
+ "wa_el_textarea_search_val":"@class='_13NKt copyable-text selectable-text' and @data-tab='3'",
+ "sms_el_input_num_val":"@class='input'"
+}
