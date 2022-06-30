@@ -566,6 +566,9 @@ $noInject = 0;
           <tr>
             <td colspan="2" style="border-bottom:1px dashed black;"></td>
           </tr>
+          <tr>
+            <td colspan="2">.<br>.</td>
+          </tr>
         </table>
       </span>
       <button onclick="Print()">Print</button>
