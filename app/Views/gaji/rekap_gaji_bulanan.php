@@ -128,7 +128,7 @@ $noInject = 0;
                                                               } ?>>2022</option>
                     </select>
                   </td>
-                  <td><button class="form-control form-control-sm m-1 p-1 bg-light">Cek</td>
+                  <td><button class="form-control btn-success form-control-sm m-1 p-1 bg-light">Cek</td>
                   <?php if ($nama_user <> "") { ?>
                     <td>
                       <div class="btn-group ml-2">
@@ -733,10 +733,6 @@ $noInject = 0;
         }
       },
     });
-  });
-
-  $("select[name=user]").change(function() {
-    $("button#cekR").click();
   });
 
   $("a#tetapkan").click(function() {
