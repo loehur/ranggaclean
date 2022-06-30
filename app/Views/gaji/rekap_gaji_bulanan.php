@@ -138,7 +138,7 @@ $noInject = 0;
                         <div class="dropdown-menu">
                           <a class="dropdown-item" href="#exampleModal" data-bs-toggle="modal">Layanan Laundry</a>
                           <a class="dropdown-item" href="#exampleModal1" data-bs-toggle="modal">Terima/Kembali & Pengali</a>
-                          <a class="dropdown-item" href="#exampleModal2" data-bs-toggle="modal">Harian/Tunjangan</a>
+                          <a class="dropdown-item" href="#exampleModal2" data-bs-toggle="modal">Pengali</a>
                         </div>
                       </div>
                     </td>
