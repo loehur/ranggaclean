@@ -216,6 +216,17 @@ if (count($data['dataTanggal']) > 0) {
                     echo "</tr>";
                     $total_keluar += $a['total'];
                   }
+
+                  $gaji = $data['gaji'];
+
+                  if ($gaji > 0) {
+                    echo "<tr>";
+                    echo "<td class=''>Gaji Karyawan</td>";
+                    echo "<td class='text-right'><b>Rp" . number_format($gaji) . "</b></td>";
+                    echo "</tr>";
+                    $total_keluar += $gaji;
+                  }
+
                   ?>
                 </tbody>
               </table>

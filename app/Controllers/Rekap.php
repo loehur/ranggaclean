@@ -13,6 +13,7 @@ class Rekap extends Controller
    {
       $dataTanggal = array();
       $data_main = array();
+      $gaji = array();
 
       switch ($mode) {
          case 1:
@@ -58,6 +59,18 @@ class Rekap extends Controller
       $where = $this->wCabang . " AND jenis_transaksi = 4 AND status_mutasi = 3 AND insertTime LIKE '%" . $today . "%' GROUP BY note_primary";
       $kas_keluar = $this->model('M_DB_1')->get_cols_where("kas", $cols, $where, 1);
 
-      $this->view($viewData, ['data_main' => $data_main, 'dataTanggal' => $dataTanggal, 'kasLaundry' => $kas_laundry, 'kasMember' => $kas_member, 'kas_keluar' => $kas_keluar]);
+      //GAJI KARYAWAN
+      $cols = "sum(jumlah) as total";
+      $where = $this->wLaundry . " AND tipe = 1 AND tgl = '" . $today . "'";
+      $gaji = $this->model('M_DB_1')->get_cols_where("gaji_result", $cols, $where, 0)['total'];
+
+      $this->view($viewData, [
+         'data_main' => $data_main,
+         'dataTanggal' => $dataTanggal,
+         'kasLaundry' => $kas_laundry,
+         'kasMember' => $kas_member,
+         'kas_keluar' => $kas_keluar,
+         'gaji' => $gaji
+      ]);
    }
 }

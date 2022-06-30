@@ -129,7 +129,7 @@ $noInject = 0;
                     </select>
                   </td>
                   <td><button class="form-control form-control-sm m-1 p-1 bg-light">Cek</td>
-                  <?php if ($user <> 0) { ?>
+                  <?php if ($id_user <> 0) { ?>
                     <td>
                       <div class="btn-group ml-2">
                         <button type="button" class="btn btn-sm btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -720,6 +720,10 @@ $noInject = 0;
         }
       },
     });
+  });
+
+  $("select[name=user]").change(function() {
+    $("button#cekR").click();
   });
 
   $("a#tetapkan").click(function() {
