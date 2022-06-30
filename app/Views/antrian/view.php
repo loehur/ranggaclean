@@ -457,7 +457,7 @@ $pelanggan_post = $data['pelanggan'];
 
         echo "<tr id='tr" . $id . "'class='row" . $noref . " " . $classTRDurasi . " table-borderless'>";
 
-        echo "<td class='text-center'><a href='#' class='mb-1 text-secondary' onclick='Print(" . $id . ")'><i class='fas fa-print'></i></a><br>";
+        echo "<td nowrap class='text-center'><a href='#' class='mb-1 text-secondary' onclick='Print(" . $id . ")'><i class='fas fa-print'></i></a><br>";
         if (strlen($letak) > 0) {
           $statusRak = "<h6 class='m-0 p-0'><span data-id='" . $id . "' data-value='" . strtoupper($letak) . "' class='text-success m-0 p-0 font-weight-bold editRak noRAK" . $id . "'>" . strtoupper($letak) . "</span></h6>";
         } else {
