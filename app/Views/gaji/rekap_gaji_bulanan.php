@@ -511,7 +511,7 @@ $noInject = 0;
   $totalTer = $totalGaji - $totalPot;
   ?>
 
-  <?php if ($id_user <> 0) { ?>
+  <?php if ($nama_user <> "") { ?>
     <div class="col p-1 bg-white mr-4 mt-1">
       <span id="print" style="width:50mm;background-color:white; padding-bottom:10px">
         <style>
