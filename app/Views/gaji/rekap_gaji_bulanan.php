@@ -224,7 +224,7 @@ $noInject = 0;
                           $target = $gp['target'];
                           $bonus_target = $gp['bonus_target'];
                           $id_gl = $gp['id_gaji_laundry'];
-                          $maxTarget = $gp['max_target'];
+                          $max_target = $gp['max_target'];
                         }
                       }
 
