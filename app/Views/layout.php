@@ -68,7 +68,7 @@ if (isset($data['data_operasi'])) {
                 <option class="font-weight-bold" value="<?= $lcb['id_cabang'] ?>" <?php
                                                                                   if ($this->id_cabang == $lcb['id_cabang']) {
                                                                                     echo "selected";
-                                                                                  } ?>><?= $lcb['kode_cabang']; ?></option>
+                                                                                  } ?>><?= "" . $lcb['id_cabang'] . "-" . $lcb['kode_cabang']; ?></option>
               <?php } ?>
             </select>
           </li>
