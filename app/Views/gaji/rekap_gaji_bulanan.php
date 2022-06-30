@@ -136,9 +136,9 @@ $noInject = 0;
                           Set Gaji
                         </button>
                         <div class="dropdown-menu">
-                          <a class="dropdown-item" href="#exampleModal" data-bs-toggle="modal">Layanan Laundry</a>
-                          <a class="dropdown-item" href="#exampleModal1" data-bs-toggle="modal">Terima/Kembali & Pengali</a>
-                          <a class="dropdown-item" href="#exampleModal2" data-bs-toggle="modal">Pengali</a>
+                          <a class="dropdown-item" href="#exampleModal" data-bs-toggle="modal">FEE Layanan Laundry</a>
+                          <a class="dropdown-item" href="#exampleModal1" data-bs-toggle="modal">FEE Pengali</a>
+                          <a class="dropdown-item" href="#exampleModal2" data-bs-toggle="modal">QTY Pengali</a>
                         </div>
                       </div>
                     </td>
@@ -577,7 +577,7 @@ $noInject = 0;
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Fee Kinerja</h5>
+        <h5 class="modal-title" id="exampleModalLabel">FEE Layanan Laundry</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
@@ -605,7 +605,7 @@ $noInject = 0;
             </div>
             <input name='id_user' type="hidden" value="<?= $data['user']['id'] ?>" />
             <div class="form-group">
-              <label for="exampleInputEmail1">Fee Rp</label>
+              <label for="exampleInputEmail1">Fee (Rp)</label>
               <input type="number" name="fee" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="form-group">
@@ -630,7 +630,7 @@ $noInject = 0;
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Terima/Kembali & Pengali</h5>
+        <h5 class="modal-title" id="exampleModalLabel">FEE Pengali</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
@@ -647,7 +647,7 @@ $noInject = 0;
             </div>
             <input name='id_user' type="hidden" value="<?= $data['user']['id'] ?>" />
             <div class="form-group">
-              <label for="exampleInputEmail1">Fee Rp</label>
+              <label for="exampleInputEmail1">Fee (Rp)</label>
               <input type="number" name="fee" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="modal-footer">
@@ -664,14 +664,14 @@ $noInject = 0;
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Harian & Tunjangan</h5>
+        <h5 class="modal-title" id="exampleModalLabel">QTY Pengali</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         <form class="jq" action="<?= $this->BASE_URL; ?>Gaji/set_harian_tunjangan" method="POST">
           <div class="card-body">
             <div class="form-group">
-              <label for="exampleInputEmail1">Harian/Tunjangan</label>
+              <label for="exampleInputEmail1">Jenis Pengali</label>
               <select name="pengali" class="form-control form-control-sm userChange" style="width: 100%;" required>
                 <option value="" selected disabled></option>
                 <?php foreach ($pengali_list as $a) {
@@ -684,7 +684,7 @@ $noInject = 0;
             <input name='id_user' type="hidden" value="<?= $data['user']['id'] ?>" />
             <input name='tgl' type="hidden" value="<?= $currentYear . "-" . $currentMonth ?>" />
             <div class="form-group">
-              <label for="exampleInputEmail1">Qty</label>
+              <label for="exampleInputEmail1">Qty (Banyak)</label>
               <input type="number" name="qty" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="modal-footer">
