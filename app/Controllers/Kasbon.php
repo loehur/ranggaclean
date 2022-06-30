@@ -24,8 +24,8 @@ class Kasbon extends Controller
          $sm = 2;
       }
 
-      $cols = 'id_cabang, jenis_mutasi, jenis_transaksi, metode_mutasi, status_mutasi, status_transaksi, jumlah, id_user, id_client, note_primary, note';
-      $vals = $this->id_cabang . ",2,5," . $metode . "," . $sm . ",0," . $jumlah . "," . $pembuat . "," . $karyawan . ", 'Kasbon', '" . $note . "'";
+      $cols = 'id_cabang, jenis_mutasi, jenis_transaksi, metode_mutasi, status_mutasi, jumlah, id_user, id_client, note_primary, note';
+      $vals = $this->id_cabang . ",2,5," . $metode . "," . $sm . "," . $jumlah . "," . $pembuat . "," . $karyawan . ", 'Kasbon', '" . $note . "'";
 
       $setOne = "id_client = " . $karyawan . " AND insertTime LIKE '" . $today . "%'";
       $where = $this->wCabang . " AND " . $setOne;

@@ -1,5 +1,6 @@
 <div class="content">
   <div class="container-fluid">
+
     <div class="row">
       <div class="col-auto p-1">
         <div class="p-0">
@@ -22,135 +23,171 @@
             </div>
           </div>
         </div>
-        <?php if (count($data['kasbon']) > 0) { ?>
-          <div class="card">
-            <table class="table table-sm w-100 p-0 m-0">
-              <thead class="table-warning">
+
+        <div class="row">
+
+          <div class="col">
+            <div class="card">
+              <table class="table table-sm w-100 m-0" style="min-width: 300px;">
                 <tr>
-                  <th class="text-right">ID Trx</th>
-                  <th>Tanggal</th>
-                  <th>Karyawan</th>
-                  <th>Penarik</th>
-                  <th class="text-right">Jumlah</th>
+                  <th class="pt-2 text-center" colspan="4">
+                    Cashflow History
+                  </th>
                 </tr>
-              </thead>
-              <tbody>
-                <?php
-                foreach ($data['kasbon'] as $a) {
-                  $id = $a['id_kas'];
-                  $st_trx = $a['status_mutasi'];
-                  $karyawan = '';
-                  $karyawan_tarik = '';
+                <tbody>
+                  <?php
+                  $no = 0;
+                  foreach ($data['debit_list'] as $a) {
+                    $id = $a['id_kas'];
+                    $f1 = substr($a['insertTime'], 5, 11);
+                    $f2 = $a['note'];
+                    $f2b = $a['note_primary'];
+                    $f3 = $a['id_user'];
+                    $f4 = $a['jumlah'];
+                    $f5 = $a['status_mutasi'];
+                    $f6 = $a['jenis_transaksi'];
+                    $st = $a['status_mutasi'];
+                    $cl = $a['id_client'];
+                    $metod = $a['metode_mutasi'];
 
-                  $id_kar = $a['id_client'];
-                  $id_kar_tarik = $a['id_user'];
+                    $karyawan = '';
+                    foreach ($this->userMerge as $c) {
+                      if ($c['id_user'] == $f3) {
+                        $karyawan = $c['nama_user'];
+                      }
+                    }
 
-                  foreach ($this->userMerge as $c) {
-                    if ($c['id_user'] == $id_kar) {
-                      $karyawan = $c['nama_user'];
+                    $statusNya = '';
+                    foreach ($this->dStatusMutasi as $c) {
+                      if ($c['id_status_mutasi'] == $st) {
+                        if ($st == 3) {
+                          $statusNya = "<small class='text-success'>[" . $c['status_mutasi'] . "]</small>";
+                        } elseif ($st == 2) {
+                          $statusNya = "<small class='text-warning'>[" . $c['status_mutasi'] . "]</small>";
+                        } else {
+                          $statusNya = "<small class='text-danger'>[" . $c['status_mutasi'] . "]</small>";
+                        }
+                      }
                     }
-                    if ($c['id_user'] == $id_kar_tarik) {
-                      $karyawan_tarik = $c['nama_user'];
+
+                    $client = "";
+                    if ($f6 == 5) {
+                      foreach ($this->userMerge as $c) {
+                        if ($c['id_user'] == $cl) {
+                          $client = "[" . $c['nama_user'] . "]";
+                        }
+                      }
                     }
+
+                    $classTR = '';
+                    if ($f6 == 4) {
+                      $classTR = 'table-danger';
+                    }
+                    if ($f6 == 5) {
+                      $classTR = 'table-warning';
+                    }
+
+                    $metode = "";
+                    foreach ($this->dMetodeMutasi as $mm) {
+                      if ($mm['id_metode_mutasi'] == $metod) {
+                        $metode = $mm['metode_mutasi'];
+                      }
+                    }
+
+                    echo "<tr class='" . $classTR . "'>";
+                    echo "<td nowrap class='text-right'><small>#" . $id . "<br>" . $f1 . "</small></td>";
+                    echo "<td><span><small>Penarik: " . $karyawan . "<br></small><b>" . $f2b . "</b> <small>" . $f2 . " " . $client . "</></small></span></td>";
+                    echo "<td nowrap class='text-right'><small>[" . $metode . "]</small> <b><span>" . number_format($f4) . "</span><br>" . $statusNya . "</b></td>";
+                    echo "</tr>";
                   }
-
-                  $st_trx_name = "";
-                  foreach ($this->dStatusMutasi as $st) {
-                    if ($st['id_status_mutasi'] == $st_trx) {
-                      $st_trx_name = $st['status_mutasi'];
-                    }
-                  }
-                ?>
-                  <tr>
-                    <td class="text-right">
-                      <?= $id ?>
-                    </td>
-                    <td>
-                      <?= substr($a['insertTime'], 5, 11) ?>
-                    </td>
-                    <td>
-                      <?= strtoupper($karyawan) ?>
-                    </td>
-                    <td>
-                      <?= strtoupper($karyawan_tarik) ?>
-                    </td>
-                    <td class="text-right">
-                      <?= number_format($a['jumlah']) ?>
-                    </td>
-                  </tr>
-                <?php }
-                ?>
-              </tbody>
-            </table>
+                  ?>
+                </tbody>
+              </table>
+            </div>
           </div>
-        <?php } ?>
-        <div class="card">
-          <table class="table table-sm w-100 m-0">
-            <tbody>
-              <?php
-              $no = 0;
-              foreach ($data['debit_list'] as $a) {
-                $id = $a['id_kas'];
-                $f1 = substr($a['insertTime'], 5, 11);
-                $f2 = $a['note'];
-                $f2b = $a['note_primary'];
-                $f3 = $a['id_user'];
-                $f4 = $a['jumlah'];
-                $f5 = $a['status_mutasi'];
-                $f6 = $a['jenis_transaksi'];
-                $st = $a['status_mutasi'];
-                $cl = $a['id_client'];
+          <div class="col">
+            <?php if (count($data['kasbon']) > 0) { ?>
+              <div class="card">
+                <table class="table table-sm w-100 p-0 m-0">
+                  <th class="pt-2 text-center" colspan="4">
+                    Kasbon History
+                  </th>
+                  <tbody>
+                    <?php
+                    foreach ($data['kasbon'] as $a) {
+                      $id = $a['id_kas'];
+                      $st_trx = $a['status_mutasi'];
 
-                $karyawan = '';
-                foreach ($this->userMerge as $c) {
-                  if ($c['id_user'] == $f3) {
-                    $karyawan = $c['nama_user'];
-                  }
-                }
+                      $f1 = substr($a['insertTime'], 5, 11);
+                      $f2 = $a['note'];
+                      $f2b = $a['note_primary'];
+                      $f3 = $a['id_user'];
+                      $f4 = $a['jumlah'];
+                      $f6 = $a['jenis_transaksi'];
+                      $st = $a['status_mutasi'];
+                      $cl = $a['id_client'];
+                      $metod = $a['metode_mutasi'];
 
-                $statusNya = '';
-                foreach ($this->dStatusMutasi as $c) {
-                  if ($c['id_status_mutasi'] == $st) {
-                    if ($st == 3) {
-                      $statusNya = "<small class='text-success'>[" . $c['status_mutasi'] . "]</small>";
-                    } elseif ($st == 2) {
-                      $statusNya = "<small class='text-warning'>[" . $c['status_mutasi'] . "]</small>";
-                    } else {
-                      $statusNya = "<small class='text-danger'>[" . $c['status_mutasi'] . "]</small>";
+                      $metode = "";
+                      foreach ($this->dMetodeMutasi as $mm) {
+                        if ($mm['id_metode_mutasi'] == $metod) {
+                          $metode = $mm['metode_mutasi'];
+                        }
+                      }
+
+                      $statusNya = '';
+                      foreach ($this->dStatusMutasi as $c) {
+                        if ($c['id_status_mutasi'] == $st) {
+                          if ($st == 3) {
+                            $statusNya = "<small class='text-success'>[" . $c['status_mutasi'] . "]</small>";
+                          } elseif ($st == 2) {
+                            $statusNya = "<small class='text-warning'>[" . $c['status_mutasi'] . "]</small>";
+                          } else {
+                            $statusNya = "<small class='text-danger'>[" . $c['status_mutasi'] . "]</small>";
+                          }
+                        }
+                      }
+
+                      $karyawan = '';
+                      $karyawan_tarik = '';
+
+                      $id_kar = $a['id_client'];
+                      $id_kar_tarik = $a['id_user'];
+
+                      foreach ($this->userMerge as $c) {
+                        if ($c['id_user'] == $id_kar) {
+                          $karyawan = $c['nama_user'];
+                        }
+                        if ($c['id_user'] == $id_kar_tarik) {
+                          $karyawan_tarik = $c['nama_user'];
+                        }
+                      }
+
+                      $st_trx_name = "";
+                      foreach ($this->dStatusMutasi as $st) {
+                        if ($st['id_status_mutasi'] == $st_trx) {
+                          $st_trx_name = $st['status_mutasi'];
+                        }
+                      }
+
+                      echo "<tr>";
+                      echo "<td class='text-right'><small>#" . $id . "<br>" . substr($a['insertTime'], 5, 11) . "</small></td>";
+                      echo "<td><span><small>Penarik: " . $karyawan_tarik . "<br></small><b>" . $f2b . "</b> <small>" . $f2 . " " . $karyawan . "</></small></span></td>";
+                      echo "<td class='text-right'><small>[" . $metode . "]</small> <b><span>" . number_format($a['jumlah']) . "</span><br>" . $statusNya . "</b></td>";
+                      echo "</tr>";
                     }
-                  }
-                }
-
-                $client = "";
-                if ($f6 == 5) {
-                  foreach ($this->userMerge as $c) {
-                    if ($c['id_user'] == $cl) {
-                      $client = "[" . $c['nama_user'] . "]";
-                    }
-                  }
-                }
-
-                $classTR = '';
-                if ($f6 == 4) {
-                  $classTR = 'table-danger';
-                }
-                if ($f6 == 5) {
-                  $classTR = 'table-warning';
-                }
-
-                echo "<tr class='" . $classTR . "'>";
-                echo "<td class='text-right'><small>#" . $id . "<br>" . $f1 . "</small></td>";
-                echo "<td><span><small>Penarik: " . $karyawan . "<br></small><b>" . $f2b . "</b> <small>" . $f2 . " " . $client . "</></small></span></td>";
-                echo "<td class='text-right'><b><span>" . number_format($f4) . "</span><br>" . $statusNya . "</b></td>";
-                echo "</tr>";
-              }
-              ?>
-            </tbody>
-          </table>
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+            <?php } ?>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+</div>
 </div>
 
 <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -341,7 +378,11 @@
         data: $(this).serialize(),
         type: $(this).attr("method"),
         success: function(response) {
-          location.reload(true);
+          if (response == 1) {
+            location.reload(true);
+          } else {
+            alert(response);
+          }
         },
       });
     });
