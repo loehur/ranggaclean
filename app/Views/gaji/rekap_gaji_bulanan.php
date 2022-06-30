@@ -155,7 +155,7 @@ $noInject = 0;
 </div>
 
 <div class="row ml-1">
-  <?php if ($user <> 0 && $intervalDate < 60) { ?>
+  <?php if ($nama_user = "" || $intervalDate < 60) { ?>
     <div class="col p-1">
       <div class="content">
         <div class="container-fluid">
