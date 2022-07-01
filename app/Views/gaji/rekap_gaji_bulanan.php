@@ -318,7 +318,7 @@ $noInject = 0;
               <span class='edit' data-table='gaji_pengali' data-col='gaji_pengali' data-id_edit='" . $id_gp . "'>" . $feeTerima . "</span>
 
               </td>";
-                  echo "<td class='text-right'><small>Total</small><br>Rp" . $totalFeeTerima . "</td>";
+                  echo "<td class='text-right'><small>Total</small><br>Rp" . number_format($totalFeeTerima) . "</td>";
                   echo "</tr>";
 
                   if ($totalFeeTerima > 0) {
