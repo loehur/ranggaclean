@@ -172,12 +172,6 @@ $noInject = 0;
             echo "<td class='text-right'><a href='#' id='tetapkan' class='btn badge badge-primary'>Tetapkan</a></td>";
             echo "</tr>";
 
-
-            echo "<tr class='table-success'>";
-            echo "<td colspan='4'><span>Pendapatan</span></td>";
-            echo "</tr>";
-
-
             foreach ($r as $userID => $arrJenisJual) {
               $totalGajiLaundry = 0;
               $feeLaundry = 0;
@@ -441,11 +435,6 @@ $noInject = 0;
               }
             }
 
-            echo "<tr>";
-            echo "<td colspan='3' class='pb-3'><b>Total Pendapatan</b></td>";
-            echo "<td class='text-right'><b>Rp" . number_format($totalDapat) . "</b></td>";
-            echo "</tr>";
-
             //POTONGAN
             if (count($data['user']['kasbon']) > 0) {
               echo "<tr class='table-danger'>";
@@ -475,16 +464,7 @@ $noInject = 0;
               }
             }
 
-            echo "<tr>";
-            echo "<td colspan='3' class='pb-3'><b>Total Potongan</b></td>";
-            echo "<td class='text-right'><b>Rp" . number_format($totalPotong) . "</b></td>";
-            echo "</tr>";
-
             $totalTerima = $totalDapat - $totalPotong;
-            echo "<tr class='table-primary'>";
-            echo "<td colspan='3'><b>TOTAL DITERIMA</b></td>";
-            echo "<td nowrap class='text-right'><b>Rp" . number_format($totalTerima) . "</b></td>";
-            echo "</tr>";
 
             echo '</tbody>';
             echo '</table>';

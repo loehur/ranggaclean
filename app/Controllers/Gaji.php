@@ -45,6 +45,15 @@ class Gaji extends Controller
       $where = $this->wCabang . " AND jenis_transaksi = 5 AND jenis_mutasi = 2 AND status_mutasi = 3 AND id_client = " . $user['id'];
       $user['kasbon'] = $this->model('M_DB_1')->get_cols_where("kas", $cols, $where, 1);
 
+      foreach ($user['kasbon'] as $key => $k) {
+         $ref = $k['id_kas'];
+         $where = "ref = '" . $ref . "'";
+         $countPotong = $this->model('M_DB_1')->count_where('gaji_result', $where);
+         if ($countPotong == 1) {
+            unset($user['kasbon'][$key]);
+         }
+      }
+
       $gaji = array();
       $gaji['gaji_laundry'] = $this->model('M_DB_1')->get_where('gaji_laundry', 'id_laundry = ' . $this->id_laundry);
       $gaji['pengali_list'] = $this->model('M_DB_1')->get('gaji_pengali_jenis');
@@ -61,7 +70,7 @@ class Gaji extends Controller
          'dKembali' => $data_kembali,
          'user' => $user,
          'gaji' => $gaji,
-         'gajiLaundry' => $dataGajiLaundry
+         'gajiLaundry' => $dataGajiLaundry,
       ]);
    }
 

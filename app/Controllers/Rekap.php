@@ -66,6 +66,8 @@ class Rekap extends Controller
       $gaji = $this->model('M_DB_1')->get_cols_where("gaji_result", $cols, $where, 0);
       if (isset($gaji['total'])) {
          $gaji = $gaji['total'];
+      } else {
+         $gaji = 0;
       }
 
       $this->view($viewData, [
