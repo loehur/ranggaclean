@@ -52,6 +52,8 @@ if (isset($data['data_operasi'])) {
 
 $hideAdmin = "";
 $hideKasir = "";
+$classAdmin = "btn-danger";
+$classKasir = "btn-success";
 
 if ($this->id_privilege >= 100) {
     $hideAdmin = "d-none";
@@ -67,9 +69,11 @@ if (isset($_SESSION['log_mode'])) {
 if ($log_mode == 1) {
     $hideAdmin = "";
     $hideKasir = "d-none";
+    $classKasir = "btn-secondary";
 } else {
     $hideAdmin = "d-none";
     $hideKasir = "";
+    $classAdmin = "btn-secondary";
 }
 
 ?>
@@ -127,10 +131,10 @@ if ($log_mode == 1) {
                 <?php if ($this->id_privilege >= 100) { ?>
                     <div class="user-panel pb-2 mb-2 d-flex">
                         <div class="info mr-auto">
-                            <span id="btnKasir" class="btn btn-sm btn-success pr-3 pl-3"><i class="fas fa-user-alt"></i> Kasir</span>
+                            <span id="btnKasir" class="btn btn-sm <?= $classKasir ?> pr-3 pl-3"><i class="fas fa-user-alt"></i> Kasir</span>
                         </div>
                         <div class="info">
-                            <span id="btnAdmin" class="btn btn-sm btn-danger pr-3 pl-3"><i class="fas fa-user-shield"></i> Admin</span>
+                            <span id="btnAdmin" class="btn btn-sm <?= $classAdmin ?> pr-3 pl-3"><i class="fas fa-user-shield"></i> Admin</span>
                         </div>
                     </div>
                 <?php } ?>
@@ -802,6 +806,9 @@ if ($log_mode == 1) {
                         success: function(res) {
                             $("#nav_kasir").removeClass('d-none');
                             $("#nav_admin").addClass('d-none');
+
+                            $("span#btnKasir").removeClass("btn-secondary").addClass("btn-success");
+                            $("span#btnAdmin").removeClass("btn-danger").addClass("btn-secondary");
                         },
                     });
                 });
@@ -817,6 +824,9 @@ if ($log_mode == 1) {
                         success: function(response) {
                             $("#nav_kasir").addClass('d-none');
                             $("#nav_admin").removeClass('d-none');
+
+                            $("span#btnKasir").removeClass("btn-success").addClass("btn-secondary");
+                            $("span#btnAdmin").removeClass("btn-secondary").addClass("btn-danger");
                         },
                     });
                 })
