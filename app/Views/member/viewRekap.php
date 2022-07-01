@@ -75,7 +75,7 @@
               </a>
             </td>
             <td id='btnTambah' class="text-right pt-2 d-none">
-              <span class="btn btn-sm btn-outline-success p-1 buttonTambah" data-id_harga="<?= $id_harga ?>" data-bs-toggle="modal" data-bs-target="#exampleModal"><small><b>Tambah</b></small></span>
+              <button class="btn btn-sm btn-outline-success p-1 buttonTambah" data-id_harga="<?= $id_harga ?>" data-id_pelanggan="<?= $z['id_pelanggan'] ?>" data-bs-toggle="modal" data-bs-target="#exampleModal"><small><b>Tambah</b></small></button>
             </td>
           </tr>
       <?php
@@ -104,8 +104,9 @@
     }
   });
 
-  $("span.buttonTambah").on("click", function(e) {
+  $("button.buttonTambah").on("click", function(e) {
     var id_harga = $(this).attr("data-id_harga");
-    $('div.tambahPaket').load("<?= $this->BASE_URL ?>Member/orderPaket/<?= $pelanggan ?>/" + id_harga);
+    var id_pelanggan = $(this).attr("data-id_pelanggan");
+    $('div.tambahPaket').load("<?= $this->BASE_URL ?>Member/orderPaket/" + id_pelanggan + "/" + id_harga);
   });
 </script>
