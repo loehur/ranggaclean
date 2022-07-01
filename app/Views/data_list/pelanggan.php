@@ -9,7 +9,7 @@
         <div class="card">
           <div class="card-header">
             <button type="button" class="btn btn-sm btn-primary float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              +
+              Tambah Pelanggan
             </button>
           </div>
           <div class="content sticky-top">
@@ -122,7 +122,7 @@
 <!-- SCRIPT -->
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/popper.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-4.6/bootstrap.bundle.min.js"></script>
+<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>plugins/select2/select2.min.js"></script>
 
 <script>

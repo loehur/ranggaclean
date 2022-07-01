@@ -218,6 +218,7 @@ if (count($data['dataTanggal']) > 0) {
                   }
 
                   $gaji = $data['gaji'];
+                  $gaji = (int)$gaji;
 
                   if ($gaji > 0) {
                     echo "<tr>";

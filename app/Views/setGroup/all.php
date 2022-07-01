@@ -10,8 +10,8 @@
         <div class="card">
           <div class="card-header">
             <h4 class="card-title"><span class="text-success"><?= $data['z']['title'] ?></span></h4>
-            <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              +
+            <button type="button" class="btn btn-sm btn-primary float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Tambah Item Kelompok
             </button>
           </div>
           <!-- card-header -->
@@ -88,7 +88,7 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label>Nama Kategori</label>
+                      <label>Nama Kategori</label> <small>Kategori yang ditampilkan saat Order</small>
                       <input type="text" name="f2" class="form-control form-control-sm" placeholder="Contoh: Pakaian Harian" required>
                     </div>
                     <!-- ====================================================================================== -->
@@ -139,10 +139,7 @@
         <!-- SCRIPT -->
         <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
         <script src="<?= $this->ASSETS_URL ?>js/popper.min.js"></script>
-        <script src="<?= $this->ASSETS_URL ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="<?= $this->ASSETS_URL ?>plugins/bootstrap/js/bootstrap.min.js"></script>
-        <script src="<?= $this->ASSETS_URL ?>plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="<?= $this->ASSETS_URL ?>plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
         <script src="<?= $this->ASSETS_URL ?>plugins/select2/select2.min.js"></script>
 
         <!-- FUNCTION SCRIPTS -->

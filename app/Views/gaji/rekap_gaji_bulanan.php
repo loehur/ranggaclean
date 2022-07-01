@@ -132,10 +132,10 @@ $noInject = 0;
                   <?php if ($nama_user <> "") { ?>
                     <td>
                       <div class="btn-group ml-2">
-                        <button type="button" class="btn btn-sm btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-sm btn-dark dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                           Set Gaji
                         </button>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                           <a class="dropdown-item" href="#exampleModal" data-bs-toggle="modal">FEE Layanan Laundry</a>
                           <a class="dropdown-item" href="#exampleModal1" data-bs-toggle="modal">FEE Pengali</a>
                           <a class="dropdown-item" href="#exampleModal2" data-bs-toggle="modal">QTY Pengali</a>
@@ -724,7 +724,7 @@ $noInject = 0;
 <!-- SCRIPT -->
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/popper.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-4.6/bootstrap.bundle.min.js"></script>
+<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>plugins/select2/select2.min.js"></script>
 
 <script>

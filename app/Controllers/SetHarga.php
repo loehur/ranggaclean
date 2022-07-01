@@ -19,6 +19,7 @@ class SetHarga extends Controller
             $z = array('unit' => $a['id_satuan'], 'set' => $penjualan, 'page' => $page);
          }
       }
+
       $setOne = 'id_penjualan_jenis = ' . $page;
       $where = $this->wLaundry . " AND " . $setOne;
       $d2 = $this->model('M_DB_1')->get_where('item_group', $where);

@@ -24,7 +24,6 @@ class Controller extends URL
                 $this->dKota = $_SESSION['data']['kota'];
                 $this->dPrivilege = $_SESSION['data']['privilege'];
                 $this->dLayanan = $_SESSION['data']['layanan'];
-                $this->dLayananDelivery = $_SESSION['data']['layananDelivery'];
                 $this->dDurasi = $_SESSION['data']['durasi'];
                 $this->dPenjualan = $_SESSION['data']['penjualan'];
                 $this->dSatuan = $_SESSION['data']['satuan'];
@@ -68,7 +67,7 @@ class Controller extends URL
         $this->dItem = $this->model('M_DB_1')->get_where("item", "id_laundry = " . $id_laundry);
         $this->harga =  $this->model('M_DB_1')->get_where("harga", "id_laundry = " . $id_laundry . " ORDER BY sort ASC");
         $this->itemGroup = $this->model('M_DB_1')->get_where("item_group", "id_laundry = " . $id_laundry);
-        $this->diskon = $this->model('M_DB_1')->get_where("diskon_set", "id_laundry = " . $id_laundry);
+        $this->diskon = $this->model('M_DB_1')->get_where("diskon_qty", "id_laundry = " . $id_laundry);
         $this->setPoin = $this->model('M_DB_1')->get_where("poin_set", "id_laundry = " . $id_laundry);
         $this->dMetodeMutasi = $this->model('M_DB_1')->get('mutasi_metode');
         $this->dStatusMutasi = $_SESSION['data']['mutasi_status'];
@@ -117,7 +116,7 @@ class Controller extends URL
             'pelangganLaundry' => $this->model('M_DB_1')->get_where("pelanggan", "id_laundry = " . $_SESSION['user']['id_laundry']),
             'harga' => $this->model('M_DB_1')->get_where("harga", "id_laundry = " . $_SESSION['user']['id_laundry'] . " ORDER BY sort ASC"),
             'itemGroup' => $this->model('M_DB_1')->get_where("item_group", "id_laundry = " . $_SESSION['user']['id_laundry']),
-            'diskon' => $this->model('M_DB_1')->get_where("diskon_set", "id_laundry = " . $_SESSION['user']['id_laundry']),
+            'diskon' => $this->model('M_DB_1')->get_where("diskon_qty", "id_laundry = " . $_SESSION['user']['id_laundry']),
             'setPoin' => $this->model('M_DB_1')->get_where("poin_set", "id_laundry = " . $_SESSION['user']['id_laundry']),
         );
 
@@ -131,7 +130,6 @@ class Controller extends URL
             'durasi' => $this->model('M_DB_1')->get('durasi'),
             'penjualan' => $this->model('M_DB_1')->get('penjualan_jenis'),
             'satuan' => $this->model('M_DB_1')->get('satuan'),
-            'layananDelivery' => $this->model('M_DB_1')->get('layanan_delivery'),
             'notif_mode' => $this->model('M_DB_1')->get('notif_mode'),
             'mutasi_metode' => $this->model('M_DB_1')->get('mutasi_metode'),
             'mutasi_status' => $this->model('M_DB_1')->get('mutasi_status'),

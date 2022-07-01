@@ -16,8 +16,8 @@ foreach ($this->dSatuan as $a) {
         <div class="card">
           <div class="card-header">
             <h4 class="card-title text-success">Harga <?= $data['z']['set'] ?></h4>
-            <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              +
+            <button type="button" class="btn btn-sm btn-primary float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Tambah Harga
             </button>
           </div>
           <div class="card-body p-0">
@@ -174,8 +174,7 @@ foreach ($this->dSatuan as $a) {
 <!-- SCRIPT -->
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/popper.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>plugins/select2/select2.min.js"></script>
 
 <script>

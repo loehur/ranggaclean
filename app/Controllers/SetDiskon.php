@@ -6,7 +6,7 @@ class SetDiskon extends Controller
    {
       $this->session_cek();
       $this->data();
-      $this->table = 'diskon_set';
+      $this->table = 'diskon_qty';
    }
 
    // ---------------- INDEX -------------------- //
@@ -15,7 +15,7 @@ class SetDiskon extends Controller
       $view = 'setHarga/diskon';
       $where = $this->table . "." . $this->wLaundry;
       $data_main = $this->model('M_DB_1')->get_where($this->table, $where);
-      $data_operasi = ['title' => 'Diskon Khusus'];
+      $data_operasi = ['title' => 'Harga Diskon Kuantitas'];
       $this->view('layout', ['data_operasi' => $data_operasi]);
       $this->view($view, ['data_main' => $data_main]);
    }

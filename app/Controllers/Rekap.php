@@ -62,7 +62,11 @@ class Rekap extends Controller
       //GAJI KARYAWAN
       $cols = "sum(jumlah) as total";
       $where = $this->wCabang . " AND tipe = 1 AND tgl = '" . $today . "'";
-      $gaji = $this->model('M_DB_1')->get_cols_where("gaji_result", $cols, $where, 0)['total'];
+
+      $gaji = $this->model('M_DB_1')->get_cols_where("gaji_result", $cols, $where, 0);
+      if (isset($gaji['total'])) {
+         $gaji = $gaji['total'];
+      }
 
       $this->view($viewData, [
          'data_main' => $data_main,

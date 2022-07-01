@@ -5,7 +5,7 @@
       <div class="col-auto">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title text-success">Diskon Khusus</h4>
+            <h4 class="card-title text-success">Diskon Kuantitas</h4>
 
             <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
               +
@@ -20,7 +20,6 @@
                   <th>Jenis Penjualan</th>
                   <th>Qty Disc</th>
                   <th>Disc Qty</th>
-                  <th>Disc Partner</th>
                 </tr>
               </thead>
               <tbody>
@@ -49,7 +48,6 @@
                   echo "<td>" . $penjualan . "</td>";
                   echo "<td class='text-right'><span class='cell' data-mode='2' data-id_value='" . $id . "' data-value='" . $f4 . "'>" . $f4 . "$unit</span></td>";
                   echo "<td class='text-right'><span class='cell' data-mode='3' data-id_value='" . $id . "' data-value='" . $f5 . "'>" . $f5 . "</span>%</td>";
-                  echo "<td class='text-right'><span class='cell' data-mode='4' data-id_value='" . $id . "' data-value='" . $f6 . "'>" . $f6 . "</span>%</td>";
                   echo "</tr>";
                 }
                 ?>
@@ -107,10 +105,7 @@
 <!-- SCRIPT -->
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/popper.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>plugins/select2/select2.min.js"></script>
 
 <script>

@@ -87,13 +87,10 @@
   </div>
 
   <!-- SCRIPT -->
-  <script src="<?= $ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
-  <script src="<?= $ASSETS_URL ?>js/popper.min.js"></script>
-  <script src="<?= $ASSETS_URL ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="<?= $ASSETS_URL ?>plugins/bootstrap/js/bootstrap.min.js"></script>
-  <script src="<?= $ASSETS_URL ?>plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="<?= $ASSETS_URL ?>plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-  <script src="<?= $ASSETS_URL ?>plugins/select2/select2.min.js"></script>
+  <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
+  <script src="<?= $this->ASSETS_URL ?>js/popper.min.js"></script>
+  <script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
+  <script src="<?= $this->ASSETS_URL ?>plugins/select2/select2.min.js"></script>
 
   <script>
     $(document).ready(function() {
@@ -107,8 +104,12 @@
           type: $(this).attr("method"),
           dataType: 'html',
 
-          success: function() {
-            location.reload(true);
+          success: function(res) {
+            if (res == 1) {
+              location.reload(true);
+            } else {
+              alert(res)
+            }
           },
         });
       });

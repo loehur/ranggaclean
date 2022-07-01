@@ -10,11 +10,11 @@
               <span class="text-bold text-success">Rp. <?= number_format($data['saldo']); ?></span>
             </div>
             <div class="p-0 pr-0 pb-2 pt-2">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div class="btn-group dropdown">
+                <button class="btn btn-sm btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                   Menu Kas
                 </button>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                   <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Pengeluaran</a>
                   <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal3">Penarikan</a>
                   <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal2">Kasbon</a>
@@ -373,7 +373,7 @@
 <!-- SCRIPT -->
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/popper.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-4.6/bootstrap.bundle.min.js"></script>
+<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>plugins/select2/select2.min.js"></script>
 
 <script>

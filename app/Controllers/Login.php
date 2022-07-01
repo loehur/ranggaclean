@@ -59,4 +59,11 @@ class Login extends Controller
       session_destroy();
       header('Location: ' . $this->BASE_URL . "Penjualan/i");
    }
+
+   public function log_mode()
+   {
+      $mode = $_POST['mode'];
+      unset($_SESSION['log_mode']);
+      $_SESSION['log_mode'] = $mode;
+   }
 }
