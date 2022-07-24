@@ -6,7 +6,15 @@ if (count($data['dataTanggal']) > 0) {
   $currentMonth = date('m');
   $currentYear = date('Y');
 }
+
+$uri_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri_segments = explode('/', $uri_path);
+$uriCount = count($uri_segments);
+$target_page_rekap = $uri_segments[$uriCount - 1];
+
 ?>
+
+
 
 <div class="content">
   <div class="container-fluid">
@@ -14,7 +22,7 @@ if (count($data['dataTanggal']) > 0) {
       <div class="col-auto">
         <div class="card">
           <div class="content sticky-top m-3">
-            <form action="<?= $this->BASE_URL; ?>Rekap/i/2" method="POST">
+            <form action="<?= $this->BASE_URL; ?>Rekap/i/<?= $target_page_rekap ?>" method="POST">
               <table class="w-100">
                 <tr>
                   <td>
