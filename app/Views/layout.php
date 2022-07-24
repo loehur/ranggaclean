@@ -434,26 +434,42 @@ if ($log_mode == 1) {
                                     } ?>;">
                                             <li class="nav-item">
                                                 <a href="<?= $this->BASE_URL ?>Rekap/i/1" class="nav-link 
-                    <?php if ($title == 'Harian - Rekap') {
+                    <?php if ($title == 'Harian Cabang - Rekap') {
                                         echo 'active';
                                     } ?>">
                                                     <i class="far fa-circle nav-icon"></i>
                                                     <p>
-                                                        Laba/Rugi Harian
+                                                        Laba/Rugi Cabang Harian
                                                     </p>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
                                                 <a href="<?= $this->BASE_URL ?>Rekap/i/2" class="nav-link 
-                    <?php if ($title == 'Bulanan - Rekap') {
+                    <?php if ($title == 'Bulanan Cabang - Rekap') {
                                         echo 'active';
                                     } ?>">
                                                     <i class="far fa-circle nav-icon"></i>
                                                     <p>
-                                                        Laba/Rugi Bulanan
+                                                        Laba/Rugi Cabang Bulanan
                                                     </p>
                                                 </a>
                                             </li>
+
+                                            <?php if (count($this->listCabang) > 1) { ?>
+                                                <li class="nav-item">
+                                                    <a href="<?= $this->BASE_URL ?>Rekap/i/3" class="nav-link 
+                    <?php if ($title == 'Bulanan Laundry - Rekap') {
+                                                    echo 'active';
+                                                } ?>">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>
+                                                            Laba/Rugi Laundry Bulanan
+                                                        </p>
+                                                    </a>
+                                                </li>
+
+                                            <?php } ?>
+
                                             <li class="nav-item">
                                                 <a href="<?= $this->BASE_URL ?>Gaji" class="nav-link 
                     <?php if ($title == 'Gaji Bulanan - Rekap') {

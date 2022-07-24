@@ -14,10 +14,11 @@ class Rekap extends Controller
       $dataTanggal = array();
       $data_main = array();
       $gaji = array();
+      $whereCabang = "";
 
       switch ($mode) {
          case 1:
-            $data_operasi = ['title' => 'Harian - Rekap'];
+            $data_operasi = ['title' => 'Harian Cabang - Rekap'];
             $viewData = 'rekap/rekap_harian';
 
             if (isset($_POST['Y'])) {
@@ -26,9 +27,24 @@ class Rekap extends Controller
             } else {
                $today = date('Y-m-d');
             }
+
+            $whereCabang = $this->wCabang . " AND ";
             break;
          case 2:
-            $data_operasi = ['title' => 'Bulanan - Rekap'];
+            $data_operasi = ['title' => 'Bulanan Cabang - Rekap'];
+            $viewData = 'rekap/rekap_bulanan';
+
+            if (isset($_POST['Y'])) {
+               $today = $_POST['Y'] . "-" . $_POST['m'];
+               $dataTanggal = array('bulan' => $_POST['m'], 'tahun' => $_POST['Y']);
+            } else {
+               $today = date('Y-m');
+            }
+
+            $whereCabang = $this->wCabang . " AND ";
+            break;
+         case 3:
+            $data_operasi = ['title' => 'Bulanan Laundry - Rekap'];
             $viewData = 'rekap/rekap_bulanan';
 
             if (isset($_POST['Y'])) {
@@ -41,27 +57,26 @@ class Rekap extends Controller
       }
 
       //PENDAPATAN
-      $where = $this->wCabang . " AND bin = 0 AND insertTime LIKE '%" . $today . "%'";
+      $where = $whereCabang . "bin = 0 AND insertTime LIKE '%" . $today . "%'";
       $data_main = $this->model('M_DB_1')->get_where($this->table, $where);
-      $this->view('layout', ['data_operasi' => $data_operasi]);
 
       $cols = "sum(jumlah) as total";
-      $where = $this->wCabang . " AND jenis_transaksi = 1 AND status_mutasi = 3 AND insertTime LIKE '%" . $today . "%'";
+      $where = $whereCabang . "jenis_transaksi = 1 AND status_mutasi = 3 AND insertTime LIKE '%" . $today . "%'";
       $kas_laundry = 0;
       $kas_laundry = $this->model('M_DB_1')->get_cols_where("kas", $cols, $where, 0)['total'];
 
-      $where = $this->wCabang . " AND jenis_transaksi = 3 AND status_mutasi = 3 AND insertTime LIKE '%" . $today . "%'";
+      $where = $whereCabang . "jenis_transaksi = 3 AND status_mutasi = 3 AND insertTime LIKE '%" . $today . "%'";
       $kas_member = 0;
       $kas_member = $this->model('M_DB_1')->get_cols_where("kas", $cols, $where, 0)['total'];
 
       //PENGELUARAN
       $cols = "note_primary, sum(jumlah) as total";
-      $where = $this->wCabang . " AND jenis_transaksi = 4 AND status_mutasi = 3 AND insertTime LIKE '%" . $today . "%' GROUP BY note_primary";
+      $where = $whereCabang . "jenis_transaksi = 4 AND status_mutasi = 3 AND insertTime LIKE '%" . $today . "%' GROUP BY note_primary";
       $kas_keluar = $this->model('M_DB_1')->get_cols_where("kas", $cols, $where, 1);
 
       //GAJI KARYAWAN
       $cols = "sum(jumlah) as total";
-      $where = $this->wCabang . " AND tipe = 1 AND tgl = '" . $today . "'";
+      $where = $whereCabang . "tipe = 1 AND tgl = '" . $today . "'";
 
       $gaji = $this->model('M_DB_1')->get_cols_where("gaji_result", $cols, $where, 0);
       if (isset($gaji['total'])) {
@@ -70,6 +85,7 @@ class Rekap extends Controller
          $gaji = 0;
       }
 
+      $this->view('layout', ['data_operasi' => $data_operasi]);
       $this->view($viewData, [
          'data_main' => $data_main,
          'dataTanggal' => $dataTanggal,
