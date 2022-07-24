@@ -88,18 +88,27 @@ if ($log_mode == 1) {
                     <a class="nav-link p-0 pl-2 pr-2" data-widget="pushmenu" href="#" role="button"> <span class="btn btn-sm"><i class="fas fa-bars"></i> Menu</span></a>
                 </li>
             </ul>
-            <?php if ($this->id_privilege == 100 or $this->id_privilege == 101 or $this->id_privilege == 12) {
-            ?>
+
+            <?php if ($this->id_privilege == 100 or $this->id_privilege == 101 or $this->id_privilege == 12) { ?>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item waitReady d-none">
-                        <select id="selectCabang" class="form-control form-control-sm bg-primary mb-2">
-                            <?php foreach ($this->listCabang as $lcb) { ?>
-                                <option class="font-weight-bold" value="<?= $lcb['id_cabang'] ?>" <?php
-                                                                                                    if ($this->id_cabang == $lcb['id_cabang']) {
-                                                                                                        echo "selected";
-                                                                                                    } ?>><?= "" . $lcb['id_cabang'] . "-" . $lcb['kode_cabang']; ?></option>
-                            <?php } ?>
-                        </select>
+
+                        <?php if (isset($data['data_operasi']['vLaundry'])) {
+                            if ($data['data_operasi']['vLaundry'] == true) { ?>
+                                <select id="selectCabang" disabled class="form-control form-control-sm bg-primary mb-2">
+                                    <option class="font-weight-bold" selected><?= $this->dLaundry['nama_laundry'] ?></option>
+                                </select>
+                            <?php }
+                        } else { ?>
+                            <select id="selectCabang" class="form-control form-control-sm bg-primary mb-2">
+                                <?php foreach ($this->listCabang as $lcb) { ?>
+                                    <option class="font-weight-bold" value="<?= $lcb['id_cabang'] ?>" <?php
+                                                                                                        if ($this->id_cabang == $lcb['id_cabang']) {
+                                                                                                            echo "selected";
+                                                                                                        } ?>><?= "" . $lcb['id_cabang'] . "-" . $lcb['kode_cabang']; ?></option>
+                                <?php } ?>
+                            </select>
+                        <?php } ?>
                     </li>
                 </ul>
             <?php } ?>

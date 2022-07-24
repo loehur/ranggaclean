@@ -44,7 +44,7 @@ class Rekap extends Controller
             $whereCabang = $this->wCabang . " AND ";
             break;
          case 3:
-            $data_operasi = ['title' => 'Bulanan Laundry - Rekap'];
+            $data_operasi = ['title' => 'Bulanan Laundry - Rekap', 'vLaundry' => true];
             $viewData = 'rekap/rekap_bulanan';
 
             if (isset($_POST['Y'])) {
