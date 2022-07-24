@@ -182,7 +182,7 @@ class Gaji extends Controller
 
             if ($data_main < 1) {
                $cols = "id_laundry, id_cabang, id_karyawan, tgl, tipe, deskripsi, ref, jumlah, qty";
-               $vals = $this->id_laundry . "," . $this->id_laundry . "," . $id_user . ",'" . $dateOn . "'," . $tipe . ",'" . $a['deskripsi'] . "','" . $ref . "'," . $jumlah . "," . $qty;
+               $vals = $this->id_laundry . "," . $this->id_cabang . "," . $id_user . ",'" . $dateOn . "'," . $tipe . ",'" . $a['deskripsi'] . "','" . $ref . "'," . $jumlah . "," . $qty;
                $return = $this->model('M_DB_1')->insertCols($table, $cols, $vals);
             } else {
                $set = "jumlah = " . $jumlah . ", qty = " . $qty;

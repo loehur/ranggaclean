@@ -304,7 +304,7 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Penarikan Kasbon</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Penginputan Kasbon</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
@@ -334,7 +334,7 @@
                 <?php } ?>
               </select>
             </div>
-            <label for="exampleInputEmail1">Penarik Kas</label>
+            <label for="exampleInputEmail1">Penginput</label>
             <select name="f3" class="kasbon form-control form-control-sm userChange" style="width: 100%;" required>
               <option value="" selected disabled></option>
               <optgroup label="<?= $this->dLaundry['nama_laundry'] ?> [<?= $this->dCabang['kode_cabang'] ?>]">
