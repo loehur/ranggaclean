@@ -6,6 +6,6 @@ class IAK extends Controller
    {
       header("Content-Type: application/json; charset=UTF-8");
       $obj = json_decode($_GET["data"], false);
-      echo $obj['status'];
+      print_r($obj);
    }
 }
