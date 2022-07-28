@@ -4,8 +4,9 @@ class IAK extends Controller
 {
    public function callBack()
    {
-      header("Content-Type: application/json; charset=UTF-8");
-      $obj = json_decode($_GET["data"], true);
-      var_dump($obj);
+      $rawRequestInput = file_get_contents("php://input");
+      // Baris ini melakukan format input mentah menjadi array asosiatif
+      $arrRequestInput = json_decode($rawRequestInput, true);
+      print_r($arrRequestInput);
    }
 }
