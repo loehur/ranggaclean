@@ -6,8 +6,7 @@ class IAK extends Controller
    {
       $rawRequestInput = file_get_contents("php://input");
       $arrRequestInput = json_decode($rawRequestInput, true);
-      echo "<pre>";
-      print_r($arrRequestInput);
-      echo "</pre>";
+      $data = $arrRequestInput['data'];
+      echo $data['status'];
    }
 }
