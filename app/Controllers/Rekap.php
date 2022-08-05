@@ -53,9 +53,21 @@ class Rekap extends Controller
             } else {
                $today = date('Y-m');
             }
+
+            $cabangs = "";
+            $cCabangs = count($this->listCabang);
+            foreach ($this->listCabang as $lc) {
+               if ($cCabangs == 1) {
+                  $cabangs .= $lc['id_cabang'];
+               } else {
+                  $cabangs .= $lc['id_cabang'] . ",";
+               }
+               $cCabangs -= 1;
+            }
+
+            $whereCabang = "id_cabang IN (" . $cabangs . ") AND ";
             break;
       }
-
       //PENDAPATAN
       $where = $whereCabang . "bin = 0 AND insertTime LIKE '%" . $today . "%'";
       $data_main = $this->model('M_DB_1')->get_where($this->table, $where);
