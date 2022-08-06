@@ -210,14 +210,13 @@
         <!-- ====================== FORM ========================= -->
         <form action="<?= $this->BASE_URL; ?>Kas/insert_pengeluaran" method="POST">
           <div class="card-body">
-            <div class="form-group">
+            <div class="form-group" id="jenisKeluar">
               <label for="exampleInputEmail1">Jenis Pengeluaran</label>
-              <select name="f1a" class="form-control form-control-sm pengeluaran" style="width: 100%;" required>
+              <select name="f1a" class="form-control form-control-sm jenisKeluar" style="width: 100%;" required>
                 <option value="" selected disabled></option>
                 <?php foreach ($this->dItemPengeluaran as $a) { ?>
                   <option id="<?= $a['id_item_pengeluaran'] ?>" value="<?= $a['id_item_pengeluaran'] ?><explode><?= $a['item_pengeluaran'] ?>"><?= $a['item_pengeluaran'] ?></option>
                 <?php } ?>
-                </optgroup>
               </select>
             </div>
             <div class="form-group">
@@ -228,22 +227,24 @@
               <label for="exampleInputEmail1">Keterangan/Banyak</label>
               <input type="text" name="f1" class="form-control" id="exampleInputEmail1" placeholder="">
             </div>
-            <label for="exampleInputEmail1">Penarik Kas</label>
-            <select name="f3" class="keluar form-control form-control-sm userChange" style="width: 100%;" required>
-              <option value="" selected disabled></option>
-              <optgroup label="<?= $this->dLaundry['nama_laundry'] ?> [<?= $this->dCabang['kode_cabang'] ?>]">
-                <?php foreach ($this->user as $a) { ?>
-                  <option id="<?= $a['id_user'] ?>" value="<?= $a['id_user'] ?>"><?= $a['id_user'] . "-" . strtoupper($a['nama_user']) ?></option>
-                <?php } ?>
-              </optgroup>
-              <?php if (count($this->userCabang) > 0) { ?>
-                <optgroup label="----- Cabang Lain -----">
-                  <?php foreach ($this->userCabang as $a) { ?>
+            <div class="form-group" id="userKeluar">
+              <label for="exampleInputEmail1">Penarik Kas</label>
+              <select name="f3" class="form-control form-control-sm userKeluar" style="width: 100%;" required>
+                <option value="" selected disabled></option>
+                <optgroup label="<?= $this->dLaundry['nama_laundry'] ?> [<?= $this->dCabang['kode_cabang'] ?>]">
+                  <?php foreach ($this->user as $a) { ?>
                     <option id="<?= $a['id_user'] ?>" value="<?= $a['id_user'] ?>"><?= $a['id_user'] . "-" . strtoupper($a['nama_user']) ?></option>
                   <?php } ?>
                 </optgroup>
-              <?php } ?>
-            </select>
+                <?php if (count($this->userCabang) > 0) { ?>
+                  <optgroup label="----- Cabang Lain -----">
+                    <?php foreach ($this->userCabang as $a) { ?>
+                      <option id="<?= $a['id_user'] ?>" value="<?= $a['id_user'] ?>"><?= $a['id_user'] . "-" . strtoupper($a['nama_user']) ?></option>
+                    <?php } ?>
+                  </optgroup>
+                <?php } ?>
+              </select>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-sm btn-danger">Tarik Kas Pengeluaran</button>
@@ -274,7 +275,7 @@
               <input type="text" name="f1" class="form-control" id="exampleInputEmail1" placeholder="" required>
             </div>
             <label for="exampleInputEmail1">Penarik Kas</label>
-            <select name="f3" class="tarik form-control form-control-sm userChange" style="width: 100%;" required>
+            <select name="f3" class="tarik form-control form-control-sm" style="width: 100%;" required>
               <option value="" selected disabled></option>
               <optgroup label="<?= $this->dLaundry['nama_laundry'] ?> [<?= $this->dCabang['kode_cabang'] ?>]">
                 <?php foreach ($this->user as $a) { ?>
@@ -313,7 +314,7 @@
           <div class="card-body">
             <div class="form-group">
               <label for="exampleInputEmail1">Karyawan Kasbon</label>
-              <select name="f1" class="form-control form-control-sm userChange" style="width: 100%;" required>
+              <select name="f1" class="form-control form-control-sm" style="width: 100%;" required>
                 <option value="" selected disabled></option>
                 <optgroup label="<?= $this->dLaundry['nama_laundry'] ?> [<?= $this->dCabang['kode_cabang'] ?>]">
                   <?php foreach ($this->user as $a) { ?>
@@ -378,24 +379,24 @@
 
 <script>
   $(document).ready(function() {
-    $("div#nTunai").hide();
-
-    $("form").on("submit", function(e) {
-      e.preventDefault();
-      $.ajax({
-        url: $(this).attr('action'),
-        data: $(this).serialize(),
-        type: $(this).attr("method"),
-        success: function(response) {
-          if (response == 1) {
-            location.reload(true);
-          } else {
-            alert(response);
-          }
-        },
-      });
-    });
     selectList();
+    $("div#nTunai").hide();
+  });
+
+  $("form").on("submit", function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+      type: $(this).attr("method"),
+      success: function(response) {
+        if (response == 1) {
+          location.reload(true);
+        } else {
+          alert(response);
+        }
+      },
+    });
   });
 
   $("select.metodeBayar").on("keyup change", function() {
@@ -406,31 +407,17 @@
     }
   });
 
-  $('.modal').on('hidden.bs.modal', function() {
-    selectList();
-  });
 
   function selectList() {
-    $('select.tarik').val('').change();
-    $('select.tarik').trigger("change");
+    $('select.userKeluar').select2({
+      dropdownParent: $("#userKeluar"),
+    });
+    $('select.jenisKeluar').select2({
+      dropdownParent: $("#jenisKeluar"),
+    });
     $('select.tarik').select2({
       dropdownParent: $("#exampleModal3"),
     });
-
-    $('select.keluar').val('').change();
-    $('select.keluar').trigger("change");
-    $('select.keluar').select2({
-      dropdownParent: $("#exampleModal"),
-    });
-
-    $('select.pengeluaran').val('').change();
-    $('select.pengeluaran').trigger("change");
-    $('select.pengeluaran').select2({
-      dropdownParent: $("#exampleModal"),
-    });
-
-    $('select.kasbon').val('').change();
-    $('select.kasbon').trigger("change");
     $('select.kasbon').select2({
       dropdownParent: $("#exampleModal2"),
     });
