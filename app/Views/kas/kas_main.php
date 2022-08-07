@@ -214,8 +214,10 @@
               <label for="exampleInputEmail1">Jenis Pengeluaran</label>
               <select name="f1a" class="form-control form-control-sm jenisKeluar" style="width: 100%;" required>
                 <option value="" selected disabled></option>
-                <?php foreach ($this->dItemPengeluaran as $a) { ?>
-                  <option id="<?= $a['id_item_pengeluaran'] ?>" value="<?= $a['id_item_pengeluaran'] ?><explode><?= $a['item_pengeluaran'] ?>"><?= $a['item_pengeluaran'] ?></option>
+                <?php
+                $sf = 0;
+                foreach ($this->dItemPengeluaran as $ip) { ?>
+                  <option value="<?= $ip['id_item_pengeluaran'] ?><explode><?= $ip['item_pengeluaran'] ?>"><?= $ip['item_pengeluaran'] ?></option>
                 <?php } ?>
               </select>
             </div>

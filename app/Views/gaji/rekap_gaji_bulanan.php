@@ -69,7 +69,7 @@ $noInject = 0;
                   <td>
                     <select name="user" class="form-control form-control-sm karyawan" style="width: 100%;" required>
                       <option value="" selected disabled>Karyawan</option>
-                      <?php if (count($this->userCabang) > 0) {
+                      <?php if (count($this->user) > 0) {
                         foreach ($this->user as $a) { ?>
                           <option <?php if ($data['user']['id'] == $a['id_user']) {
                                     echo "selected";
@@ -687,7 +687,7 @@ $noInject = 0;
             <input name='tgl' type="hidden" value="<?= $currentYear . "-" . $currentMonth ?>" />
             <div class="form-group">
               <label for="exampleInputEmail1">Qty (Banyak)</label>
-              <input type="number" name="qty" min="1" class="form-control" id="exampleInputEmail1" placeholder="" required>
+              <input type="number" name="qty" min="1" class="form-control" id="exampleInputEmail1" value="1" required>
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
