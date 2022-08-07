@@ -1149,6 +1149,10 @@ foreach ($arrRekapAntrian as $ck => $value) {
       });
     });
 
+    $("a.hapusRef").on('click', function(e) {
+      e.preventDefault();
+    });
+
     $("a.ambil").on('click', function(e) {
       e.preventDefault();
       var idNya = $(this).attr('data-id');
