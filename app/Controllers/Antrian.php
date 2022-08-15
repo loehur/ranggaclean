@@ -21,6 +21,7 @@ class Antrian extends Controller
       $data_terima = array();
       $data_kembali = array();
       $pelanggan = array();
+      $surcas = array();
 
       switch ($antrian) {
          case 0:
@@ -124,6 +125,10 @@ class Antrian extends Controller
             //NOTIF BON
             $where = $this->wCabang . " AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
             $notif = $this->model('M_DB_1')->get_where('notif', $where);
+
+            //SURCAS
+            $where = $this->wCabang . " AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
+            $surcas = $this->model('M_DB_1')->get_where('surcas', $where);
          }
       } elseif ($antrian == 3) {
          if (count($numbers) > 0) {
@@ -135,7 +140,20 @@ class Antrian extends Controller
       }
 
       $this->view('layout', ['data_operasi' => $data_operasi]);
-      $this->view($viewData, ['pelanggan' => $pelanggan, 'modeView' => $antrian, 'data_main' => $data_main, 'operasi' => $operasi, 'kas' => $kas, 'notif' => $notif, 'notif_penjualan' => $notifPenjualan, 'dataTanggal' => $dataTanggal, 'idOperan' => $idOperan, 'dTerima' => $data_terima, 'dKembali' => $data_kembali]);
+      $this->view($viewData, [
+         'pelanggan' => $pelanggan,
+         'modeView' => $antrian,
+         'data_main' => $data_main,
+         'operasi' => $operasi,
+         'kas' => $kas,
+         'notif' => $notif,
+         'notif_penjualan' => $notifPenjualan,
+         'dataTanggal' => $dataTanggal,
+         'idOperan' => $idOperan,
+         'dTerima' => $data_terima,
+         'dKembali' => $data_kembali,
+         'surcas' => $surcas
+      ]);
    }
 
    public function clearTuntas()
@@ -193,6 +211,24 @@ class Antrian extends Controller
                $this->notifReadySend($penjualan);
             }
          }
+      }
+   }
+
+   public function surcas()
+   {
+      $jenis = $_POST['surcas'];
+      $jumlah = $_POST['jumlah'];
+      $user = $_POST['user'];
+      $id_transaksi = $_POST['no_ref'];
+
+      $cols =  'id_cabang, transaksi_jenis, id_jenis_surcas, jumlah, id_user, no_ref';
+      $vals = $this->id_cabang . ",1," . $jenis . "," . $jumlah . "," . $user . "," . $id_transaksi;
+
+      $setOne = "transaksi_jenis = 1 AND no_ref = " . $id_transaksi . " AND id_jenis_surcas = " . $jenis;
+      $where = $this->wCabang . " AND " . $setOne;
+      $data_main = $this->model('M_DB_1')->count_where('surcas', $where);
+      if ($data_main < 1) {
+         $this->model('M_DB_1')->insertCols('surcas', $cols, $vals);
       }
    }
 

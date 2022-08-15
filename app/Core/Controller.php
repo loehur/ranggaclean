@@ -40,6 +40,7 @@ class Controller extends URL
                 $this->pelangganLaundry = $_SESSION['order']['pelangganLaundry'];
                 $this->harga = $_SESSION['order']['harga'];
                 $this->itemGroup = $_SESSION['order']['itemGroup'];
+                $this->surcas = $_SESSION['order']['surcas'];
                 $this->diskon = $_SESSION['order']['diskon'];
                 $this->setPoin = $_SESSION['order']['setPoin'];
                 $this->langganan = $_SESSION['langganan'];
@@ -73,6 +74,7 @@ class Controller extends URL
         $this->dStatusMutasi = $_SESSION['data']['mutasi_status'];
         $this->pelanggan = $this->model('M_DB_1')->get_where("pelanggan", "id_laundry = " . $id_laundry . " AND id_pelanggan = " . $pelanggan);
         $this->wLaundry = 'id_laundry = ' . $id_laundry;
+        $this->surcasPublic = $this->model('M_DB_1')->get_where('surcas_jenis', 'id_laundry = ' . $id_laundry);
     }
 
 
@@ -116,6 +118,7 @@ class Controller extends URL
             'pelangganLaundry' => $this->model('M_DB_1')->get_where("pelanggan", "id_laundry = " . $_SESSION['user']['id_laundry']),
             'harga' => $this->model('M_DB_1')->get_where("harga", "id_laundry = " . $_SESSION['user']['id_laundry'] . " ORDER BY sort ASC"),
             'itemGroup' => $this->model('M_DB_1')->get_where("item_group", "id_laundry = " . $_SESSION['user']['id_laundry']),
+            'surcas' => $this->model('M_DB_1')->get_where("surcas_jenis", "id_laundry = " . $_SESSION['user']['id_laundry']),
             'diskon' => $this->model('M_DB_1')->get_where("diskon_qty", "id_laundry = " . $_SESSION['user']['id_laundry']),
             'setPoin' => $this->model('M_DB_1')->get_where("poin_set", "id_laundry = " . $_SESSION['user']['id_laundry']),
         );

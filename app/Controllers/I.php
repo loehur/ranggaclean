@@ -15,6 +15,7 @@ class I extends Controller
       $data_main = array();
       $data_terima = array();
       $data_kembali = array();
+      $surcas = array();
 
       $data_tanggal = array();
       if (isset($_POST['Y'])) {
@@ -47,6 +48,10 @@ class I extends Controller
          $max_ref = max($refs);
          $where = "jenis_transaksi = 1 AND (ref_transaksi BETWEEN " . $min_ref . " AND " . $max_ref . ")";
          $kas = $this->model('M_DB_1')->get_where('kas', $where);
+
+         //SURCAS
+         $where = "no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
+         $surcas = $this->model('M_DB_1')->get_where('surcas', $where);
       }
 
       $data_member = array();
@@ -93,7 +98,8 @@ class I extends Controller
          'dKembali' => $data_kembali,
          'listPaket' => $list_paket,
          'laundry' => $idLaundry,
-         'data_member' => $data_member
+         'data_member' => $data_member,
+         'surcas' => $surcas
       ]);
    }
 

@@ -567,6 +567,18 @@ if ($log_mode == 1) {
                                                     </p>
                                                 </a>
                                             </li>
+
+                                            <li class="nav-item">
+                                                <a href="<?= $this->BASE_URL ?>Data_List/i/surcas" class="nav-link 
+              <?php if ($title == 'Surcharge') {
+                                        echo 'active';
+                                    } ?>">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>
+                                                        Surcharge
+                                                    </p>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </li>
 

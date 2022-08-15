@@ -255,6 +255,7 @@ $pelanggan_post = $data['pelanggan'];
           <small>
           <span class='bg-white rounded pr-1 pl-1'>" . $buttonNotif . "</span>
           &nbsp;<a href='#'><span onclick=Print(" . $idLabel . ") class='bg-white rounded pr-1 pl-1'><i class='fa fa-tag'></i></span></a>
+          <a href='#'><span onclick=setID('id_transaksi'," . $noref . ") class='bg-white rounded pr-1 pl-1' data-bs-toggle='modal' data-bs-target='#exampleModalSurcas'><i class='fa fa-plus'></i></span></a>
           <span class='bg-white rounded pr-1 pl-1'><a class='text-dark' href='" . $this->BASE_URL . "I/i/" . $this->id_laundry . "/" . $f17 . "' target='_blank'><i class='fas fa-file-invoice'></i> Bill</a></span>
           <span class='bg-white rounded pr-1 pl-1'>" .  $buttonDirectWA  . "</span>
           <a class='text-dark bg-white rounded pr-1 pl-1' href='#' onclick='bonJPG(" . $urutRef . "," . $noref . ", " . $f17 . ")' class=''><i class='far fa-arrow-alt-circle-down'></i> BonJPG</a>
@@ -580,6 +581,28 @@ $pelanggan_post = $data['pelanggan'];
         <?php
 
         if ($arrCount_Noref == $no_urut) {
+
+          //SURCAS
+          foreach ($data['surcas'] as $sca) {
+            if ($sca['no_ref'] == $noref) {
+              foreach ($this->surcas as $sc) {
+                if ($sc['id_surcas_jenis'] == $sca['id_jenis_surcas']) {
+                  $surcasNya = $sc['surcas_jenis'];
+                }
+              }
+
+              foreach ($this->userMerge as $p) {
+                if ($p['id_user'] == $sca['id_user']) {
+                  $userCas = $p['nama_user'];
+                }
+              }
+              $jumlahCas = $sca['jumlah'];
+              $tglCas = "<small><b><i class='fas fa-check-circle text-success'></i> " . $userCas . "</b> Input <span style='white-space: pre;'>" . substr($sca['insertTime'], 5, 11) . "</span></small><br>";
+              echo "<tr><td></td><td>" . $surcasNya . "</td><td>" . $tglCas . "</td><td align='right'>Rp" . number_format($jumlahCas) . "</td></tr>";
+              $subTotal += $jumlahCas;
+            }
+          }
+
           if ($totalBayar > 0) {
             $enHapus = false;
           }
@@ -615,17 +638,22 @@ $pelanggan_post = $data['pelanggan'];
           echo "</td></tr>";
 
           if ($adaBayar == true) {
-            echo "<tr class='row" . $noref . "'>";
-            echo "<td nowrap colspan='4' class='text-right'>";
-            echo $showMutasi;
-            echo "<span class='text-danger sisaTagihan" . $noref . "'>";
-            if (($sisaTagihan < intval($subTotal)) && (intval($sisaTagihan) > 0)) {
-              echo  "<b><i class='fas fa-exclamation-circle'></i> Sisa Rp" . number_format($sisaTagihan) . "</b>";
-            }
-            echo "</span>";
-            echo "</td>";
-            echo "</tr>";
+            $classMutasi = "";
+          } else {
+            $classMutasi = "d-none";
           }
+
+          echo "<tr class='row" . $noref . " sisaTagihan" . $noref . " " . $classMutasi . "'>";
+          echo "<td nowrap colspan='4' class='text-right'>";
+          echo $showMutasi;
+          echo "<span class='text-danger sisaTagihan" . $noref . "'>";
+          if (($sisaTagihan < intval($subTotal)) && (intval($sisaTagihan) > 0)) {
+            echo  "<b><i class='fas fa-exclamation-circle'></i> Sisa Rp" . number_format($sisaTagihan) . "</b>";
+          }
+          echo "</span>";
+          echo "</td>";
+          echo "</tr>";
+
 
           echo "</tbody></table>";
           echo "</div></div>";
@@ -958,6 +986,57 @@ $pelanggan_post = $data['pelanggan'];
   </div>
 </form>
 
+<form action="<?= $this->BASE_URL; ?>Antrian/surcas" method="POST">
+  <div class="modal" id="exampleModalSurcas">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Surcharge/Biaya Tambahan</h5>
+        </div>
+        <div class="modal-body">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Jenis Surcharge</label>
+              <select name="surcas" class="form-control form-control-sm" style="width: 100%;" required>
+                <option value="" selected disabled></option>
+                <?php foreach ($this->surcas as $sc) { ?>
+                  <option value="<?= $sc['id_surcas_jenis'] ?>"><?= $sc['surcas_jenis'] ?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <input type="hidden" name="no_ref" id="id_transaksi">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Jumlah Biaya</label>
+              <input type="number" name="jumlah" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Di input Oleh</label>
+              <select name="user" class="form-control form-control-sm userSurcas" style="width: 100%;" required>
+                <option value="" selected disabled></option>
+                <optgroup label="<?= $this->dLaundry['nama_laundry'] ?> [<?= $this->dCabang['kode_cabang'] ?>]">
+                  <?php foreach ($this->user as $a) { ?>
+                    <option id="<?= $a['id_user'] ?>" value="<?= $a['id_user'] ?>"><?= $a['id_user'] . "-" . strtoupper($a['nama_user']) ?></option>
+                  <?php } ?>
+                </optgroup>
+                <?php if (count($this->userCabang) > 0) { ?>
+                  <optgroup label="----- Cabang Lain -----">
+                    <?php foreach ($this->userCabang as $a) { ?>
+                      <option id="<?= $a['id_user'] ?>" value="<?= $a['id_user'] ?>"><?= $a['id_user'] . "-" . strtoupper($a['nama_user']) ?></option>
+                    <?php } ?>
+                  </optgroup>
+                <?php } ?>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-sm btn-primary">Tambah</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
 <?php
 
 foreach ($arrRekapAntrian as $ck => $value) {
@@ -1038,7 +1117,6 @@ foreach ($arrRekapAntrian as $ck => $value) {
           success: function(response) {
             $('span.sisaTagihan' + noref).hide();
             $('span.showLunas' + noref).hide();
-            $('span.sisaTagihan' + noref).hide();
             if (parseFloat(diBayar) >= parseFloat(totalTagihan)) {
               $('td.buttonBayar' + noref).html("");
               $('span.showLunas' + noref).html("<b><i class='fas fa-check-circle text-success'></i></b> ");
@@ -1053,12 +1131,21 @@ foreach ($arrRekapAntrian as $ck => $value) {
               $('td.buttonBayar' + noref).html("");
               $('span.sisaTagihan' + noref).html("<b><i class='fas fa-exclamation-circle'></i> Sisa Rp" + showSisa + "</b>");
               $('span.sisaTagihan' + noref).fadeIn(1500);
+              $('tr.sisaTagihan' + noref).removeClass('d-none');
               $('.modal').click();
             }
           },
         });
       } else {
-        $(this).submit();
+        e.preventDefault();
+        $.ajax({
+          url: $(this).attr('action'),
+          data: $(this).serialize(),
+          type: $(this).attr("method"),
+          success: function(response) {
+            location.reload(true);
+          },
+        });
       }
       $('form').trigger('reset');
     });
@@ -1437,11 +1524,21 @@ foreach ($arrRekapAntrian as $ck => $value) {
     });
   }
 
+  function setID(idNya, value) {
+    $("#" + idNya).val(value);
+  }
+
   function selectList() {
     $('select.operasi').val('').change();
     $('select.operasi').trigger("change");
     $('select.operasi').select2({
       dropdownParent: $("#exampleModal"),
+    });
+
+    $('select.userSurcas').val('').change();
+    $('select.userSurcas').trigger("change");
+    $('select.userSurcas').select2({
+      dropdownParent: $("#exampleModalSurcas"),
     });
 
     $('select.userChangeBayar').val('').change();

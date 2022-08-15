@@ -535,6 +535,24 @@ if (count($data['dataTanggal']) > 0) {
     }
 
     if ($arrCount == $no) {
+
+      //SURCAS
+      foreach ($data['surcas'] as $sca) {
+        if ($sca['no_ref'] == $noref) {
+          foreach ($this->surcasPublic as $sc) {
+            if ($sc['id_surcas_jenis'] == $sca['id_jenis_surcas']) {
+              $surcasNya = $sc['surcas_jenis'];
+            }
+          }
+
+          $jumlahCas = $sca['jumlah'];
+          $Rtotal_tagihan += $jumlahCas;
+          $tglCas = "<small><i class='fas fa-check-circle text-success'></i> Surcharged <span style='white-space: pre;'>" . substr($sca['insertTime'], 5, 11) . "</span></small><br>";
+          echo "<tr><td><small>" . $surcasNya . "</small></td><td>" . $tglCas . "</td><td align='right'>Rp" . number_format($jumlahCas) . "</td></tr>";
+          $subTotal += $jumlahCas;
+        }
+      }
+
       $Rtotal_dibayar = $Rtotal_dibayar + $totalBayar;
       $sisaTagihan = intval($subTotal) - $totalBayar;
       $textPoin = "";
@@ -777,8 +795,7 @@ if (count($data['dataTanggal']) > 0) {
       <!-- SCRIPT -->
       <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
       <script src="<?= $this->ASSETS_URL ?>js/popper.min.js"></script>
-      <script src="<?= $this->ASSETS_URL ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script src="<?= $this->ASSETS_URL ?>plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
 
       <script>
         $(document).ready(function() {

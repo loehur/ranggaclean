@@ -32,6 +32,14 @@ class Data_List extends Controller
             $order = 'id_item_pengeluaran ASC';
             $data_main = $this->model('M_DB_1')->get_where_order($table, $where, $order);
             break;
+         case "surcas":
+            $view = 'data_list/' . $page;
+            $data_operasi = ['title' => 'Surcharge'];
+            $table = "surcas_jenis";
+            $where = $this->wLaundry;
+            $order = 'id_surcas_jenis ASC';
+            $data_main = $this->model('M_DB_1')->get_where_order($table, $where, $order);
+            break;
          case "user":
             $view = 'data_list/' . $page;
             $data_operasi = ['title' => 'Data Karyawan'];
@@ -91,6 +99,19 @@ class Data_List extends Controller
                $this->dataSynchrone();
             }
             break;
+         case "surcas":
+            $table = "surcas_jenis";
+            $cols = 'id_laundry, surcas_jenis';
+            $f1 = $_POST['f1'];
+            $vals = $this->id_laundry . ",'" . $f1 . "'";
+            $setOne = "surcas_jenis = '" . $f1 . "'";
+            $where = $this->wLaundry . " AND " . $setOne;
+            $data_main = $this->model('M_DB_1')->count_where($table, $where);
+            if ($data_main < 1) {
+               $this->model('M_DB_1')->insertCols($table, $cols, $vals);
+               $this->dataSynchrone();
+            }
+            break;
          case "pelanggan":
             $cols = 'id_laundry, id_cabang, nama_pelanggan, nomor_pelanggan, id_notif_mode, alamat';
             $nama_pelanggan = $_POST['f1'];
@@ -135,6 +156,12 @@ class Data_List extends Controller
                $col = "item_pengeluaran";
             }
             $where = $this->wLaundry . " AND id_item_pengeluaran = " . $id;
+            break;
+         case "surcas_jenis":
+            if ($mode == 1) {
+               $col = "surcas_jenis";
+            }
+            $where = $this->wLaundry . " AND id_surcas_jenis = " . $id;
             break;
          case "pelanggan":
             switch ($mode) {
