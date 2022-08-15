@@ -1,13 +1,14 @@
+<?php $kas = $data['saldo']; ?>
+
 <div class="content">
   <div class="container-fluid">
-
     <div class="row">
       <div class="col-auto p-1">
         <div class="p-0">
           <div class="d-flex flex-row">
             <div class="mr-auto">
               <small>Saldo Kas</small><br>
-              <span class="text-bold text-success">Rp. <?= number_format($data['saldo']); ?></span>
+              <span class="text-bold text-success">Rp. <?= number_format($kas); ?></span>
             </div>
             <div class="p-0 pr-0 pb-2 pt-2">
               <div class="btn-group dropdown">
@@ -210,6 +211,9 @@
         <!-- ====================== FORM ========================= -->
         <form action="<?= $this->BASE_URL; ?>Kas/insert_pengeluaran" method="POST">
           <div class="card-body">
+            <div class="form-group">
+              <input type="text" name="kas" class="form-control text-center text-bold saldoKas" id="exampleInputEmail1" readonly>
+            </div>
             <div class="form-group" id="jenisKeluar">
               <label for="exampleInputEmail1">Jenis Pengeluaran</label>
               <select name="f1a" class="form-control form-control-sm jenisKeluar" style="width: 100%;" required>
@@ -223,7 +227,7 @@
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Jumlah Rp</label>
-              <input type="number" name="f2" min="1000" class="form-control" id="exampleInputEmail1" placeholder="" required>
+              <input type="number" name="f2" min="1000" class="form-control jumlahTarik" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Keterangan/Banyak</label>
@@ -269,8 +273,11 @@
         <form action="<?= $this->BASE_URL; ?>Kas/insert" method="POST">
           <div class="card-body">
             <div class="form-group">
+              <input type="text" name="kas" class="form-control text-center text-bold saldoKas" id="exampleInputEmail1" readonly>
+            </div>
+            <div class="form-group">
               <label for="exampleInputEmail1">Jumlah Rp</label>
-              <input type="number" name="f2" min="1000" class="form-control" id="exampleInputEmail1" placeholder="" required>
+              <input type="number" name="f2" min="1000" class="form-control jumlahTarik" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Keterangan</label>
@@ -315,6 +322,9 @@
         <form action="<?= $this->BASE_URL; ?>Kasbon/insert" method="POST">
           <div class="card-body">
             <div class="form-group">
+              <input type="text" name="kas" class="form-control text-center text-bold saldoKas" id="exampleInputEmail1" readonly>
+            </div>
+            <div class="form-group">
               <label for="exampleInputEmail1">Karyawan Kasbon</label>
               <select name="f1" class="form-control form-control-sm" style="width: 100%;" required>
                 <option value="" selected disabled></option>
@@ -327,7 +337,7 @@
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Jumlah</label>
-              <input type="number" name="f2" min="1000" class="form-control" id="exampleInputEmail1" placeholder="" required>
+              <input type="number" name="f2" min="1000" class="form-control jumlahTarik" id="exampleInputEmail1" placeholder="" required>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Metode</label>
@@ -383,6 +393,8 @@
   $(document).ready(function() {
     selectList();
     $("div#nTunai").hide();
+    var saldoKas = <?= $kas ?>;
+    $('input.saldoKas').val(formatter.format(saldoKas));
   });
 
   $("form").on("submit", function(e) {
@@ -409,6 +421,33 @@
     }
   });
 
+  $("input.jumlahTarik").on("keyup change", function() {
+    if ($(this).val() > 0) {
+      saldoKas = <?= $kas ?>;
+      var potong = $(this).val();
+      var sisaKas = parseInt(saldoKas) - parseInt(potong);
+
+      $('input.saldoKas').val(formatter.format(sisaKas));
+      if (sisaKas < 0) {
+        $('input.saldoKas').addClass('text-danger');
+      } else {
+        $('input.saldoKas').removeClass('text-danger');
+      }
+    } else {
+      $('input.saldoKas').val(formatter.format(saldoKas));
+      $('input.saldoKas').removeClass('text-danger');
+    }
+  });
+
+  $("button.dropdown-toggle").focus(function() {
+    $('input.saldoKas').val(formatter.format(saldoKas));
+    $('input.saldoKas').removeClass('text-danger');
+  });
+
+  var formatter = new Intl.NumberFormat('en-ID', {
+    style: 'currency',
+    currency: 'IDR',
+  });
 
   function selectList() {
     $('select.userKeluar').select2({
