@@ -16,6 +16,7 @@ class DataHapus extends Controller
       $kas = array();
       $notif = array();
       $notifPenjualan = array();
+      $surcas = array();
 
       $data_operasi = ['title' => 'Approval Data Hapus'];
       $where = $this->wCabang . " AND id_pelanggan <> 0 AND bin = 1 ORDER BY id_penjualan DESC LIMIT 300";
@@ -40,10 +41,21 @@ class DataHapus extends Controller
 
          $where = $this->wCabang . " AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
          $notif = $this->model('M_DB_1')->get_where('notif', $where);
+
+         //SURCAS
+         $where = $this->wCabang . " AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
+         $surcas = $this->model('M_DB_1')->get_where('surcas', $where);
       }
 
       $this->view('layout', ['data_operasi' => $data_operasi]);
-      $this->view($viewData, ['data_main' => $data_main, 'operasi' => $operasi, 'kas' => $kas, 'notif' => $notif, 'notif_penjualan' => $notifPenjualan]);
+      $this->view($viewData, [
+         'data_main' => $data_main,
+         'operasi' => $operasi,
+         'kas' => $kas,
+         'notif' => $notif,
+         'notif_penjualan' => $notifPenjualan,
+         'surcas' => $surcas
+      ]);
    }
 
    public function hapusRelated()
@@ -53,8 +65,14 @@ class DataHapus extends Controller
       if (isset($_POST['dataRef'])) {
          $dataRef = unserialize($_POST['dataRef']);
          foreach ($dataRef as $a) {
-            $where = $this->wCabang . " AND ref_transaksi = " . $a . " AND jenis_transaksi = " . $transaksi;
+
+            //KAS
+            $where = $this->wCabang . " AND ref_transaksi = '" . $a . "' AND jenis_transaksi = " . $transaksi;
             $this->model('M_DB_1')->delete_where("kas", $where);
+
+            //SURCHARGE
+            $where2 = $this->wCabang . " AND no_ref = '" . $a . "' AND transaksi_jenis = 1";
+            $this->model('M_DB_1')->delete_where("surcas", $where2);
          }
       }
       if (isset($_POST['dataID']) && $transaksi <> 3) {

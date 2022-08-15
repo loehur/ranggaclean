@@ -596,10 +596,17 @@ $pelanggan_post = $data['pelanggan'];
                   $userCas = $p['nama_user'];
                 }
               }
+
+              $id_surcas = $sca['id_surcas'];
               $jumlahCas = $sca['jumlah'];
               $tglCas = "<small><b><i class='fas fa-check-circle text-success'></i> " . $userCas . "</b> Input <span style='white-space: pre;'>" . substr($sca['insertTime'], 5, 11) . "</span></small><br>";
               echo "<tr><td></td><td>" . $surcasNya . "</td><td>" . $tglCas . "</td><td align='right'>Rp" . number_format($jumlahCas) . "</td></tr>";
               $subTotal += $jumlahCas;
+
+              $spkPrint = "<tr><td colspan='2'>[" . $this->dCabang['kode_cabang'] . "-S" . $id_surcas . "] <br><b>" . $surcasNya . "</b></td></tr><tr><td></td><td style='text-align: right;'><b>Rp" . number_format($jumlahCas) . "</b></td></tr><tr><td colspan='2' style='border-bottom:1px dashed black;'></td></tr>";
+              $listPrint = $listPrint . $spkPrint;
+
+              $listNotif = $listNotif . "[" . $this->dCabang['kode_cabang'] . "-S" . $id_surcas . "] " . $surcasNya . " Rp" . number_format($jumlahCas) . ", ";
             }
           }
 

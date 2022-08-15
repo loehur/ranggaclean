@@ -297,6 +297,15 @@
                   }
 
                   if ($arrCount == $no) {
+
+                    //SURCAS
+                    foreach ($data['surcas'] as $sca) {
+                      if ($sca['no_ref'] == $noref) {
+                        $forbiddenCount++;
+                        array_push($arrNoref, $noref);
+                      }
+                    }
+
                     $buttonHapus = "<button data-ref='" . $noref . "' class='restoreRef badge-success mb-1 rounded btn-outline-success'><i class='fas fa-recycle'></i></button> ";
                     if ($totalBayar > 0) {
                       $forbiddenCount++;
