@@ -26,7 +26,7 @@ $pelanggan_post = $data['pelanggan'];
             <?php if ($modeView == 2 && isset($pelanggan_post)) { ?>
               <div class="p-1">
                 <label>ID Pelanggan</label><br>
-                <select name="pelanggan" class="pelanggan_post form-control form-control-sm" required>
+                <select name="pelanggan" class="pelanggan_post tize form-control form-control-sm" required>
                   <option value="" selected disabled>...</option>
                   <?php foreach ($this->pelanggan as $a) { ?>
                     <option <?php if ($pelanggan_post == $a['id_pelanggan']) {
@@ -37,7 +37,7 @@ $pelanggan_post = $data['pelanggan'];
               </div>
               <div class="p-1">
                 <label>Tahun</label>
-                <select name="Y" class="form-control form-control-sm" style="width: auto;">
+                <select name="Y" class="form-control tize form-control-sm" style="width: auto;">
                   <option class="text-right" value="2021" <?php if ($currentYear == 2021) {
                                                             echo 'selected';
                                                           } ?>>2021</option>
@@ -220,8 +220,8 @@ $pelanggan_post = $data['pelanggan'];
         if ($no_urut == 1) {
           $adaBayar = false;
           $cols++;
-          echo "<div class='col backShow " . strtoupper($pelanggan) . " p-0 m-1 rounded' style='max-width:400px;'><div class='bg-white rounded'>";
-          echo "<table class='table table-sm m-0 rounded w-100'>";
+          echo "<div id='load" . $noref . "' class='col backShow " . strtoupper($pelanggan) . " p-0 m-1 rounded' style='max-width:400px;'><div class='bg-white rounded'>";
+          echo "<table class='table table-sm m-0 rounded w-100 bg-white'>";
           $lunas = false;
           $totalBayar = 0;
           $subTotal = 0;
@@ -235,7 +235,7 @@ $pelanggan_post = $data['pelanggan'];
             }
           }
 
-          $buttonDirectWA = "<a href='#' data-idPelanggan = '" . $f17 . "' data-urutRef='" . $urutRef . "' data-hp='" . $no_pelanggan . "' data-mode='" . $modeNotif . "' data-ref='" . $noref . "' data-time='" . $timeRef . "' class='directWA'><i class='fas fa-paper-plane'></i> D-WA</span></a>";
+          $buttonDirectWA = "<a href='#' data-idPelanggan = '" . $f17 . "' data-urutRef='" . $urutRef . "' data-hp='" . $no_pelanggan . "' data-mode='" . $modeNotif . "' data-ref='" . $noref . "' data-time='" . $timeRef . "' class='directWA'><i class='fas fa-paper-plane'></i> DWA</span></a>";
 
           $dateToday = date("Y-m-d");
           if (strpos($f1, $dateToday) !== FALSE) {
@@ -255,10 +255,11 @@ $pelanggan_post = $data['pelanggan'];
           <small>
           <span class='bg-white rounded pr-1 pl-1'>" . $buttonNotif . "</span>
           &nbsp;<a href='#'><span onclick=Print(" . $idLabel . ") class='bg-white rounded pr-1 pl-1'><i class='fa fa-tag'></i></span></a>
-          <a href='#'><span onclick=setID('id_transaksi'," . $noref . ") class='bg-white rounded pr-1 pl-1' data-bs-toggle='modal' data-bs-target='#exampleModalSurcas'><i class='fa fa-plus'></i></span></a>
+          <a href='#' class='tambahCas' data-ref=" . $noref . " data-tr='id_transaksi'><span class='bg-white rounded pr-1 pl-1' data-bs-toggle='modal' data-bs-target='#exampleModalSurcas'><i class='fa fa-plus'></i></span></a>
           <span class='bg-white rounded pr-1 pl-1'><a class='text-dark' href='" . $this->BASE_URL . "I/i/" . $this->id_laundry . "/" . $f17 . "' target='_blank'><i class='fas fa-file-invoice'></i> Bill</a></span>
           <span class='bg-white rounded pr-1 pl-1'>" .  $buttonDirectWA  . "</span>
-          <a class='text-dark bg-white rounded pr-1 pl-1' href='#' onclick='bonJPG(" . $urutRef . "," . $noref . ", " . $f17 . ")' class=''><i class='far fa-arrow-alt-circle-down'></i> BonJPG</a>
+          <a class='text-dark bg-white rounded pr-1 pl-1' href='#' onclick='bonJPG(" . $urutRef . "," . $noref . ", " . $f17 . ")' class=''><i class='far fa-arrow-alt-circle-down'></i> JPG</a>
+          <span id='reload" . $noref . "' style='cursor: pointer' onclick=loadDiv('" . $noref . "') class='bg-white rounded pr-1 pl-1'><i class='fas fa-redo'></i></span>
           </small>
           </div>
           
@@ -326,9 +327,9 @@ $pelanggan_post = $data['pelanggan'];
               }
               if ($check == 0) {
                 if ($b == $endLayanan) {
-                  $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='endLayanan'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span> <br><span class='d-none ambilAfterSelesai" . $id . $b . "'><small><a href='#' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal4' class='ambil text-dark ambil" . $id . "'><i class='fas fa-info-circle'></i> Ambil</a></small></span>";
+                  $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='endLayanan'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span> <br><span class='d-none ambilAfterSelesai" . $id . $b . "'><small><a href='#' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal4' class='ambil text-dark ambil" . $id . "'><i class='fas fa-info-circle'></i> Ambil</a></small></span>";
                 } else {
-                  $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='addOperasi'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span> <br>";
+                  $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='addOperasi'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span> <br>";
                 }
 
                 $layananNow = $c['layanan'];
@@ -823,7 +824,7 @@ $pelanggan_post = $data['pelanggan'];
   </div>
 </div>
 
-<form data-operasi="" action="<?= $this->BASE_URL; ?>Antrian/bayar" method="POST">
+<form data-operasi="" class="ajax" action="<?= $this->BASE_URL; ?>Antrian/bayar" method="POST">
   <div class="modal" id="exampleModal2">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -868,7 +869,7 @@ $pelanggan_post = $data['pelanggan'];
               <div class="col-sm-6">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Penerima</label>
-                  <select name="f2" class="form-control form-control-sm userChangeBayar" style="width: 100%;" required>
+                  <select name="f2" class="form-control form-control-sm tize userChangeBayar" style="width: 100%;" required>
                     <option value="" selected disabled></option>
                     <optgroup label="<?= $this->dLaundry['nama_laundry'] ?> [<?= $this->dCabang['kode_cabang'] ?>]">
                       <?php foreach ($this->user as $a) { ?>
@@ -908,7 +909,7 @@ $pelanggan_post = $data['pelanggan'];
   </div>
 </form>
 
-<form data-operasi="" action="<?= $this->BASE_URL; ?>Antrian/ambil" method="POST">
+<form class="ajax" data-operasi="" action="<?= $this->BASE_URL; ?>Antrian/ambil" method="POST">
   <div class="modal" id="exampleModal4">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
@@ -919,7 +920,7 @@ $pelanggan_post = $data['pelanggan'];
           <div class="card-body">
             <div class="form-group">
               <label for="exampleInputEmail1">Pengembali</label>
-              <select name="f1" class="ambil form-control form-control-sm userChange" style="width: 100%;" required>
+              <select name="f1" class="ambil form-control form-control-sm tize userChange" style="width: 100%;" required>
                 <option value="" selected disabled></option>
                 <optgroup label="<?= $this->dLaundry['nama_laundry'] ?> [<?= $this->dCabang['kode_cabang'] ?>]">
                   <?php foreach ($this->user as $a) { ?>
@@ -946,7 +947,7 @@ $pelanggan_post = $data['pelanggan'];
   </div>
 </form>
 
-<form data-operasi="" class="operasi" action="<?= $this->BASE_URL; ?>Antrian/operasi" method="POST">
+<form data-operasi="" class="operasi ajax" action="<?= $this->BASE_URL; ?>Antrian/operasi" method="POST">
   <div class="modal" id="exampleModal">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
@@ -957,7 +958,7 @@ $pelanggan_post = $data['pelanggan'];
           <div class="card-body">
             <div class="form-group">
               <label for="exampleInputEmail1">Karyawan</label>
-              <select name="f1" class="operasi form-control form-control-sm userChange" style="width: 100%;" required>
+              <select name="f1" class="operasi form-control tize form-control-sm userChange" style="width: 100%;" required>
                 <option value="" selected disabled></option>
                 <optgroup label="<?= $this->dLaundry['nama_laundry'] ?> [<?= $this->dCabang['kode_cabang'] ?>]">
                   <?php foreach ($this->user as $a) { ?>
@@ -993,7 +994,7 @@ $pelanggan_post = $data['pelanggan'];
   </div>
 </form>
 
-<form action="<?= $this->BASE_URL; ?>Antrian/surcas" method="POST">
+<form class="ajax" action="<?= $this->BASE_URL; ?>Antrian/surcas" method="POST">
   <div class="modal" id="exampleModalSurcas">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
@@ -1018,7 +1019,7 @@ $pelanggan_post = $data['pelanggan'];
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Di input Oleh</label>
-              <select name="user" class="form-control form-control-sm userSurcas" style="width: 100%;" required>
+              <select name="user" class="form-control tize form-control-sm userSurcas" style="width: 100%;" required>
                 <option value="" selected disabled></option>
                 <optgroup label="<?= $this->dLaundry['nama_laundry'] ?> [<?= $this->dCabang['kode_cabang'] ?>]">
                   <?php foreach ($this->user as $a) { ?>
@@ -1054,107 +1055,45 @@ foreach ($arrRekapAntrian as $ck => $value) {
 <!-- SCRIPT -->
 <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/popper.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/select2/select2.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/dom-to-image.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>js/FileSaver.min.js"></script>
 <script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
+<script src="<?= $this->ASSETS_URL ?>js/selectize.min.js"></script>
 
 <script>
+  var noref;
+
+  $('.modal').on('show.bs.modal', function() {
+    $('form').find('.selectized').each(function(index, element) {
+      element.selectize && element.selectize.clear()
+    })
+    $('form').trigger('reset');
+  });
+
   $(document).ready(function() {
     $("span#rekapHarian").html("<?= $rekapAntrian ?>");
     $("div#nTunai").hide();
     var noref = '';
     var idRow = '';
     var idtargetOperasi = '';
-    selectList();
     $("div#waitReady").removeClass("invisible");
 
-    $("form").on("submit", function(e) {
-      var target = $(this).attr('data-operasi');
-      if (target == 'operasi') {
-        e.preventDefault();
-        $.ajax({
-          url: $(this).attr('action'),
-          data: $(this).serialize(),
-          type: $(this).attr("method"),
-          success: function(response) {
-            $('#' + idtargetOperasi).hide()
-            $('#' + idtargetOperasi).html('<small><b><i class="fas fa-check-circle text-success"></i> ' + userClick + ' </small>');
-            $('#' + idtargetOperasi).fadeIn(1500);
-            $('.modal').click();
-          },
-        });
-      } else if (target == 'operasiSelesai') {
-        e.preventDefault();
-        var rak = $("input#letakRAK").val().toUpperCase();
-        $.ajax({
-          url: $(this).attr('action'),
-          data: $(this).serialize(),
-          type: $(this).attr("method"),
-          success: function(response) {
-            $('#' + idtargetOperasi).hide()
-            $('#' + idtargetOperasi).html('<small><b><i class="fas fa-check-circle text-success"></i> ' + userClick + ' </small>');
-            $('span.noRAK' + idRow).html("<h6><b>" + rak + "</b></h6>");
-            $('#' + idtargetOperasi).fadeIn(1500);
-            $('span.ambilAfterSelesai' + idtargetOperasi).removeClass('d-none');
-            $('.modal').click();
-            $("input#letakRAK").val("");
-          },
-        });
-      } else if (target == 'operasiAmbil') {
-        e.preventDefault();
-        $.ajax({
-          url: $(this).attr('action'),
-          data: $(this).serialize(),
-          type: $(this).attr("method"),
-          success: function(response) {
-            $('span.operasiAmbil' + idRow).hide();
-            $('a.ambil' + idRow).hide();
-            $('span.operasiAmbil' + idRow).html("<small><b><i class='fas fa-check-circle text-success'></i> Ambil</b> " + userClick + " </small>");
-            $('span.operasiAmbil' + idRow).fadeIn(1500);
-            $('.modal').click();
-          },
-        });
-      } else if (target == 'operasiBayar') {
-        e.preventDefault();
-        $.ajax({
-          url: $(this).attr('action'),
-          data: $(this).serialize(),
-          type: $(this).attr("method"),
-          success: function(response) {
-            $('span.sisaTagihan' + noref).hide();
-            $('span.showLunas' + noref).hide();
-            if (parseFloat(diBayar) >= parseFloat(totalTagihan)) {
-              $('td.buttonBayar' + noref).html("");
-              $('span.showLunas' + noref).html("<b><i class='fas fa-check-circle text-success'></i></b> ");
-              $('span.showLunas' + noref).fadeIn(1500);
-              $('.modal').click();
-            } else {
-              var sisa = totalTagihan - diBayar;
-              var showSisa = Intl.NumberFormat({
-                style: 'currency',
-                currency: 'IDR'
-              }).format(sisa);
-              $('td.buttonBayar' + noref).html("");
-              $('span.sisaTagihan' + noref).html("<b><i class='fas fa-exclamation-circle'></i> Sisa Rp" + showSisa + "</b>");
-              $('span.sisaTagihan' + noref).fadeIn(1500);
-              $('tr.sisaTagihan' + noref).removeClass('d-none');
-              $('.modal').click();
-            }
-          },
-        });
-      } else {
-        e.preventDefault();
-        $.ajax({
-          url: $(this).attr('action'),
-          data: $(this).serialize(),
-          type: $(this).attr("method"),
-          success: function(response) {
-            location.reload(true);
-          },
-        });
-      }
-      $('form').trigger('reset');
+    $('select.tize').selectize({
+      sortField: 'text'
+    });
+
+    $("form.ajax").on("submit", function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        type: $(this).attr("method"),
+        success: function() {
+          $(this).trigger('reset');
+          $('.modal').click();
+          $("span#reload" + noref).click();
+        },
+      });
     });
 
     $("span.addOperasi").on('click', function(e) {
@@ -1162,14 +1101,15 @@ foreach ($arrRekapAntrian as $ck => $value) {
       $('div.letakRAK').hide();
       $('input#letakRAK').prop('required', false);
       $('form.operasi').attr("data-operasi", "operasi");
+
       var idNya = $(this).attr('data-id');
       var valueNya = $(this).attr('data-value');
       var layanan = $(this).attr('data-layanan');
+      noref = $(this).attr('data-ref');
       $("input.idItem").val(idNya);
       $("input.valueItem").val(valueNya);
       $('b.operasi').html(layanan);
       idtargetOperasi = $(this).attr('id');
-
       var textNya = $('span.selesai' + idNya).html();
       var hpNya = $('span.selesai' + idNya).attr('data-hp');
       var modeNya = $('span.selesai' + idNya).attr('data-mode');
@@ -1187,6 +1127,7 @@ foreach ($arrRekapAntrian as $ck => $value) {
       var idNya = $(this).attr('data-id');
       var valueNya = $(this).attr('data-value');
       var layanan = $(this).attr('data-layanan');
+      noref = $(this).attr('data-ref');
       $("input.idItem").val(idNya);
       $("input.valueItem").val(valueNya);
       $('b.operasi').html(layanan);
@@ -1228,6 +1169,12 @@ foreach ($arrRekapAntrian as $ck => $value) {
       noref = refNya;
     });
 
+    $('.tambahCas').click(function() {
+      noref = $(this).attr('data-ref');
+      idNya = $(this).attr('data-tr');
+      $("#" + idNya).val(noref);
+    });
+
     $("a.hapusRef").on('dblclick', function(e) {
       e.preventDefault();
       var refNya = $(this).attr('data-ref');
@@ -1252,6 +1199,7 @@ foreach ($arrRekapAntrian as $ck => $value) {
       var idNya = $(this).attr('data-id');
       $('form').attr("data-operasi", "operasiAmbil");
       $("input.idItem").val(idNya);
+      noref = $(this).attr('data-ref');
       idRow = idNya;
     });
 
@@ -1531,43 +1479,11 @@ foreach ($arrRekapAntrian as $ck => $value) {
     });
   }
 
-  function setID(idNya, value) {
-    $("#" + idNya).val(value);
-  }
-
-  function selectList() {
-    $('select.operasi').val('').change();
-    $('select.operasi').trigger("change");
-    $('select.operasi').select2({
-      dropdownParent: $("#exampleModal"),
-    });
-
-    $('select.userSurcas').val('').change();
-    $('select.userSurcas').trigger("change");
-    $('select.userSurcas').select2({
-      dropdownParent: $("#exampleModalSurcas"),
-    });
-
-    $('select.userChangeBayar').val('').change();
-    $('select.userChangeBayar').trigger("change");
-    $('select.userChangeBayar').select2({
-      dropdownParent: $("#exampleModal2"),
-    });
-
-    $('select.ambil').val('').change();
-    $('select.ambil').trigger("change");
-    $('select.ambil').select2({
-      dropdownParent: $("#exampleModal4"),
-    });
-
-    $('select.pelanggan_post').select2();
-  }
-
-  $('.modal').on('hidden.bs.modal', function() {
-    selectList();
-  });
-
   $(document).on('select2:open', () => {
     document.querySelector('.select2-search__field').focus();
   });
+
+  function loadDiv(ref) {
+    $("div#load" + ref).load("<?= $this->BASE_URL ?>Antrian/load/" + ref + "/" + <?= $modeView ?>);
+  }
 </script>

@@ -566,4 +566,68 @@ class Antrian extends Controller
    {
       echo $this->poin();
    }
+
+   public function load($ref, $antrian)
+   {
+      $operasi = array();
+      $kas = array();
+      $notif = array();
+      $notifPenjualan = array();
+      $dataTanggal = array();
+      $data_main = array();
+      $idOperan = "";
+      $data_terima = array();
+      $data_kembali = array();
+      $pelanggan = array();
+      $surcas = array();
+
+
+      $where = $this->wCabang . " AND id_pelanggan <> 0 AND bin = 0 AND no_ref = '" . $ref . "' AND tuntas = 0 ORDER BY id_penjualan DESC";
+      $data_main = $this->model('M_DB_1')->get_where($this->table, $where);
+      $viewData = 'antrian/view_load';
+
+      $numbers = array_column($data_main, 'id_penjualan');
+      $refs = array_column($data_main, 'no_ref');
+
+
+      if (count($numbers) > 0) {
+         $min = min($numbers);
+         $max = max($numbers);
+         $where = $this->wLaundry . " AND id_penjualan BETWEEN " . $min . " AND " . $max;
+         $operasi = $this->model('M_DB_1')->get_where('operasi', $where);
+
+         //NOTIF SELESAI
+         $where = $this->wCabang . " AND tipe = 1 AND no_ref BETWEEN " . $min . " AND " . $max;
+         $notifPenjualan = $this->model('M_DB_1')->get_where('notif', $where);
+      }
+      if (count($refs) > 0) {
+         //NOTIF SELESAI
+         $min_ref = min($refs);
+         $max_ref = max($refs);
+         $where = $this->wCabang . " AND jenis_transaksi = 1 AND (ref_transaksi BETWEEN " . $min_ref . " AND " . $max_ref . ")";
+         $kas = $this->model('M_DB_1')->get_where('kas', $where);
+
+         //NOTIF BON
+         $where = $this->wCabang . " AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
+         $notif = $this->model('M_DB_1')->get_where('notif', $where);
+
+         //SURCAS
+         $where = $this->wCabang . " AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
+         $surcas = $this->model('M_DB_1')->get_where('surcas', $where);
+      }
+      $this->view($viewData, [
+         'pelanggan' => $pelanggan,
+         'data_main' => $data_main,
+         'operasi' => $operasi,
+         'kas' => $kas,
+         'notif' => $notif,
+         'notif_penjualan' => $notifPenjualan,
+         'dataTanggal' => $dataTanggal,
+         'idOperan' => $idOperan,
+         'dTerima' => $data_terima,
+         'dKembali' => $data_kembali,
+         'surcas' => $surcas,
+         'modeView' => $antrian
+      ]);
+   }
 }
