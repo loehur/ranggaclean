@@ -123,21 +123,4 @@ class I extends Controller
          'laundry' => $idLaundry
       ]);
    }
-
-   public function Download($path)
-   {
-      header('Content-Description: File Transfer');
-      header('Content-Type: application/octet-stream');
-      header('Content-Disposition: attachment; filename="' . basename($path) . '"');
-      header('Content-Length: ' . filesize($path));
-      header('Pragma: public');
-      //Clear system output buffer
-      flush();
-
-      //Read the size of the file
-      readfile($path, true);
-
-      //Terminate from the script
-      die();
-   }
 }
