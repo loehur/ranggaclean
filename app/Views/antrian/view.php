@@ -219,8 +219,8 @@ $pelanggan_post = $data['pelanggan'];
         }
 
         $pelanggan_show = $pelanggan;
-        if (strlen($pelanggan) > 17) {
-          $pelanggan_show = substr($pelanggan, 0, 17) . "...";
+        if (strlen($pelanggan) > 20) {
+          $pelanggan_show = substr($pelanggan, 0, 20) . "...";
         }
 
         if ($no_urut == 1) {
@@ -269,7 +269,7 @@ $pelanggan_post = $data['pelanggan'];
           echo "<td class='text-center'><a href='#' class='text-dark' onclick='PrintContentRef(" . $urutRef . ", " . $f17 . ")'><i class='fas fa-print'></i></a></td>";
           echo "<td colspan='3'>
           
-          <b>" . strtoupper($pelanggan_show) . "</b>
+          <span style='cursor:pointer' title='" . $pelanggan . "'><b>" . strtoupper($pelanggan_show) . "</b></span>
           <div class='float-right'>
           <small>
           <span class='bg-white rounded pr-1 pl-1'>" . $buttonNotif . "</span>
