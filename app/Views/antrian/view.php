@@ -21,9 +21,9 @@ $pelanggan_post = $data['pelanggan'];
   <header>
     <div class="container-fluid">
       <div class="bg-white p-1 rounded border">
-        <form action="<?= $this->BASE_URL; ?>Antrian/i/2" method="POST">
-          <div id="waitReady" class="d-flex align-items-start align-items-end invisible">
-            <?php if ($modeView == 2 && isset($pelanggan_post)) { ?>
+        <div id="waitReady" class="d-flex align-items-start align-items-end invisible">
+          <?php if ($modeView == 2 && isset($pelanggan_post)) { ?>
+            <form action="<?= $this->BASE_URL; ?>Antrian/i/2" method="POST">
               <div class="p-1" style="width: 175px;">
                 <label>ID Pelanggan</label><br>
                 <select name="pelanggan" class="pelanggan_post tize form-control form-control-sm" required>
@@ -49,23 +49,24 @@ $pelanggan_post = $data['pelanggan'];
               <div class="pb-2">
                 <button type="submit" class="btn btn-sm btn-info">Cek</button>
               </div>
-            <?php } else { ?>
-              <div class="p-1 mr-auto">
-                <input id="searchInput" class="form-control form-control-sm mr-3 p-1 bg-light" type="text" placeholder="Pelanggan">
-              </div>
-              <div class="p-1">
-                <span class="btn btn-sm btn-success clearTuntas">Refresh</span>
-              </div>
-            <?php } ?>
-        </form>
-      </div>
-      <div id="waitReady" class="d-flex align-items-start align-items-end invisible">
-        <div class="p-1 mr-auto">
-          <span id="rekapHarian"></span>
-          <span id="tertuntas"></span>
+            </form>
+          <?php } else { ?>
+            <div class="p-1 mr-auto">
+              <input id="searchInput" class="form-control form-control-sm mr-3 p-1 bg-light" type="text" placeholder="Pelanggan">
+            </div>
+            <div class="p-1">
+              <span class="btn btn-sm btn-success clearTuntas">Refresh</span>
+            </div>
+          <?php } ?>
+
+        </div>
+        <div id="waitReady" class="d-flex align-items-start align-items-end invisible">
+          <div class="p-1 mr-auto">
+            <span id="rekapHarian"></span>
+            <span id="tertuntas"></span>
+          </div>
         </div>
       </div>
-    </div>
   </header>
 </div>
 
@@ -1392,8 +1393,6 @@ foreach ($arrRekapAntrian as $ck => $value) {
         }
       });
     });
-
-    $("span.clearTuntas").click();
   });
 
   function PrintContentRef(id, idPelanggan) {

@@ -1101,8 +1101,6 @@ foreach ($data['data_main'] as $a) {
           }
         });
       });
-
-      $("span.clearTuntas").click();
     });
 
     function PrintContentRef(id, idPelanggan) {
