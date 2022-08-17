@@ -333,7 +333,8 @@ $pelanggan_post = $data['pelanggan'];
                     }
                   }
 
-                  if ($b == $endLayanan) {
+                  $buttonNotifSelesai = "";
+                  if ($b == $endLayanan && $endLayananDone == true) {
                     foreach ($data['notif_penjualan'] as $notif) {
                       if ($notif['no_ref'] == $id) {
                         $stGet = $notif['status'];
