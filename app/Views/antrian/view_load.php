@@ -274,22 +274,24 @@ foreach ($data['data_main'] as $a) {
               }
             }
 
-            foreach ($data['notif_penjualan'] as $notif) {
-              if ($notif['no_ref'] == $id) {
-                $stGet = $notif['status'];
-                switch ($stGet) {
-                  case 1:
-                  case 5:
-                    $stNotif = "<i class='far fa-circle text-warning text-bold'></i>";
-                    break;
-                  case 2:
-                    $stNotif = "<i class='fas fa-check-circle text-success'></i>";
-                    break;
-                  default:
-                    $stNotif = "<i class='fas fa-exclamation-circle text-danger'></i>";
-                    break;
+            if ($endLayanan = true) {
+              foreach ($data['notif_penjualan'] as $notif) {
+                if ($notif['no_ref'] == $id) {
+                  $stGet = $notif['status'];
+                  switch ($stGet) {
+                    case 1:
+                    case 5:
+                      $stNotif = "<i class='far fa-circle text-warning text-bold'></i>";
+                      break;
+                    case 2:
+                      $stNotif = "<i class='fas fa-check-circle text-success'></i>";
+                      break;
+                    default:
+                      $stNotif = "<i class='fas fa-exclamation-circle text-danger'></i>";
+                      break;
+                  }
+                  $buttonNotifSelesai = "<small><span>" . $stNotif . " <b>" . $modeNotifShow . "</b> Selesai " . substr($notif['updateTime'], 5, 11) . "</span></small><br>";
                 }
-                $buttonNotifSelesai = "<small><span>" . $stNotif . " <b>" . $modeNotifShow . "</b> Selesai " . substr($notif['updateTime'], 5, 11) . "</span></small><br>";
               }
             }
 
