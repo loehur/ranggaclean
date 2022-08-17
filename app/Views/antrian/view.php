@@ -660,7 +660,7 @@ $pelanggan_post = $data['pelanggan'];
 
           $buttonHapus = "";
           if ($enHapus == true || $this->id_privilege >= 100) {
-            $buttonHapus = "<small><a href='#' data-ref='" . $noref . "' class='hapusRef mb-1'><i class='fas fa-trash-alt text-danger'></i></a><small> ";
+            $buttonHapus = "<small><a href='#' data-ref='" . $noref . "' class='hapusRef mb-1'><i class='fas fa-trash-alt text-secondary'></i></a><small> ";
           }
           if ($sisaTagihan < 1) {
             $lunas = true;
