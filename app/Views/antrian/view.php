@@ -24,18 +24,18 @@ $pelanggan_post = $data['pelanggan'];
         <form action="<?= $this->BASE_URL; ?>Antrian/i/2" method="POST">
           <div id="waitReady" class="d-flex align-items-start align-items-end invisible">
             <?php if ($modeView == 2 && isset($pelanggan_post)) { ?>
-              <div class="p-1">
+              <div class="p-1" style="width: 175px;">
                 <label>ID Pelanggan</label><br>
                 <select name="pelanggan" class="pelanggan_post tize form-control form-control-sm" required>
                   <option value="" selected disabled>...</option>
                   <?php foreach ($this->pelanggan as $a) { ?>
                     <option <?php if ($pelanggan_post == $a['id_pelanggan']) {
                               echo "selected";
-                            } ?> value="<?= $a['id_pelanggan'] ?>"><?= strtoupper($a['nama_pelanggan']) . " | " . $a['nomor_pelanggan']  ?></option>
+                            } ?> value="<?= $a['id_pelanggan'] ?>"><?= strtoupper($a['nama_pelanggan'])  ?></option>
                   <?php } ?>
                 </select>
               </div>
-              <div class="p-1">
+              <div class="pb-1 pr-1" style="width: 90px;">
                 <label>Tahun</label>
                 <select name="Y" class="form-control tize form-control-sm" style="width: auto;">
                   <option class="text-right" value="2021" <?php if ($currentYear == 2021) {
@@ -46,7 +46,7 @@ $pelanggan_post = $data['pelanggan'];
                                                           } ?>>2022</option>
                 </select>
               </div>
-              <div class="p-1">
+              <div class="pb-2">
                 <button type="submit" class="btn btn-sm btn-info">Cek</button>
               </div>
             <?php } else { ?>
@@ -231,7 +231,20 @@ $pelanggan_post = $data['pelanggan'];
 
           foreach ($data['notif'] as $notif) {
             if ($notif['no_ref'] == $noref) {
-              $buttonNotif = "<span>" . $modeNotifShow . " <i class='fas fa-check-circle text-success'></i></span>";
+              $stGet = $notif['status'];
+              switch ($stGet) {
+                case 1:
+                case 5:
+                  $stNotif = "<i class='far fa-circle text-warning text-bold'></i>";
+                  break;
+                case 2:
+                  $stNotif = "<i class='fas fa-check-circle text-success'></i>";
+                  break;
+                default:
+                  $stNotif = "<i class='fas fa-exclamation-circle text-danger'></i>";
+                  break;
+              }
+              $buttonNotif = "<span>" . $modeNotifShow . " " . $stNotif . "</span>";
             }
           }
 
@@ -259,7 +272,7 @@ $pelanggan_post = $data['pelanggan'];
           <span class='bg-white rounded pr-1 pl-1'><a class='text-dark' href='" . $this->BASE_URL . "I/i/" . $this->id_laundry . "/" . $f17 . "' target='_blank'><i class='fas fa-file-invoice'></i> Bill</a></span>
           <span class='bg-white rounded pr-1 pl-1'>" .  $buttonDirectWA  . "</span>
           <a class='text-dark bg-white rounded pr-1 pl-1' href='#' onclick='bonJPG(" . $urutRef . "," . $noref . ", " . $f17 . ")' class=''><i class='far fa-arrow-alt-circle-down'></i> JPG</a>
-          <span id='reload" . $noref . "' style='cursor: pointer' onclick=loadDiv('" . $noref . "') class='bg-white rounded pr-1 pl-1'><i class='fas fa-redo'></i></span>
+          <span id='reload" . $noref . "' style='cursor: pointer' onclick=loadDiv('" . $noref . "') class='bg-white d-none rounded pr-1 pl-1'><i class='fas fa-redo'></i></span>
           </small>
           </div>
           
@@ -320,14 +333,33 @@ $pelanggan_post = $data['pelanggan'];
                     }
                   }
 
-                  $list_layanan = $list_layanan . "<small><b><i class='fas fa-check-circle text-success'></i> " . $user . "</b> " . $c['layanan'] . " <span style='white-space: pre;'>" . substr($o['insertTime'], 5, 11) . "</span></small><br>";
+                  foreach ($data['notif_penjualan'] as $notif) {
+                    if ($notif['no_ref'] == $id) {
+                      $stGet = $notif['status'];
+                      switch ($stGet) {
+                        case 1:
+                        case 5:
+                          $stNotif = "<i class='far fa-circle text-warning text-bold'></i>";
+                          break;
+                        case 2:
+                          $stNotif = "<i class='fas fa-check-circle text-success'></i>";
+                          break;
+                        default:
+                          $stNotif = "<i class='fas fa-exclamation-circle text-danger'></i>";
+                          break;
+                      }
+                      $buttonNotifSelesai = "<small><span>" . $stNotif . " <b>" . $modeNotifShow . "</b> Selesai " . substr($notif['updateTime'], 5, 11) . "</span></small><br>";
+                    }
+                  }
+
+                  $list_layanan = $list_layanan . "<small><b><i class='fas fa-check-circle text-success'></i> " . $user . "</b> " . $c['layanan'] . " <span style='white-space: pre;'>" . substr($o['insertTime'], 5, 11) . "</span></small><br>" . $buttonNotifSelesai;
                   $doneLayanan++;
                   $enHapus = false;
                 }
               }
               if ($check == 0) {
                 if ($b == $endLayanan) {
-                  $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='endLayanan'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span> <br><span class='d-none ambilAfterSelesai" . $id . $b . "'><small><a href='#' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal4' class='ambil text-dark ambil" . $id . "'><i class='fas fa-info-circle'></i> Ambil</a></small></span>";
+                  $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='endLayanan'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span><br><span class='d-none ambilAfterSelesai" . $id . $b . "'><small><a href='#' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal4' class='ambil text-dark ambil" . $id . "'><i class='fas fa-info-circle'></i> Ambil</a></small></span>";
                 } else {
                   $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='addOperasi'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span> <br>";
                 }
@@ -1079,7 +1111,7 @@ foreach ($arrRekapAntrian as $ck => $value) {
     $("div#waitReady").removeClass("invisible");
 
     $('select.tize').selectize({
-      sortField: 'text'
+      sortField: 'text',
     });
 
     $("form.ajax").on("submit", function(e) {
@@ -1225,9 +1257,7 @@ foreach ($arrRekapAntrian as $ck => $value) {
         },
         type: "POST",
         success: function() {
-          $("span#notif" + urutRef).hide();
-          $("span#notif" + urutRef).html("<i class='fas fa-check-circle text-success'></i>")
-          $("span#notif" + urutRef).fadeIn('slow');
+          $("span#reload" + refNya).click();
         },
       });
     });

@@ -112,18 +112,18 @@ class Antrian extends Controller
             $operasi = $this->model('M_DB_1')->get_where('operasi', $where);
 
             //NOTIF SELESAI
-            $where = $this->wCabang . " AND tipe = 1 AND no_ref BETWEEN " . $min . " AND " . $max;
+            $where = $this->wCabang . " AND tipe = 2 AND no_ref BETWEEN " . $min . " AND " . $max;
             $notifPenjualan = $this->model('M_DB_1')->get_where('notif', $where);
          }
          if (count($refs) > 0) {
-            //NOTIF SELESAI
+            //KAS
             $min_ref = min($refs);
             $max_ref = max($refs);
             $where = $this->wCabang . " AND jenis_transaksi = 1 AND (ref_transaksi BETWEEN " . $min_ref . " AND " . $max_ref . ")";
             $kas = $this->model('M_DB_1')->get_where('kas', $where);
 
             //NOTIF BON
-            $where = $this->wCabang . " AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
+            $where = $this->wCabang . " AND tipe = 1 AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
             $notif = $this->model('M_DB_1')->get_where('notif', $where);
 
             //SURCAS
@@ -590,31 +590,41 @@ class Antrian extends Controller
       $refs = array_column($data_main, 'no_ref');
 
 
-      if (count($numbers) > 0) {
-         $min = min($numbers);
-         $max = max($numbers);
-         $where = $this->wLaundry . " AND id_penjualan BETWEEN " . $min . " AND " . $max;
-         $operasi = $this->model('M_DB_1')->get_where('operasi', $where);
+      if ($antrian == 0 || $antrian == 1 || $antrian == 2 || $antrian == 6 || $antrian == 7) {
+         if (count($numbers) > 0) {
+            $min = min($numbers);
+            $max = max($numbers);
+            $where = $this->wLaundry . " AND id_penjualan BETWEEN " . $min . " AND " . $max;
+            $operasi = $this->model('M_DB_1')->get_where('operasi', $where);
 
-         //NOTIF SELESAI
-         $where = $this->wCabang . " AND tipe = 1 AND no_ref BETWEEN " . $min . " AND " . $max;
-         $notifPenjualan = $this->model('M_DB_1')->get_where('notif', $where);
+            //NOTIF SELESAI
+            $where = $this->wCabang . " AND tipe = 2 AND no_ref BETWEEN " . $min . " AND " . $max;
+            $notifPenjualan = $this->model('M_DB_1')->get_where('notif', $where);
+         }
+         if (count($refs) > 0) {
+            //KAS
+            $min_ref = min($refs);
+            $max_ref = max($refs);
+            $where = $this->wCabang . " AND jenis_transaksi = 1 AND (ref_transaksi BETWEEN " . $min_ref . " AND " . $max_ref . ")";
+            $kas = $this->model('M_DB_1')->get_where('kas', $where);
+
+            //NOTIF BON
+            $where = $this->wCabang . " AND tipe = 1 AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
+            $notif = $this->model('M_DB_1')->get_where('notif', $where);
+
+            //SURCAS
+            $where = $this->wCabang . " AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
+            $surcas = $this->model('M_DB_1')->get_where('surcas', $where);
+         }
+      } elseif ($antrian == 3) {
+         if (count($numbers) > 0) {
+            $min = min($numbers);
+            $max = max($numbers);
+            $where = $this->wLaundry . " AND id_penjualan BETWEEN " . $min . " AND " . $max;
+            $operasi = $this->model('M_DB_1')->get_where('operasi', $where);
+         }
       }
-      if (count($refs) > 0) {
-         //NOTIF SELESAI
-         $min_ref = min($refs);
-         $max_ref = max($refs);
-         $where = $this->wCabang . " AND jenis_transaksi = 1 AND (ref_transaksi BETWEEN " . $min_ref . " AND " . $max_ref . ")";
-         $kas = $this->model('M_DB_1')->get_where('kas', $where);
 
-         //NOTIF BON
-         $where = $this->wCabang . " AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
-         $notif = $this->model('M_DB_1')->get_where('notif', $where);
-
-         //SURCAS
-         $where = $this->wCabang . " AND no_ref BETWEEN " . $min_ref . " AND " . $max_ref;
-         $surcas = $this->model('M_DB_1')->get_where('surcas', $where);
-      }
       $this->view($viewData, [
          'pelanggan' => $pelanggan,
          'data_main' => $data_main,

@@ -46,8 +46,6 @@ $arrTuntas = array();
 $cols = 0;
 $countMember = 0;
 
-$rekapAntrian = "";
-$arrRekapAntrian = array();
 $bolTuntas = 0;
 
 foreach ($data['data_main'] as $a) {
@@ -174,7 +172,20 @@ foreach ($data['data_main'] as $a) {
 
     foreach ($data['notif'] as $notif) {
       if ($notif['no_ref'] == $noref) {
-        $buttonNotif = "<span>" . $modeNotifShow . " <i class='fas fa-check-circle text-success'></i></span>";
+        $stGet = $notif['status'];
+        switch ($stGet) {
+          case 1:
+          case 5:
+            $stNotif = "<i class='far fa-circle text-warning text-bold'></i>";
+            break;
+          case 2:
+            $stNotif = "<i class='fas fa-check-circle text-success'></i>";
+            break;
+          default:
+            $stNotif = "<i class='fas fa-exclamation-circle text-danger'></i>";
+            break;
+        }
+        $buttonNotif = "<span>" . $modeNotifShow . " " . $stNotif . "</span>";
       }
     }
 
@@ -202,7 +213,7 @@ foreach ($data['data_main'] as $a) {
           <span class='bg-white rounded pr-1 pl-1'><a class='text-dark' href='" . $this->BASE_URL . "I/i/" . $this->id_laundry . "/" . $f17 . "' target='_blank'><i class='fas fa-file-invoice'></i> Bill</a></span>
           <span class='bg-white rounded pr-1 pl-1'>" .  $buttonDirectWA  . "</span>
           <a class='text-dark bg-white rounded pr-1 pl-1' href='#' onclick='bonJPG(" . $urutRef . "," . $noref . ", " . $f17 . ")' class=''><i class='far fa-arrow-alt-circle-down'></i> JPG</a>
-          <span id='reload" . $noref . "' style='cursor: pointer' onclick=loadDiv('" . $noref . "') class='bg-white rounded pr-1 pl-1'><i class='fas fa-redo'></i></span>
+          <span id='reload" . $noref . "' style='cursor: pointer' onclick=loadDiv('" . $noref . "') class='bg-white d-none rounded pr-1 pl-1'><i class='fas fa-redo'></i></span>
           </small>
           </div>
           
@@ -263,24 +274,40 @@ foreach ($data['data_main'] as $a) {
               }
             }
 
-            $list_layanan = $list_layanan . "<small><b><i class='fas fa-check-circle text-success'></i> " . $user . "</b> " . $c['layanan'] . " <span style='white-space: pre;'>" . substr($o['insertTime'], 5, 11) . "</span></small><br>";
+            foreach ($data['notif_penjualan'] as $notif) {
+              if ($notif['no_ref'] == $id) {
+                $stGet = $notif['status'];
+                switch ($stGet) {
+                  case 1:
+                  case 5:
+                    $stNotif = "<i class='far fa-circle text-warning text-bold'></i>";
+                    break;
+                  case 2:
+                    $stNotif = "<i class='fas fa-check-circle text-success'></i>";
+                    break;
+                  default:
+                    $stNotif = "<i class='fas fa-exclamation-circle text-danger'></i>";
+                    break;
+                }
+                $buttonNotifSelesai = "<small><span>" . $stNotif . " <b>" . $modeNotifShow . "</b> Selesai " . substr($notif['updateTime'], 5, 11) . "</span></small><br>";
+              }
+            }
+
+            $list_layanan = $list_layanan . "<small><b><i class='fas fa-check-circle text-success'></i> " . $user . "</b> " . $c['layanan'] . " <span style='white-space: pre;'>" . substr($o['insertTime'], 5, 11) . "</span></small><br>" . $buttonNotifSelesai;
+
             $doneLayanan++;
             $enHapus = false;
           }
         }
         if ($check == 0) {
           if ($b == $endLayanan) {
-            $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='endLayanan'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span> <br><span class='d-none ambilAfterSelesai" . $id . $b . "'><small><a href='#' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal4' class='ambil text-dark ambil" . $id . "'><i class='fas fa-info-circle'></i> Ambil</a></small></span>";
+            $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='endLayanan'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span><br>
+            <span class='d-none ambilAfterSelesai" . $id . $b . "'><small><a href='#' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal4' class='ambil text-dark ambil" . $id . "'><i class='fas fa-info-circle'></i> Ambil</a></small></span>";
           } else {
-            $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='addOperasi'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span> <br>";
+            $list_layanan = $list_layanan . "<span id='" . $id . $b . "' data-layanan='" . $c['layanan'] . "' data-value='" . $c['id_layanan'] . "' data-id='" . $id . "' data-ref='" . $noref . "' data-bs-toggle='modal' data-bs-target='#exampleModal' class='addOperasi'><small><a href='' class='text-dark'><i class='fas fa-info-circle text-info'></i> " . $c['layanan'] . "</a></small></span><br>";
           }
 
           $layananNow = $c['layanan'];
-          if (isset($arrRekapAntrian[$layananNow])) {
-            $arrRekapAntrian[$layananNow] += $f6;
-          } else {
-            $arrRekapAntrian[$layananNow] = $f6;
-          }
         }
         $list_layanan_print = $list_layanan_print . $c['layanan'] . " ";
       }
@@ -762,12 +789,6 @@ foreach ($data['data_main'] as $a) {
   }
 }
   ?>
-  <?php
-
-  foreach ($arrRekapAntrian as $ck => $value) {
-    $rekapAntrian = $ck . ": " . $value . ", " . $rekapAntrian;
-  }
-  ?>
 
   <!-- SCRIPT -->
   <script src="<?= $this->ASSETS_URL ?>js/jquery-3.6.0.min.js"></script>
@@ -787,7 +808,6 @@ foreach ($data['data_main'] as $a) {
     });
 
     $(document).ready(function() {
-      $("span#rekapHarian").html("<?= $rekapAntrian ?>");
       $("div#nTunai").hide();
 
       $("form.ajax").on("submit", function(e) {
