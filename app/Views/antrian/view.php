@@ -353,6 +353,7 @@ $pelanggan_post = $data['pelanggan'];
                   }
 
                   $list_layanan = $list_layanan . "<small><b><i class='fas fa-check-circle text-success'></i> " . $user . "</b> " . $c['layanan'] . " <span style='white-space: pre;'>" . substr($o['insertTime'], 5, 11) . "</span></small><br>" . $buttonNotifSelesai;
+
                   $doneLayanan++;
                   $enHapus = false;
                 }
