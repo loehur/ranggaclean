@@ -465,7 +465,7 @@ if (count($data['dataTanggal']) > 0) {
         $show_total = "Rp" . number_format($total);
       }
     } else {
-      $show_total = "<span class='badge badge-success'>Member</span>";
+      $show_total = "<span class='badge badge-light btn btn-outline-success mt-1'>Debit Member</span><br><span><small>-" . $show_qty . "&nbsp;</small></span>";
       $tampilDiskon = "";
     }
 
@@ -485,6 +485,10 @@ if (count($data['dataTanggal']) > 0) {
       $cekDisable = "";
     }
     $showCheckbox = "<input class='cek' type='checkbox' data-total='" . $total . "' checked " . $cekDisable . ">";
+
+    if ($member <> 0) {
+      $showCheckbox = "";
+    }
 
     echo "<td class='pt-0 pb-0'><span style='white-space: nowrap;'></span><small>[" . $id . "]</small> <span style='white-space: pre;'>" . $durasi . " <small>(" . $f12 . "h " . $f13 . "j)</span><br><b>" . $kategori . "</b><span class='badge badge-light'></span><br><b>" . $show_qty . "</b> " . $tampilDiskon . "<br>" . $itemList . "</td>";
     echo "<td nowrap class='pt-1'>" . $list_layanan . "</td>";
@@ -547,8 +551,10 @@ if (count($data['dataTanggal']) > 0) {
 
           $jumlahCas = $sca['jumlah'];
           $Rtotal_tagihan += $jumlahCas;
+          $showCheckbox = "<input class='cek' type='checkbox' data-total='" . $jumlahCas . "' checked " . $cekDisable . ">";
+
           $tglCas = "<small><i class='fas fa-check-circle text-success'></i> Surcharged <span style='white-space: pre;'>" . substr($sca['insertTime'], 5, 11) . "</span></small><br>";
-          echo "<tr><td><small>" . $surcasNya . "</small></td><td>" . $tglCas . "</td><td align='right'>Rp" . number_format($jumlahCas) . "</td></tr>";
+          echo "<tr><td><small>" . $surcasNya . "</small></td><td>" . $tglCas . "</td><td align='right'>" . $showCheckbox . " Rp" . number_format($jumlahCas) . "</td></tr>";
           $subTotal += $jumlahCas;
         }
       }
@@ -728,6 +734,8 @@ if (count($data['dataTanggal']) > 0) {
 
                 $Rtotal_tagihan = $Rtotal_tagihan + $sisa;
 
+                $showCheckbox = "<input class='cek' type='checkbox' data-total='" . $harga . "' checked " . $cekDisable . ">";
+
                 ?>
                 <tr>
                   <td nowrap>
@@ -735,7 +743,7 @@ if (count($data['dataTanggal']) > 0) {
                       <br><b><?= $z['qty'] . $unit . "</b> | " . $kategori ?> * <?= $layanan ?> * <?= $durasi ?></small>
                   </td>
                   <td nowrap class="text-right"><span id="statusBayar<?= $id ?>"><?= $statusBayar ?></span>&nbsp;
-                    <span class="float-right"><?= $gPoinShow ?> <b>Rp<?= number_format($harga) ?></b></span>
+                    <span class="float-right"><?= $showCheckbox ?> <b>Rp<?= number_format($harga) ?></b></span>
                   </td>
                 </tr>
                 <?php if ($adaBayar == true) { ?>
