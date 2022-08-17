@@ -274,7 +274,7 @@ foreach ($data['data_main'] as $a) {
               }
             }
 
-            if ($endLayanan = true) {
+            if ($b == $endLayanan) {
               foreach ($data['notif_penjualan'] as $notif) {
                 if ($notif['no_ref'] == $id) {
                   $stGet = $notif['status'];
