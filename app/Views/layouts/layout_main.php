@@ -41,11 +41,11 @@
 	</style>
 </head>
 
-<body style="max-width: 750px;" class="m-auto small">
+<body style="max-width: 750px; min-width: 368px;" class="m-auto small">
 
 	<?php require_once("nav_top.php"); ?>
 
-	<div class="container py-3">
+	<div class="container py-3 m-auto">
 		<div class="d-flex pb-0 mb-3">
 			<div class="mr-auto">
 				<h5>Service AC</h5>
@@ -54,8 +54,8 @@
 		</div>
 
 		<?php
-		$col_class = "col-sm-3 p-1 m-0 w-auto";
-		$style_card = "max-width:10rem;";
+		$col_class = "gridcol col-sm-3 p-1 m-0 w-auto";
+		$style_card = "max-width:10rem";
 		?>
 
 		<div class="row m-auto">
@@ -119,9 +119,59 @@
 					</div>
 				</div>
 			</div>
+			<div class="<?= $col_class ?>">
+				<div class="card p-0" style="<?= $style_card ?>">
+					<img class="card-img-top" src="<?= $this->ASSETS_URL ?>products/service_ac/2.jpeg" alt="">
+					<div class="card-body p-2">
+						<div class="row">
+							<div class="col w-auto mb-1">
+								<span class="text-info h7">Tambah freon R 22 0.5 PK- 1PK</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col w-auto">
+								<span class="bg-success font-weight-bold text-light pr-1 pl-1 rounded">Rp150,000</span>
+							</div>
+						</div>
+						<hr class="p-0 mt-2 mb-2">
+						<div class="row mt-1">
+							<div class="col">
+								<a class="p-0 pr-1 pl-1 btn btn-sm btn-outline-secondary" data-toggle="collapse" href="#collaps2" role="button" aria-expanded="false" aria-controls="collaps2">
+									Detail
+								</a>
+								<div class="collapse pt-2" id="collaps2">
+									<div class="card card-body p-1">
+										Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<?php require_once("nav_bot.php"); ?>
 </body>
 
 </html>
+
+<script>
+	$(document).ready(function() {
+		setGrid();
+	});
+
+	$(window).on('resize', function() {
+		setGrid();
+	});
+
+	function setGrid() {
+		if ($(window).width() > 370) {
+			$('.gridcol').removeClass('col-sm-6');
+			$('.gridcol').addClass('col-sm-3');
+		} else {
+			$('.gridcol').removeClass('col-sm-3');
+			$('.gridcol').addClass('col-sm-6');
+		}
+	}
+</script>
