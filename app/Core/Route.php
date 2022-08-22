@@ -2,18 +2,16 @@
 
 class Route
 {
-    protected $controller   = 'Penjualan';
+    protected $controller   = 'Home';
     protected $method       = 'index';
     protected $param        = [];
 
     public function __construct()
     {
-        session_start();
-
         if (isset($_GET['url'])) {
             $url = explode('/', filter_var(trim($_GET['url']), FILTER_SANITIZE_URL));
         } else {
-            $url[0] = 'Penjualan';
+            $url[0] = $this->controller;
         }
 
         if (file_exists('app/Controllers/' . $url[0] . '.php')) {
