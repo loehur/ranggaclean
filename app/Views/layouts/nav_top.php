@@ -5,7 +5,7 @@
 					<h3><i class="fas fa-hands-wash"></i> Cleaning Klin</h3>
 				</a>
 			</li>
-			<li class="nav-item pt-2">
+			<li class="nav-item pt-1">
 				<a href="#" class="nav-link text-dark text-nowrap">
 					<h5 class="float-right"><i class="fas fa-user"></i></h5>
 				</a>
