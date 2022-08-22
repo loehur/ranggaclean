@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset=" UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<link rel="icon" href="<?= $this->ASSETS_URL ?>icon/icon.png">
 	<title>CleaningKlin</title>
 	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>plugins/fontawesome-free-5.15.4-web/css/all.css" rel="stylesheet">
