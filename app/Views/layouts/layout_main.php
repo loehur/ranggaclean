@@ -45,7 +45,7 @@
 
 	<?php require_once("nav_top.php"); ?>
 
-	<div class="container py-3 m-auto">
+	<div class="container m-auto" style="padding-bottom: 70px;padding-top: 70px;">
 		<div class="d-flex pb-0 mb-3">
 			<div class="mr-auto">
 				<h5>Service AC</h5>
