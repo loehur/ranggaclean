@@ -1,5 +1,5 @@
 		<!-- Bottom Navbar -->
-		<nav class="navbar navbar-dark bg-light navbar-expand fixed-bottom m-auto" style="max-width: 750px;">
+		<nav class="navbar navbar-dark bg-light navbar-expand border-top fixed-bottom m-auto" style="max-width: 750px;">
 			<ul class="navbar-nav nav-justified w-100">
 				<li class="nav-item">
 					<a href="#" class="nav-link text-secondary">Menu</a>
