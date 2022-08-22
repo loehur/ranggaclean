@@ -10,10 +10,10 @@
 				<a href="#" class="nav-link text-secondary text-nowrap"><i class="fas fa-hands-wash"></i><br>Cuci Perabot</a>
 			</li>
 			<li class="nav-item">
-				<a href="#" class="nav-link text-secondary">Advertising</a>
+				<a href="#" class="nav-link text-secondary text-nowrap"><i class="fas fa-ad"></i><br>Advertising</a>
 			</li>
 			<li class="nav-item">
-				<a href="#" class="nav-link text-secondary">Outsourcing</a>
+				<a href="#" class="nav-link text-secondary text-nowrap"><i class="fas fa-id-card-alt"></i><br>Outsourcing</a>
 			</li>
 		</ul>
 	</nav>
