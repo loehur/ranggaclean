@@ -8,6 +8,6 @@ class Home extends Controller
 
    public function index()
    {
-      echo "Halo";
+      $this->view("layouts/layout_main");
    }
 }
