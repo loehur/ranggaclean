@@ -47,7 +47,7 @@
 	<?php require_once("nav_top.php"); ?>
 
 	<div class="container m-auto" style="padding-bottom: 70px;padding-top: 120px;min-width:  <?= $min_width ?>;">
-		<div class="d-flex pb-0 mb-3">
+		<div class="d-flex pb-0 mb-2">
 			<div class="mr-auto">
 				<h5>Service AC</h5>
 			</div>
@@ -55,12 +55,13 @@
 		</div>
 
 		<?php
-		$col_class = "gridcol col-sm-3 p-1 m-0 w-auto";
-		$style_card = "max-width:44vw";
+		$col_class = "gridcol col-sm-3 p-1 m-0";
+		$style_card = "max-width:100%";
+		$style_col = "max-width:50%";
 		?>
 
 		<div class="row m-auto">
-			<div class="<?= $col_class ?>">
+			<div style="<?= $style_col ?>" class="<?= $col_class ?>">
 				<div class="card p-0" style="<?= $style_card ?>">
 					<img class="card-img-top" src="<?= $this->ASSETS_URL ?>products/service_ac/1.jpeg" alt="">
 					<div class="card-body p-2">
@@ -90,7 +91,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="<?= $col_class ?>">
+			<div style="<?= $style_col ?>" class="<?= $col_class ?>">
 				<div class="card p-0" style="<?= $style_card ?>">
 					<img class="card-img-top" src="<?= $this->ASSETS_URL ?>products/service_ac/1.jpeg" alt="">
 					<div class="card-body p-2">
@@ -120,7 +121,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="<?= $col_class ?>">
+			<div style="<?= $style_col ?>" class="<?= $col_class ?>">
 				<div class="card p-0" style="<?= $style_card ?>">
 					<img class="card-img-top" src="<?= $this->ASSETS_URL ?>products/service_ac/2.jpeg" alt="">
 					<div class="card-body p-2">
@@ -151,8 +152,9 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<?php require_once("nav_bot.php"); ?>
+	<?php require_once("nav_bot.php"); ?>
 </body>
 
 </html>
