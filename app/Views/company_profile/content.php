@@ -5,7 +5,7 @@
 			</div>
 		</div>
 
-		<h2><i class="text-info ml-3 fas fa-building float-right"></i></h2>
+		<h2><i class="text-info ml-3 mb-0 pb-0 pt-1 fas fa-building float-right"></i></h2>
 
 		<div class="text-justify mb-3">
 			<h6 class="text-info">Keunggulan Kami
