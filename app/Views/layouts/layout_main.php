@@ -41,11 +41,11 @@
 	</style>
 </head>
 
-<body style="max-width: 750px; min-width: 368px;" class="m-auto small">
+<body style="max-width: 750px; min-width: 400px;" class="m-auto small">
 
 	<?php require_once("nav_top.php"); ?>
 
-	<div class="container m-auto" style="padding-bottom: 70px;padding-top: 120px;">
+	<div class="container m-auto" style="padding-bottom: 70px;padding-top: 120px;min-width: 400px;">
 		<div class="d-flex pb-0 mb-3">
 			<div class="mr-auto">
 				<h5>Service AC</h5>
@@ -55,7 +55,7 @@
 
 		<?php
 		$col_class = "gridcol col-sm-3 p-1 m-0 w-auto";
-		$style_card = "max-width:10rem";
+		$style_card = "max-width:11rem";
 		?>
 
 		<div class="row m-auto">

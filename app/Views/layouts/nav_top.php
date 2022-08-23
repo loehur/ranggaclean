@@ -1,4 +1,4 @@
-	<div class="d-flex pb-0 mb-0 fixed-top bg-light">
+	<div class="d-flex pb-0 mb-0 fixed-top bg-light mr-auto ml-auto" style="max-width: 750px;min-width: 400px;">
 		<div class="mr-auto p-2"><a href="#" class="nav-link text-dark text-nowrap">
 				<h3 class=""><i class="fas fa-hands-wash text-success"></i> Cleaning Klin</h3>
 			</a></div>
@@ -8,7 +8,7 @@
 			</a></div>
 	</div>
 
-	<nav class="navbar navbar-dark bg-light navbar-expand border-bottom p-0 fixed-top" style="margin-top: 55px;">
+	<nav class="navbar navbar-dark bg-light navbar-expand mr-auto ml-auto border-bottom p-0 fixed-top" style="margin-top: 55px;max-width: 750px;min-width: 400px;">
 		<ul class="navbar-nav nav-justified w-100">
 			<li class="nav-item">
 				<a href="#" class="nav-link text-secondary text-nowrap">
