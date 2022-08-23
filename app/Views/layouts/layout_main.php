@@ -38,14 +38,22 @@
 				font-size: 14px;
 			}
 		}
+
+		html {
+			height: 100%;
+			background-color: #F4F4F4;
+		}
+
+		body {
+			min-height: 100%;
+		}
 	</style>
 </head>
 
-<body style="max-width: 750px; min-width:  <?= $min_width ?>;" class="m-auto small">
+<body style="max-width: 752px; min-width:  <?= $min_width ?>;" class="m-auto small border border-bottom-0">
 
 	<?php require_once("layout_set.php"); ?>
 	<?php require_once("nav_top.php"); ?>
-
 	<div class="container m-auto" style="padding-bottom: 70px;padding-top: 120px;min-width:  <?= $min_width ?>;">
 		<div class="d-flex pb-0 mb-2">
 			<div class="mr-auto">
