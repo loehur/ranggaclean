@@ -41,12 +41,12 @@
 	</style>
 </head>
 
-<body style="max-width: 750px; min-width: 400px;" class="m-auto small">
+<body style="max-width: 750px; min-width:  <?= $min_width ?>;" class="m-auto small">
 
 	<?php require_once("layout_set.php"); ?>
 	<?php require_once("nav_top.php"); ?>
 
-	<div class="container m-auto" style="padding-bottom: 70px;padding-top: 120px;min-width: 400px;">
+	<div class="container m-auto" style="padding-bottom: 70px;padding-top: 120px;min-width:  <?= $min_width ?>;">
 		<div class="d-flex pb-0 mb-3">
 			<div class="mr-auto">
 				<h5>Service AC</h5>
