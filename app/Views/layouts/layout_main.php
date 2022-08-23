@@ -43,6 +43,7 @@
 
 <body style="max-width: 750px; min-width: 400px;" class="m-auto small">
 
+	<?php require_once("layout_set.php"); ?>
 	<?php require_once("nav_top.php"); ?>
 
 	<div class="container m-auto" style="padding-bottom: 70px;padding-top: 120px;min-width: 400px;">
@@ -55,7 +56,7 @@
 
 		<?php
 		$col_class = "gridcol col-sm-3 p-1 m-0 w-auto";
-		$style_card = "max-width:11rem";
+		$style_card = "max-width:44vw";
 		?>
 
 		<div class="row m-auto">
@@ -166,7 +167,7 @@
 	});
 
 	function setGrid() {
-		if ($(window).width() > 370) {
+		if ($(window).width() > 400) {
 			$('.gridcol').removeClass('col-sm-6');
 			$('.gridcol').addClass('col-sm-3');
 		} else {
