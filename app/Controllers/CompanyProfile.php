@@ -1,14 +1,14 @@
 <?php
 
-class Home extends Controller
+class CompanyProfile extends Controller
 {
 
    public $load;
    public $view_content;
    public function __construct()
    {
-      $this->load = "Home/load";
-      $this->view_content = "service_ac/content";
+      $this->load = "CompanyProfile/load";
+      $this->view_content = "company_profile/content";
    }
 
    public function index()
