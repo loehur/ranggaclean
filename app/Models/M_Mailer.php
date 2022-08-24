@@ -4,6 +4,8 @@ require 'app/Library/PHPMailer/src/PHPMailer.php';
 require 'app/Library/PHPMailer/src/SMTP.php';
 require 'app/Library/PHPMailer/src/Exception.php';
 
+require 'app/Config/Mail_Config.php';
+
 class M_Mailer
 {
     private $mail;
@@ -16,13 +18,13 @@ class M_Mailer
     {
         $this->mail->isSMTP();
         $this->mail->SMTPAuth = true;
-        $this->mail->Host = 'mail.mdl.my.id';
-        $this->mail->Port = 465;
-        $this->mail->SMTPSecure     = "ssl";
-        $this->mail->Username = 'cs@mdl.my.id';
-        $this->mail->Password = 'a123654b';
-        $this->mail->From = 'cs@mdl.my.id';
-        $this->mail->FromName = "MDL Laundry";
+        $this->mail->Host = $this->Host;
+        $this->mail->Port = $this->Port;
+        $this->mail->SMTPSecure     = $this->SMTPSecure;
+        $this->mail->Username = $this->Username;
+        $this->mail->Password = $this->Password;
+        $this->mail->From = $this->From;
+        $this->mail->FromName = $this->FromName;
         $this->mail->addAddress($sendTo);
         $this->mail->Subject = $subject;
         $this->mail->Body = $body;

@@ -1,5 +1,3 @@
-<?php require_once("data_produk.php"); ?>
-
 <div>
 	<div class="d-flex pb-0 mb-2">
 		<div class="mr-auto">
@@ -10,8 +8,9 @@
 
 	<div class="row p-1">
 		<?php
+		$list_produk = $data['list_produk'];
+		$kategori_list = $data['kategori_list'];
 		$counts = array_count_values(array_column($list_produk, 'kategori'));
-
 		foreach ($kategori_list as $kl_key => $kl) {
 			$count_kategori = $counts[$kl];
 			if ($count_kategori > 1) { ?>
@@ -68,11 +67,15 @@
 							} ?>
 						</div>
 						<span class="carousel-control-prev" type="button" data-target="#carouselExampleControls<?= $kl_key ?>" data-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span aria-hidden="true">
+								<h4><i class="fas pl-1 pr-1 fa-angle-left text-light bg-dark rounded"></i></h1>
+							</span>
 							<span class="sr-only">Previous</span>
 						</span>
-						<span class="carousel-control-next" type="button" data-target="#carouselExampleControls<?= $kl_key ?>" data-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="carousel-control-next next<?= $kl ?>" type="button" data-target="#carouselExampleControls<?= $kl_key ?>" data-slide="next">
+							<span aria-hidden="true">
+								<h4><i class="fas pl-1 pr-1 fa-angle-right text-light bg-dark rounded"></i></h1>
+							</span>
 							<span class="sr-only">Next</span>
 						</span>
 					</div>
@@ -119,8 +122,15 @@
 						</div>
 		<?php }
 				}
+
+				unset($kategori_list[$kl_key]);
 			}
-		} ?>
+		}
+
+		$indexMax = max($kategori_list);
+		$indexMin = min($kategori_list);
+
+		?>
 	</div>
 </div>
 
@@ -132,6 +142,12 @@
 	$(document).ready(function() {
 		setGrid();
 	});
+
+	function randomIntFromInterval() {
+		var max = <?= $indexMax ?>;
+		var min = <?= $indexMin ?>;
+		return Math.floor(Math.random() * (max - min + 1) + min)
+	}
 
 	$(window).on('resize', function() {
 		setGrid();
@@ -146,4 +162,22 @@
 			$('.gridcol').addClass('col-sm-6');
 		}
 	}
+
+	var time = new Date().getTime();
+	$(document.body).bind("mousemove keypress", function(e) {
+		time = new Date().getTime();
+	});
+
+	function next() {
+		if (new Date().getTime() - time >= 1000) {
+			var indexKlik = randomIntFromInterval();
+			$("span.next" + indexKlik).click();
+			var indexKlik = randomIntFromInterval();
+			$("span.next" + indexKlik).click();
+			setTimeout(next, 2000);
+		} else
+			setTimeout(next, 2000);
+	}
+
+	setTimeout(next, 2000);
 </script>
