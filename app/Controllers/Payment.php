@@ -14,8 +14,7 @@ class Payment extends Controller
 
    public function index()
    {
-      $view_load = $this->load;
-      $this->view("layouts/layout_main", ["view_load" => $view_load]);
+      $this->view("layouts/layout_main", ["view_load" => $this->load]);
    }
 
    public function load()
