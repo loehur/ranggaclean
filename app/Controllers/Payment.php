@@ -8,7 +8,7 @@ class Payment extends Controller
    public $view_dir = "payment";
    public function __construct()
    {
-      $this->load = $this->view_dir . "/load";
+      $this->load = ucfirst($this->view_dir . "/load");
       $this->view_content = $this->view_dir . "/content";
    }
 
