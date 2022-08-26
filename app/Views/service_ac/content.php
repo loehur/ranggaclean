@@ -34,7 +34,7 @@
 							?>
 									<div class="carousel-item <?= $active ?>">
 										<div class="card p-0" style="max-width:100%">
-											<img class="card-img-top" src="<?= $this->ASSETS_URL ?>products/service_ac/<?= $img ?>.jpeg" alt="">
+											<img class="card-img-top" src="<?= $this->ASSETS_URL ?>img/products/service_ac/<?= $img ?>.jpeg" alt="">
 											<div class="card-body p-2">
 												<div class="row">
 													<div class="col w-auto mb-1">
@@ -91,7 +91,7 @@
 				?>
 						<div style="max-width:50%" class="gridcol col-sm-3 p-1 m-0">
 							<div class="card p-0" style="<?= $style_card ?>">
-								<img class="card-img-top" src="<?= $this->ASSETS_URL ?>products/service_ac/<?= $img ?>.jpeg" alt="">
+								<img class="card-img-top" src="<?= $this->ASSETS_URL ?>img/products/service_ac/<?= $img ?>.jpeg" alt="">
 								<div class="card-body p-2">
 									<div class="row">
 										<div class="col w-auto mb-1">

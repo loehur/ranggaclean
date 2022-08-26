@@ -1,0 +1,25 @@
+<?php
+
+class Payment extends Controller
+{
+
+   public $load;
+   public $view_content;
+   public $view_dir = "payment";
+   public function __construct()
+   {
+      $this->load = $this->view_dir . "/load";
+      $this->view_content = $this->view_dir . "/content";
+   }
+
+   public function index()
+   {
+      $view_load = $this->load;
+      $this->view("layouts/layout_main", ["view_load" => $view_load]);
+   }
+
+   public function load()
+   {
+      $this->view($this->view_content);
+   }
+}
